@@ -29,12 +29,6 @@ export type NominationEntry = BaseEntry & {
 
 export type SpeakerEntry = ApplicationEntry | NominationEntry
 
-// Define the meta type for tanstack table with our custom functions
-export type TableMeta = {
-  updateStatus?: (id: string, status: string) => void;
-  updateRating?: (id: string, rating: number) => void;
-}
-
 // Mock data for speaker applications
 export const mockApplications: ApplicationEntry[] = [
   {
