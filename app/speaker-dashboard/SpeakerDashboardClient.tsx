@@ -1,53 +1,24 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import {
-  DndContext,
-  MouseSensor,
-  TouchSensor,
-  KeyboardSensor,
-  useSensor,
-  useSensors,
-  closestCenter,
-  type DragEndEvent,
-  type UniqueIdentifier,
-} from "@dnd-kit/core"
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers"
-import {
-  SortableContext,
-  arrayMove,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable"
-import { CSS } from "@dnd-kit/utilities"
 import { 
-  ChevronDown, 
-  Filter, 
-  MoreHorizontal, 
+  BarChart2, 
   Search, 
-  Star, 
-  Users, 
-  Check, 
-  X, 
-  Clock, 
-  CalendarIcon, 
-  BarChart2,
+  Filter, 
+  ChevronDown, 
   Download,
-  GripVertical,
+  Clock,
+  Users,
+  Star,
+  Check,
+  CalendarIcon,
   Flag,
-  MessageCircle,
-  PhoneCall
+  PhoneCall,
+  X
 } from "lucide-react"
-import { 
-  BarChart, 
-  Bar, 
-  PieChart, 
-  Pie, 
-  Cell, 
-  ResponsiveContainer, 
-  Tooltip as RechartsTooltip,
-  Legend 
-} from "recharts"
+import { ColumnFiltersState, Row, SortingState, VisibilityState } from "@tanstack/react-table"
+import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -59,16 +30,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
@@ -78,454 +41,17 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge"
 
-// Types for speaker entries
-type BaseEntry = {
-  id: string
-  fullName: string
-  submissionDate: string
-  topic: string
-  status: string
-  priorTedTalk: string
-  flagged: boolean
-  notes: string
-  rating: number
-}
-
-type ApplicationEntry = BaseEntry & {
-  type: "application"
-  mobilePhone: string
-  wechatId: string
-  gender: string
-  job: string
-}
-
-type NominationEntry = BaseEntry & {
-  type: "nomination"
-  contact: string
-  nominatedBy: string
-}
-
-type SpeakerEntry = ApplicationEntry | NominationEntry
-
-// Mock data for speaker applications
-const mockApplications: ApplicationEntry[] = [
-  {
-    id: "APP001",
-    fullName: "Sarah Johnson",
-    submissionDate: "2025-04-10",
-    topic: "The Future of Sustainable Energy",
-    mobilePhone: "+86 123 4567 8901",
-    wechatId: "sarahjohnson",
-    gender: "Female",
-    job: "Energy Scientist",
-    status: "under_review",
-    priorTedTalk: "No",
-    flagged: false,
-    notes: "Strong candidate with relevant expertise",
-    rating: 4,
-    type: "application"
-  },
-  {
-    id: "APP002",
-    fullName: "Michael Zhang",
-    submissionDate: "2025-04-08",
-    topic: "AI Ethics in Healthcare",
-    mobilePhone: "+86 132 9876 5432",
-    wechatId: "mzhang",
-    gender: "Male",
-    job: "AI Researcher",
-    status: "shortlisted",
-    priorTedTalk: "Yes - TEDxShanghai 2023",
-    flagged: true,
-    notes: "Previous TED speaker, excellent presentation skills",
-    rating: 5,
-    type: "application"
-  },
-  {
-    id: "APP003",
-    fullName: "Olivia Chen",
-    submissionDate: "2025-04-11",
-    topic: "Rethinking Education for Gen Z",
-    mobilePhone: "+86 139 5555 7777",
-    wechatId: "olivia_chen",
-    gender: "Female",
-    job: "Education Consultant",
-    status: "invited",
-    priorTedTalk: "No",
-    flagged: false,
-    notes: "Fresh perspective on education reform",
-    rating: 4,
-    type: "application"
-  },
-  {
-    id: "APP004",
-    fullName: "David Lee",
-    submissionDate: "2025-04-09",
-    topic: "Blockchain Revolution in Supply Chain",
-    mobilePhone: "+86 138 2222 3333",
-    wechatId: "david_blockchain",
-    gender: "Male",
-    job: "Supply Chain Technologist",
-    status: "rejected",
-    priorTedTalk: "No",
-    flagged: false,
-    notes: "Topic too technical, needs refinement",
-    rating: 2,
-    type: "application"
-  },
-  {
-    id: "APP005",
-    fullName: "Emma Wilson",
-    submissionDate: "2025-04-12",
-    topic: "Mental Health in the Digital Age",
-    mobilePhone: "+86 137 8888 9999",
-    wechatId: "emma_w",
-    gender: "Female",
-    job: "Clinical Psychologist",
-    status: "under_review",
-    priorTedTalk: "No",
-    flagged: true,
-    notes: "Compelling personal story, needs coaching on delivery",
-    rating: 3,
-    type: "application"
-  }
-]
-
-// Mock data for speaker nominations
-const mockNominations: NominationEntry[] = [
-  {
-    id: "NOM001",
-    fullName: "Dr. Wei Liu",
-    submissionDate: "2025-04-07",
-    topic: "Quantum Computing Breakthroughs",
-    contact: "wei.liu@quantum.tech",
-    nominatedBy: "James Wilson",
-    status: "under_review",
-    priorTedTalk: "No",
-    flagged: true,
-    notes: "Leading researcher in quantum computing",
-    rating: 5,
-    type: "nomination"
-  },
-  {
-    id: "NOM002",
-    fullName: "Sofia Rodriguez",
-    submissionDate: "2025-04-09",
-    topic: "Cultural Integration in Global Business",
-    contact: "+86 135 6666 7777",
-    nominatedBy: "Michael Chen",
-    status: "contacted",
-    priorTedTalk: "Yes - TEDxMadrid 2022",
-    flagged: false,
-    notes: "International perspective, multilingual speaker",
-    rating: 4,
-    type: "nomination"
-  },
-  {
-    id: "NOM003",
-    fullName: "Ahmed Hassan",
-    submissionDate: "2025-04-10",
-    topic: "Urban Planning for Climate Resilience",
-    contact: "a.hassan@urbansolutions.org",
-    nominatedBy: "Sarah Johnson",
-    status: "shortlisted",
-    priorTedTalk: "No",
-    flagged: false,
-    notes: "Innovative approaches to city design",
-    rating: 4,
-    type: "nomination"
-  }
-]
-
-// Combined data for all entries
-const allEntries: SpeakerEntry[] = [...mockApplications, ...mockNominations]
-
-// Status badge component with better visual design
-const StatusBadge = ({ status }: { status: string }) => {
-  switch (status) {
-    case "under_review":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
-          <span className="text-sm font-medium">Under Review</span>
-        </div>
-      )
-    case "shortlisted":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-blue-400"></div>
-          <span className="text-sm font-medium">Shortlisted</span>
-        </div>
-      )
-    case "invited":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-          <span className="text-sm font-medium">Invited</span>
-        </div>
-      )
-    case "rejected":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-red-500"></div>
-          <span className="text-sm font-medium">Rejected</span>
-        </div>
-      )
-    case "contacted":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-          <span className="text-sm font-medium">Contacted</span>
-        </div>
-      )
-    case "flagged":
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-orange-400"></div>
-          <span className="text-sm font-medium">Flagged</span>
-        </div>
-      )
-    default:
-      return (
-        <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-          <span className="text-sm font-medium">Unknown</span>
-        </div>
-      )
-  }
-}
-
-// Status select component for table cells
-const StatusSelect = ({ status, onChange }: { status: string, onChange: (value: string) => void }) => {
-  const statusColors = {
-    under_review: "bg-yellow-400",
-    shortlisted: "bg-blue-400",
-    invited: "bg-green-500",
-    rejected: "bg-red-500", 
-    contacted: "bg-purple-400",
-    flagged: "bg-orange-400"
-  }
-  
-  const currentColor = statusColors[status as keyof typeof statusColors] || "bg-gray-400"
-  
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-        <div 
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-transparent hover:border-gray-300 cursor-pointer transition-colors w-[130px]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className={`w-2 h-2 rounded-full ${currentColor}`}></div>
-          <span className="text-sm font-medium truncate">
-            {status === "under_review" ? "Under Review" :
-              status === "shortlisted" ? "Shortlisted" :
-              status === "invited" ? "Invited" :
-              status === "rejected" ? "Rejected" :
-              status === "contacted" ? "Contacted" :
-              status === "flagged" ? "Flagged" : "Unknown"}
-          </span>
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[180px]" onClick={(e) => e.stopPropagation()}>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("under_review");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
-          <span>Under Review</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("shortlisted");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-blue-400"></div>
-          <span>Shortlisted</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("invited");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-          <span>Invited</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("contacted");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-purple-400"></div>
-          <span>Contacted</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("rejected");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-red-500"></div>
-          <span>Rejected</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className="flex items-center gap-1.5 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            onChange("flagged");
-          }}
-        >
-          <div className="w-2 h-2 rounded-full bg-orange-400"></div>
-          <span>Flagged</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
-// Rating component
-const Rating = ({ rating, onChange }: { rating: number, onChange?: (value: number) => void }) => {
-  const [hoverRating, setHoverRating] = useState(0);
-  
-  return (
-    <div 
-      className="flex items-center gap-1 px-2 py-1.5 rounded-md transition-colors"
-      onClick={(e) => e.stopPropagation()} // Prevent opening the modal when clicking on the container
-    >
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          size={16}
-          className={`
-            ${star <= (hoverRating || rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}
-            ${onChange ? "cursor-pointer transition-colors duration-150" : ""}
-          `}
-          onMouseEnter={() => onChange && setHoverRating(star)}
-          onMouseLeave={() => onChange && setHoverRating(0)}
-          onClick={(e) => {
-            if (onChange) {
-              e.stopPropagation();
-              onChange(star);
-            }
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// Drag handle component for table rows
-const DragHandle = ({ id }: { id: string }) => {
-  const { attributes, listeners } = useSortable({
-    id,
-  })
-
-  return (
-    <Button
-      {...attributes}
-      {...listeners}
-      variant="ghost"
-      size="icon"
-      className="h-7 w-7 text-muted-foreground hover:bg-transparent cursor-grab active:cursor-grabbing"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <GripVertical className="h-4 w-4 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
-    </Button>
-  )
-}
-
-// Draggable row component
-function DraggableRow({ 
-  entry, 
-  openDetails,
-  updateStatus,
-  updateRating
-}: { 
-  entry: SpeakerEntry, 
-  openDetails: (entry: SpeakerEntry) => void,
-  updateStatus: (entryId: string, newStatus: string) => void,
-  updateRating: (entryId: string, newRating: number) => void
-}) {
-  const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: entry.id,
-  })
-
-  return (
-    <TableRow
-      ref={setNodeRef}
-      className={`relative z-0 ${entry.status === "flagged" ? "bg-red-50/70 dark:bg-red-900/20 text-foreground" : ""} ${isDragging ? "z-10 opacity-80" : ""}`}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition: transition,
-      }}
-      onClick={() => openDetails(entry)}
-    >
-      <TableCell className="w-[30px] p-0">
-        <DragHandle id={entry.id} />
-      </TableCell>
-      <TableCell className="font-medium">
-        <div className="flex items-center space-x-2">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-primary/10">
-              {entry.fullName.split(" ").map(n => n[0]).join("")}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <div className="font-medium hover:underline">{entry.fullName}</div>
-            <div className="text-xs text-muted-foreground">
-              {entry.type === "application" ? entry.job : "Nominee"}
-            </div>
-          </div>
-        </div>
-      </TableCell>
-      <TableCell>{entry.topic}</TableCell>
-      <TableCell>{new Date(entry.submissionDate).toLocaleDateString()}</TableCell>
-      <TableCell>
-        <Badge variant={entry.type === "application" ? "default" : "secondary"}>
-          {entry.type === "application" ? "Application" : "Nomination"}
-        </Badge>
-      </TableCell>
-      <TableCell>
-        <StatusSelect
-          status={entry.status}
-          onChange={(value) => updateStatus(entry.id, value)}
-        />
-      </TableCell>
-      <TableCell>
-        <Rating 
-          rating={entry.rating} 
-          onChange={(newRating) => updateRating(entry.id, newRating)}
-        />
-      </TableCell>
-    </TableRow>
-  )
-}
-
-// Status options for dropdown
-const statusOptions = [
-  { label: "Under Review", value: "under_review" },
-  { label: "Shortlisted", value: "shortlisted" },
-  { label: "Invited", value: "invited" },
-  { label: "Rejected", value: "rejected" },
-  { label: "Contacted", value: "contacted" },
-  { label: "Flagged", value: "flagged" },
-]
+import { SpeakerEntry, allEntries, ApplicationEntry, NominationEntry, statusOptions } from "@/components/dashboard/types"
+import { DataTable } from "@/components/dashboard/data-table"
+import { StatusBadge } from "@/components/dashboard/status-badge"
+import { Rating } from "@/components/dashboard/rating"
+import { columns } from "@/components/dashboard/columns"
 
 export function SpeakerDashboardClient() {
   const [activeTab, setActiveTab] = useState("all")
@@ -543,13 +69,14 @@ export function SpeakerDashboardClient() {
     status: string;
     type: "application" | "nomination";
   }>>([])
+  const [bulkActionOpen, setBulkActionOpen] = useState(false)
+  const [selectedEntries, setSelectedEntries] = useState<string[]>([])
   
-  // DnD setup
-  const sensors = useSensors(
-    useSensor(MouseSensor, {}),
-    useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
-  )
+  // TanStack Table states
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
   
   // Stats - Using useState with stable initial values to prevent hydration mismatch
   const [applicationsSinceLastWeek] = useState(3)
@@ -558,21 +85,23 @@ export function SpeakerDashboardClient() {
   const [totalSlots] = useState(10)
   
   // Filter entries based on current filters and search query
-  const filteredEntries = entries.filter(entry => {
-    // Filter by type
-    if (typeFilter !== "all" && entry.type !== typeFilter) return false
-    
-    // Filter by status
-    if (statusFilter !== "all" && entry.status !== statusFilter) return false
-    
-    // Filter by search query
-    if (searchQuery && !entry.fullName.toLowerCase().includes(searchQuery.toLowerCase()) && 
-        !entry.topic.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return false
-    }
-    
-    return true
-  })
+  const filteredEntries = useMemo(() => {
+    return entries.filter(entry => {
+      // Filter by type
+      if (typeFilter !== "all" && entry.type !== typeFilter) return false
+      
+      // Filter by status
+      if (statusFilter !== "all" && entry.status !== statusFilter) return false
+      
+      // Filter by search query
+      if (searchQuery && !entry.fullName.toLowerCase().includes(searchQuery.toLowerCase()) && 
+          !entry.topic.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false
+      }
+      
+      return true
+    })
+  }, [entries, typeFilter, statusFilter, searchQuery])
   
   // Calculate statistics
   const totalApplications = entries.filter(e => e.type === "application").length
@@ -581,8 +110,8 @@ export function SpeakerDashboardClient() {
   const totalInvited = entries.filter(e => e.status === "invited").length
   
   // Handle opening the modal for an entry
-  const openDetails = (entry: SpeakerEntry) => {
-    setSelectedEntry(entry)
+  const openDetails = (row: Row<SpeakerEntry>) => {
+    setSelectedEntry(row.original)
     setDetailsOpen(true)
   }
   
@@ -617,7 +146,7 @@ export function SpeakerDashboardClient() {
     }
     
     const newActivity = {
-      id: `activity-${Date.now()}`,
+      id: `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       entryId: entry.id,
       text: activityText,
       timestamp: new Date(),
@@ -647,48 +176,12 @@ export function SpeakerDashboardClient() {
     ))
   }
   
-  // Toggle flagged status of an entry
-  const toggleFlagged = (entryId: string) => {
-    setEntries(entries.map(entry => 
-      entry.id === entryId ? { ...entry, flagged: !entry.flagged } : entry
-    ))
-  }
-  
   // Update notes for an entry
   const updateNotes = (entryId: string, newNotes: string) => {
     setEntries(entries.map(entry => 
       entry.id === entryId ? { ...entry, notes: newNotes } : entry
     ))
   }
-  
-  // Handle drag end event for reordering entries
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-    
-    if (active && over && active.id !== over.id) {
-      setEntries((items) => {
-        const oldIndex = items.findIndex(item => item.id === active.id)
-        const newIndex = items.findIndex(item => item.id === over.id)
-        
-        return arrayMove(items, oldIndex, newIndex)
-      })
-    }
-  }
-  
-  // Prepare data for the pie chart
-  const pieChartData = useMemo(() => {
-    const statusCounts = entries.reduce((acc, entry) => {
-      acc[entry.status] = (acc[entry.status] || 0) + 1
-      return acc
-    }, {} as Record<string, number>)
-    
-    return Object.entries(statusCounts).map(([status, count]) => ({
-      name: status,
-      value: count,
-    }))
-  }, [entries])
-  
-  const COLORS = ["#FFBB28", "#00C49F", "#FF8042", "#0088FE", "#FF4444", "#FFBB28"]
   
   // Generate activity data based on current entries
   const activityData = useMemo(() => {
@@ -697,7 +190,7 @@ export function SpeakerDashboardClient() {
       new Date(b.submissionDate).getTime() - new Date(a.submissionDate).getTime()
     );
     
-    const activities = sortedEntries.slice(0, 5).map(entry => {
+    return sortedEntries.slice(0, 5).map(entry => {
       const date = new Date(entry.submissionDate);
       const today = new Date();
       const diffTime = Math.abs(today.getTime() - date.getTime());
@@ -768,8 +261,6 @@ export function SpeakerDashboardClient() {
         type: entry.type,
       };
     });
-    
-    return activities;
   }, [entries]);
 
   return (
@@ -854,6 +345,52 @@ export function SpeakerDashboardClient() {
           </TabsList>
           
           <div className="flex items-center space-x-2">
+            {/* Add bulk action button */}
+            {Object.keys(rowSelection).length > 0 && (
+              <Button 
+                variant="default" 
+                onClick={() => setBulkActionOpen(true)}
+                className="bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                Bulk Update ({Object.keys(rowSelection).length})
+              </Button>
+            )}
+            
+            {/* Column visibility dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-9">
+                  <BarChart2 className="h-4 w-4 mr-2" />
+                  Columns
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40">
+                {columns
+                  .filter(column => column.id !== 'drag' && column.id !== 'select')
+                  .map(column => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.id ? columnVisibility[column.id] !== false : false}
+                        onCheckedChange={(checked) => {
+                          if (column.id) {
+                            setColumnVisibility(prev => ({
+                              ...prev,
+                              [column.id as string]: checked
+                            }))
+                          }
+                        }}
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    )
+                  })
+                }
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -937,50 +474,17 @@ export function SpeakerDashboardClient() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <DndContext 
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                modifiers={[restrictToVerticalAxis]}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext 
-                  items={filteredEntries.map(entry => entry.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[30px]"></TableHead>
-                        <TableHead className="w-[200px]">Name</TableHead>
-                        <TableHead>Topic</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Rating</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredEntries.length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                            No entries found matching your filters
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredEntries.map((entry) => (
-                          <DraggableRow 
-                            key={entry.id} 
-                            entry={entry}
-                            openDetails={openDetails}
-                            updateStatus={updateStatus}
-                            updateRating={updateRating}
-                          />
-                        ))
-                      )}
-                    </TableBody>
-                  </Table>
-                </SortableContext>
-              </DndContext>
+              <DataTable
+                columns={columns}
+                data={filteredEntries}
+                onRowClick={openDetails}
+                updateStatus={updateStatus}
+                updateRating={updateRating}
+                columnVisibility={columnVisibility}
+                setColumnVisibility={setColumnVisibility}
+                rowSelection={rowSelection}
+                onRowSelectionChange={setRowSelection}
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -994,52 +498,17 @@ export function SpeakerDashboardClient() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <DndContext 
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                modifiers={[restrictToVerticalAxis]}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext 
-                  items={filteredEntries.filter(e => e.type === "application").map(entry => entry.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[30px]"></TableHead>
-                        <TableHead className="w-[200px]">Name</TableHead>
-                        <TableHead>Topic</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Rating</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredEntries.filter(e => e.type === "application").length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                            No applications found matching your filters
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredEntries
-                          .filter((e): e is ApplicationEntry => e.type === "application")
-                          .map((entry) => (
-                            <DraggableRow 
-                              key={entry.id} 
-                              entry={entry}
-                              openDetails={openDetails}
-                              updateStatus={updateStatus}
-                              updateRating={updateRating}
-                            />
-                          ))
-                      )}
-                    </TableBody>
-                  </Table>
-                </SortableContext>
-              </DndContext>
+              <DataTable
+                columns={columns}
+                data={filteredEntries.filter(e => e.type === "application")}
+                onRowClick={openDetails}
+                updateStatus={updateStatus}
+                updateRating={updateRating}
+                columnVisibility={columnVisibility}
+                setColumnVisibility={setColumnVisibility}
+                rowSelection={rowSelection}
+                onRowSelectionChange={setRowSelection}
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -1053,134 +522,86 @@ export function SpeakerDashboardClient() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <DndContext 
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                modifiers={[restrictToVerticalAxis]}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext 
-                  items={filteredEntries.filter(e => e.type === "nomination").map(entry => entry.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[30px]"></TableHead>
-                        <TableHead className="w-[200px]">Name</TableHead>
-                        <TableHead>Topic</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Nominated By</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Rating</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredEntries.filter(e => e.type === "nomination").length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                            No nominations found matching your filters
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredEntries
-                          .filter((e): e is NominationEntry => e.type === "nomination")
-                          .map((entry) => (
-                            <DraggableRow 
-                              key={entry.id} 
-                              entry={entry}
-                              openDetails={openDetails}
-                              updateStatus={updateStatus}
-                              updateRating={updateRating}
-                            />
-                          ))
-                      )}
-                    </TableBody>
-                  </Table>
-                </SortableContext>
-              </DndContext>
+              <DataTable
+                columns={columns}
+                data={filteredEntries.filter(e => e.type === "nomination")}
+                onRowClick={openDetails}
+                updateStatus={updateStatus}
+                updateRating={updateRating}
+                columnVisibility={columnVisibility}
+                setColumnVisibility={setColumnVisibility}
+                rowSelection={rowSelection}
+                onRowSelectionChange={setRowSelection}
+              />
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
       
-      {/* Bottom Charts Section */}
-      <div className="grid gap-4 md:grid-cols-2 mt-8">
-        <Card className="overflow-hidden">
+      {/* Activity Section */}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Status Distribution Chart */}
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart2 className="h-5 w-5 text-muted-foreground" />
-              <span>Application Status Overview</span>
+              <span>Entry Status Distribution</span>
             </CardTitle>
-            <CardDescription>
-              Distribution of speakers by current status
-            </CardDescription>
+            <CardDescription>Current state of applications and nominations</CardDescription>
           </CardHeader>
-          <CardContent className="p-2">
-            <div className="h-[250px]">
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={pieChartData}
-                    dataKey="value"
-                    nameKey="name"
+                    data={[
+                      { name: 'Under Review', value: entries.filter(e => e.status === 'under_review').length, color: '#EAB308' },
+                      { name: 'Shortlisted', value: entries.filter(e => e.status === 'shortlisted').length, color: '#3B82F6' },
+                      { name: 'Invited', value: entries.filter(e => e.status === 'invited').length, color: '#22C55E' },
+                      { name: 'Rejected', value: entries.filter(e => e.status === 'rejected').length, color: '#EF4444' },
+                      { name: 'Contacted', value: entries.filter(e => e.status === 'contacted').length, color: '#8B5CF6' },
+                      { name: 'Flagged', value: entries.filter(e => e.status === 'flagged').length, color: '#F97316' },
+                    ]}
                     cx="50%"
                     cy="50%"
-                    innerRadius={50}
-                    outerRadius={90}
-                    paddingAngle={2}
+                    innerRadius={80}
+                    outerRadius={110}
                     fill="#8884d8"
+                    paddingAngle={3}
+                    dataKey="value"
                   >
-                    {pieChartData.map((entry, index) => {
-                      // Map the status values to friendly names for the legend
-                      const statusName = entry.name === "under_review" ? "Under Review" :
-                        entry.name === "shortlisted" ? "Shortlisted" :
-                        entry.name === "invited" ? "Invited" :
-                        entry.name === "rejected" ? "Rejected" :
-                        entry.name === "contacted" ? "Contacted" :
-                        entry.name === "flagged" ? "Flagged" : entry.name;
-                      
-                      return (
+                    {entries
+                      .map(entry => entry.status)
+                      .filter((value, index, self) => self.indexOf(value) === index)
+                      .map((status, index) => (
                         <Cell 
                           key={`cell-${index}`} 
-                          fill={COLORS[index % COLORS.length]} 
-                          className="stroke-background stroke-2 hover:opacity-90 transition-opacity"
-                          name={statusName}
+                          fill={
+                            status === 'under_review' ? '#EAB308' :
+                            status === 'shortlisted' ? '#3B82F6' :
+                            status === 'invited' ? '#22C55E' :
+                            status === 'rejected' ? '#EF4444' :
+                            status === 'contacted' ? '#8B5CF6' :
+                            status === 'flagged' ? '#F97316' : '#94A3B8'
+                          }
                         />
-                      )
-                    })}
+                      ))}
                   </Pie>
-                  <RechartsTooltip 
-                    formatter={(value: any, name: any) => {
-                      // Map the status values to friendly names for the tooltip
-                      const statusName = name === "under_review" ? "Under Review" :
-                        name === "shortlisted" ? "Shortlisted" :
-                        name === "invited" ? "Invited" :
-                        name === "rejected" ? "Rejected" :
-                        name === "contacted" ? "Contacted" :
-                        name === "flagged" ? "Flagged" : name;
-                      
-                      return [`${value} speaker${value !== 1 ? 's' : ''}`, statusName];
-                    }}
-                    contentStyle={{
-                      backgroundColor: 'var(--card)',
-                      borderColor: 'var(--border)',
-                      borderRadius: '0.5rem',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                      color: 'var(--foreground)'
-                    }}
-                    labelStyle={{
-                      color: 'var(--foreground)'
-                    }}
-                    itemStyle={{
-                      color: 'var(--foreground)'
+                  <Tooltip 
+                    formatter={(value) => [`${value} entries`, 'Count']}
+                    contentStyle={{ 
+                      backgroundColor: 'var(--background)', 
+                      border: '1px solid var(--border)',
+                      borderRadius: '0.5rem'
                     }}
                   />
                   <Legend 
-                    layout="horizontal" 
-                    verticalAlign="bottom" 
-                    align="center"
-                    wrapperStyle={{ paddingTop: 20 }}
+                    layout="vertical" 
+                    verticalAlign="middle" 
+                    align="right"
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(value) => <span className="text-xs">{value}</span>}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -1335,8 +756,8 @@ export function SpeakerDashboardClient() {
                     <DialogTitle className="text-xl">{selectedEntry.fullName}</DialogTitle>
                     <DialogDescription>
                       {selectedEntry.type === "application" 
-                        ? `${selectedEntry.job} • ${selectedEntry.gender}`
-                        : `Nominated by ${selectedEntry.nominatedBy}`
+                        ? `${(selectedEntry as ApplicationEntry).job} • ${(selectedEntry as ApplicationEntry).gender}`
+                        : `Nominated by ${(selectedEntry as NominationEntry).nominatedBy}`
                       }
                     </DialogDescription>
                   </div>
@@ -1366,8 +787,8 @@ export function SpeakerDashboardClient() {
                       <>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground">Contact Information</p>
-                          <p>Mobile: {selectedEntry.mobilePhone}</p>
-                          <p>WeChat: {selectedEntry.wechatId}</p>
+                          <p>Mobile: {(selectedEntry as ApplicationEntry).mobilePhone}</p>
+                          <p>WeChat: {(selectedEntry as ApplicationEntry).wechatId}</p>
                         </div>
                       </>
                     )}
@@ -1376,7 +797,7 @@ export function SpeakerDashboardClient() {
                       <>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground">Contact Information</p>
-                          <p>{selectedEntry.contact}</p>
+                          <p>{(selectedEntry as NominationEntry).contact}</p>
                         </div>
                       </>
                     )}
@@ -1446,6 +867,97 @@ export function SpeakerDashboardClient() {
               </DialogFooter>
             </>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Action Modal */}
+      <Dialog open={bulkActionOpen} onOpenChange={setBulkActionOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Bulk Update Status</DialogTitle>
+            <DialogDescription>
+              Update status for {Object.keys(rowSelection).length} selected {Object.keys(rowSelection).length === 1 ? "entry" : "entries"}.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="bulk-status">New Status</Label>
+              <Select onValueChange={(value) => {
+                // Get the current visible data based on active tab
+                let dataToUse = filteredEntries;
+                
+                if (activeTab === "applications") {
+                  dataToUse = filteredEntries.filter(e => e.type === "application");
+                } else if (activeTab === "nominations") {
+                  dataToUse = filteredEntries.filter(e => e.type === "nomination");
+                }
+                
+                // Convert row indices to actual entry objects
+                const selectedEntryIds = Object.keys(rowSelection)
+                  .map(index => {
+                    const idx = parseInt(index);
+                    return idx >= 0 && idx < dataToUse.length ? dataToUse[idx].id : null;
+                  })
+                  .filter(Boolean) as string[];
+                
+                // Log for debugging
+                console.log(`Bulk updating ${selectedEntryIds.length} entries to status: ${value}`);
+                
+                // Update each selected entry
+                selectedEntryIds.forEach(id => {
+                  updateStatus(id, value);
+                });
+                
+                // Close dialog and clear selection
+                setBulkActionOpen(false);
+                setRowSelection({});
+              }}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                          option.value === "under_review" ? "bg-yellow-400" :
+                          option.value === "shortlisted" ? "bg-blue-400" :
+                          option.value === "invited" ? "bg-green-500" :
+                          option.value === "rejected" ? "bg-red-500" :
+                          option.value === "contacted" ? "bg-purple-400" :
+                          option.value === "flagged" ? "bg-orange-400" : "bg-gray-400"
+                        }`}></div>
+                        <span>{option.label}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setBulkActionOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => {
+                setRowSelection({});
+                setBulkActionOpen(false);
+              }}
+            >
+              Clear Selection
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
