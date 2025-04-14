@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface SpeakerApplicationModalProps {
   variant?: "default" | "mobile"
@@ -15,6 +16,7 @@ interface SpeakerApplicationModalProps {
 
 export function SpeakerApplicationModal({ variant = "default", className }: SpeakerApplicationModalProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState("application")
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -63,13 +65,41 @@ export function SpeakerApplicationModal({ variant = "default", className }: Spea
       
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-center text-2xl font-bold text-red-600 dark:text-red-500">Speaker Application</DialogTitle>
+          <DialogTitle className="text-center text-2xl font-bold text-red-600 dark:text-red-500">Speaker Portal</DialogTitle>
           <DialogDescription className="text-center">
-            Share your ideas with the TEDx community. Fill out the form below to apply as a speaker.
+            Apply as a speaker or nominate someone for our TEDx event.
           </DialogDescription>
         </DialogHeader>
         
-        <SpeakerApplicationForm />
+        <Tabs 
+          defaultValue="application" 
+          value={activeTab} 
+          onValueChange={setActiveTab}
+          className="w-full mt-4"
+        >
+          <TabsList className="w-full grid grid-cols-2 mb-6">
+            <TabsTrigger 
+              value="application" 
+              className="data-[state=active]:bg-red-600 data-[state=active]:text-white"
+            >
+              Speaker Application
+            </TabsTrigger>
+            <TabsTrigger 
+              value="nomination" 
+              className="data-[state=active]:bg-red-600 data-[state=active]:text-white"
+            >
+              Nominate Speaker
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="application">
+            <SpeakerApplicationForm formType="application" />
+          </TabsContent>
+          
+          <TabsContent value="nomination">
+            <SpeakerApplicationForm formType="nomination" />
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   )
