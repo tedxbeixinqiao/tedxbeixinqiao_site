@@ -172,7 +172,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="Twitter"
-            href="#"
+            href="https://x.com/TEDxBeixinqiao"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -181,7 +181,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="Instagram"
-            href="#"
+            href="https://www.instagram.com/tedxbeixinqiao/?__d=1"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -190,7 +190,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="YouTube"
-            href="#"
+            href="https://www.youtube.com/watch?v=pHwQZ35obSM"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -199,7 +199,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="Facebook"
-            href="#"
+            href="https://www.facebook.com/people/Tedx-Beixinqiao/pfbid02iqkq73bKAphU1ECiyX7fk7gVT1RU3aVnduTFYkWkUJTkuVVLQ5dQ6pbXSfWaGBVUl/"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -208,7 +208,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="LinkedIn"
-            href="#"
+            href="https://www.linkedin.com/company/tedxbeixinqiao/posts/?feedView=all"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -217,7 +217,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="Threads"
-            href="#"
+            href="https://www.threads.net/tedxbeixinqiao"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -235,7 +235,7 @@ export default function Footer() {
           </Link>
           <Link
             aria-label="WeChat"
-            href="#"
+            href="https://weixin.qq.com/sph3EFAFKUDaYWo"
             rel="noreferrer"
             target="_blank"
             className={Underline}
