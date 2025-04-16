@@ -14,10 +14,13 @@ import {
   CalendarIcon,
   Flag,
   PhoneCall,
-  X
+  X,
+  LogOut
 } from "lucide-react"
 import { ColumnFiltersState, Row, SortingState, VisibilityState } from "@tanstack/react-table"
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts"
+import { signOut } from "@/lib/auth-client"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -53,7 +56,18 @@ import { StatusBadge } from "@/components/dashboard/status-badge"
 import { Rating } from "@/components/dashboard/rating"
 import { columns } from "@/components/dashboard/columns"
 
-export function SpeakerDashboardClient() {
+// Add interface for the SpeakerDashboardClient props
+interface SpeakerDashboardClientProps {
+  user: {
+    id: string;
+    name?: string;
+    email?: string;
+    image?: string | null;
+    [key: string]: any;
+  };
+}
+
+export function SpeakerDashboardClient({ user }: SpeakerDashboardClientProps) {
   const [activeTab, setActiveTab] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -71,6 +85,7 @@ export function SpeakerDashboardClient() {
   }>>([])
   const [bulkActionOpen, setBulkActionOpen] = useState(false)
   const [selectedEntries, setSelectedEntries] = useState<string[]>([])
+  const router = useRouter()
   
   // TanStack Table states
   const [sorting, setSorting] = useState<SortingState>([])
@@ -272,10 +287,49 @@ export function SpeakerDashboardClient() {
             Manage speaker applications and nominations
           </p>
         </div>
-        <Button>
-          <Download className="mr-2 h-4 w-4" />
-          Export Data
-        </Button>
+        <div className="flex items-center gap-3">
+          {/* User dropdown with logout */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2 border-dashed">
+                <Avatar className="h-7 w-7">
+                  <AvatarFallback className="bg-primary/10 text-xs">
+                    {user.name ? user.name.split(" ").map(n => n[0]).join("") : "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium hidden md:inline-block">{user.name || user.email}</span>
+                <ChevronDown className="h-4 w-4 opacity-50" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem disabled className="flex justify-between text-muted-foreground">
+                <span>Role</span>
+                <span className="font-medium">Admin</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled className="flex justify-between text-muted-foreground">
+                <span>Email</span>
+                <span className="max-w-[180px] truncate font-medium">{user.email}</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="text-red-600 focus:text-red-50 focus:bg-red-600"
+                onClick={async () => {
+                  await signOut();
+                  router.push("/sign-in");
+                }}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button>
+            <Download className="mr-2 h-4 w-4" />
+            Export Data
+          </Button>
+        </div>
       </div>
       
       {/* Stats Cards */}
