@@ -114,11 +114,11 @@ export default function AboutSection() {
             <span className="mb-3 inline-block rounded-full bg-red-100 px-4 py-1.5 text-sm font-medium text-red-600 dark:bg-red-900/30 dark:text-red-400">
               Discover TEDxBeixinqiao
             </span>
-            <h2 className="mb-6 bg-gradient-to-r from-black to-gray-700 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-gray-400 md:text-5xl">
-              Where Ideas Take <span className="text-red-600 dark:text-red-500">Center Stage</span>
+            <h2 className="mb-6 bg-gradient-to-r from-black to-red-950 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-red-100 md:text-5xl">
+              Ideas That <span className="text-red-600 dark:text-red-500">Won't Sit Still</span>
             </h2>
-            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-              A platform celebrating intellectual curiosity, artistic expression, and meaningful innovation. Join a community passionate about ideas worth spreading.
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-800 dark:text-red-50">
+              IdeasThatMove celebrates powerful ideas, whether it's a leap of innovation, a shift in mindset, or a story that stirs something deep within us. Join a community passionate about ideas in motion and change in progress.
             </p>
           </motion.div>
           
@@ -205,7 +205,7 @@ export default function AboutSection() {
               
               <div className="space-y-4">
                 <motion.div 
-                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/50"
+                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
@@ -213,15 +213,15 @@ export default function AboutSection() {
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white">Thought-provoking talks</h4>
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                      Carefully curated presentations that challenge perspectives and inspire new thinking
+                    <h4 className="font-semibold text-black dark:text-white">Movement of Thought</h4>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-red-200/70">
+                      Paradigm shifts, breakthrough discoveries, and rethinking old systems
                     </p>
                   </div>
                 </motion.div>
 
                 <motion.div 
-                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/50"
+                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
@@ -229,15 +229,15 @@ export default function AboutSection() {
                     <Globe className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white">Global perspectives</h4>
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                      Bringing international insights to local challenges and opportunities
+                    <h4 className="font-semibold text-black dark:text-white">Movement of People</h4>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-red-200/70">
+                      Migration, cultural shifts, physical journeys, and community-building
                     </p>
                   </div>
                 </motion.div>
 
                 <motion.div 
-                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800/50"
+                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
@@ -245,9 +245,27 @@ export default function AboutSection() {
                     <Lightbulb className="h-5 w-5" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white">Creative innovation</h4>
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                      Showcasing breakthrough ideas at the intersection of technology, art, and culture
+                    <h4 className="font-semibold text-black dark:text-white">Emotional Movement</h4>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-red-200/70">
+                      Talks that stir empathy, inspiration, and reflection through art and storytelling
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                  whileHover={{ x: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-5 w-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-black dark:text-white">Movement Toward Action</h4>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-red-200/70">
+                      Social impact, environmental change, and "doing" rather than "saying"
                     </p>
                   </div>
                 </motion.div>
@@ -256,7 +274,7 @@ export default function AboutSection() {
               <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-red-800 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400">
                 <Calendar className="h-5 w-5" />
                 <span className="text-sm font-medium">
-                  Next event coming soon, 2026
+                  Next event coming soon, 2025
                 </span>
               </div>
               
@@ -273,7 +291,7 @@ export default function AboutSection() {
             className="mb-16 grid grid-cols-2 gap-4 md:grid-cols-4"
           >
             <motion.div 
-              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-gray-900 dark:hover:bg-gray-900/80"
+              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-red-950/40 dark:hover:bg-red-950/60"
               whileHover={{ translateY: -5 }}
             >
               <motion.div 
@@ -285,11 +303,11 @@ export default function AboutSection() {
               <h3 className="text-4xl font-bold text-red-600 dark:text-red-500">
                 <CountUp end={12} suffix="+" />
               </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">Community Events</p>
+              <p className="mt-2 text-gray-700 dark:text-red-200/70">Community Events</p>
             </motion.div>
             
             <motion.div 
-              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-gray-900 dark:hover:bg-gray-900/80"
+              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-red-950/40 dark:hover:bg-red-950/60"
               whileHover={{ translateY: -5 }}
             >
               <motion.div 
@@ -301,11 +319,11 @@ export default function AboutSection() {
               <h3 className="text-4xl font-bold text-red-600 dark:text-red-500">
                 <CountUp end={500} suffix="+" />
               </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">Engaged Attendees</p>
+              <p className="mt-2 text-gray-700 dark:text-red-200/70">Engaged Attendees</p>
             </motion.div>
             
             <motion.div 
-              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-gray-900 dark:hover:bg-gray-900/80"
+              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-red-950/40 dark:hover:bg-red-950/60"
               whileHover={{ translateY: -5 }}
             >
               <motion.div 
@@ -317,11 +335,11 @@ export default function AboutSection() {
               <h3 className="text-4xl font-bold text-red-600 dark:text-red-500">
                 <CountUp end={8} />
               </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">Years of Impact</p>
+              <p className="mt-2 text-gray-700 dark:text-red-200/70">Years of Impact</p>
             </motion.div>
             
             <motion.div 
-              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-gray-900 dark:hover:bg-gray-900/80"
+              className="group relative overflow-hidden rounded-2xl bg-white p-6 text-center shadow-md transition-all hover:shadow-xl dark:bg-red-950/40 dark:hover:bg-red-950/60"
               whileHover={{ translateY: -5 }}
             >
               <motion.div 
@@ -333,7 +351,7 @@ export default function AboutSection() {
               <h3 className="text-4xl font-bold text-red-600 dark:text-red-500">
                 <CountUp end={24} suffix="k+" duration={2.5} />
               </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">Online Viewers</p>
+              <p className="mt-2 text-gray-700 dark:text-red-200/70">Online Viewers</p>
             </motion.div>
           </motion.div>
 

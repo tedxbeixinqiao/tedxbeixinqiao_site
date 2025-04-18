@@ -37,7 +37,7 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden pt-16"
     >
-      {/* Background with dynamic parallax effect */}
+      {/* Background with dynamic parallax effectzs */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Enhanced overlay gradient for better text readability */}
         <div 
@@ -88,7 +88,7 @@ export default function Hero() {
             className="mb-6 flex justify-center"
           >
             <span className="inline-flex items-center rounded-full border border-white/30 bg-black/30 px-4 py-1.5 text-sm font-medium text-white backdrop-blur-sm">
-              To Be Determined, 2026 • Beixinqiao, Beijing
+              To Be Determined, 2025 • Beixinqiao, Beijing
             </span>
           </motion.div>
 
@@ -111,7 +111,7 @@ export default function Hero() {
                 className="mx-auto mb-4 h-[3px] bg-gradient-to-r from-red-600/0 via-red-600 to-red-600/0"
               />
               <h2 className="text-2xl font-medium text-white sm:text-3xl md:text-4xl text-shadow-sm">
-                Innovation <span className="text-red-500">Illustrated</span>
+                Ideas <span className="text-red-500">That Move</span>
               </h2>
             </motion.div>
           </div>
@@ -123,9 +123,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mb-10 mx-auto max-w-3xl text-center text-lg font-medium text-white md:text-xl [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]"
           >
-            Join us for a captivating journey where visionary ideas come to life through powerful talks and 
-            meaningful connections. Experience thought-provoking ideas from industry pioneers, 
-            creative thinkers, and changemakers coming together to share ideas worth spreading.
+            IdeasThatMove celebrates powerful ideas, whether it's a leap of innovation, a shift in mindset, 
+            or a story that stirs something deep within us. Join us for a captivating journey where 
+            ideas in motion lead to change in progress.
           </motion.p>
 
           {/* CTA buttons with hover effects */}
@@ -166,7 +166,7 @@ export default function Hero() {
             className="mt-16 flex flex-col items-center"
           >
             <p className="text-xl font-medium italic text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
-              <span className="font-bold text-red-500">Innovation</span> Starts with <span className="font-bold text-red-500">You</span>
+              <span className="font-bold text-red-500">From spark</span> to <span className="font-bold text-red-500">shift</span>
             </p>
           </motion.div>
         </div>

@@ -8,9 +8,9 @@ import TeanSection from "@/components/team/team-section"
 import SpeakersSection from "@/components/speakers/speakers-section"
 
 export const metadata: Metadata = {
-  title: "TEDxBeixinqiao - Innovation Illustrated",
+  title: "TEDxBeixinqiao - Ideas That Move",
   description:
-    "TEDxBeixinqiao is an independently organized TED event that took place in Beijing, bringing people together to share ideas worth spreading.",
+    "TEDxBeixinqiao celebrates powerful ideas that move us - whether it's a leap of innovation, a shift in mindset, or a story that stirs something deep within us.",
 }
 
 export default function Home() {

@@ -107,10 +107,10 @@ export default function EventHighlights() {
             <span className="mb-3 inline-block rounded-full bg-red-100 px-4 py-1.5 text-sm font-medium text-red-600 dark:bg-red-900/30 dark:text-red-400">
               Memorable Moments
             </span>
-            <h2 className="mb-6 bg-gradient-to-r from-black to-gray-700 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-gray-400 md:text-5xl">
+            <h2 className="mb-6 bg-gradient-to-r from-black to-gray-800 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-red-100 md:text-5xl">
               Event <span className="text-red-600 dark:text-red-500">Highlights</span>
             </h2>
-            <p className="mx-auto max-w-3xl text-lg text-gray-700 dark:text-gray-300">
+            <p className="mx-auto max-w-3xl text-lg text-gray-800 dark:text-red-50">
               Immerse yourself in the TEDxBeixinqiao experience through our event highlights. See what makes our community gatherings so special.
             </p>
           </motion.div>
