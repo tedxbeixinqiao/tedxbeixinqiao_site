@@ -134,6 +134,15 @@ export function SpeakerDashboardClient({ user, initialEntries }: SpeakerDashboar
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
   
+  // Table instances for pagination control
+  const [allEntriesTable, setAllEntriesTable] = useState<any>(null)
+  const [applicationsTable, setApplicationsTable] = useState<any>(null)
+  const [nominationsTable, setNominationsTable] = useState<any>(null)
+  
+  // Force re-render states for pagination updates
+  const [, forceUpdate] = useState({})
+  const triggerUpdate = () => forceUpdate({})
+  
   // Stats - Using recent entries data to calculate changes
   const oneWeekAgo = useMemo(() => {
     const date = new Date();
@@ -919,12 +928,96 @@ export function SpeakerDashboardClient({ user, initialEntries }: SpeakerDashboar
                 setColumnVisibility={setColumnVisibility}
                 rowSelection={rowSelection}
                 onRowSelectionChange={setRowSelection}
+                onTableChange={setAllEntriesTable}
               />
             </CardContent>
-            <div className="px-4 py-3 border-t">
-              <p className="text-sm text-muted-foreground">
-                Showing {filteredEntries.length} out of {entries.length} total entries
-              </p>
+            <div className="flex items-center justify-between px-4 py-3 border-t">
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-muted-foreground">
+                  Showing {allEntriesTable ? 
+                    `${allEntriesTable.getState().pagination.pageIndex * allEntriesTable.getState().pagination.pageSize + 1}-${Math.min((allEntriesTable.getState().pagination.pageIndex + 1) * allEntriesTable.getState().pagination.pageSize, filteredEntries.length)} of ${filteredEntries.length} entries` :
+                    `${filteredEntries.length} entries`
+                  }
+                </p>
+                {allEntriesTable && (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium">Rows per page</span>
+                                         <Select
+                       value={`${allEntriesTable.getState().pagination.pageSize}`}
+                       onValueChange={(value) => {
+                         allEntriesTable.setPageSize(Number(value))
+                         triggerUpdate()
+                       }}
+                     >
+                      <SelectTrigger className="h-8 w-[70px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent side="top">
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                          <SelectItem key={pageSize} value={`${pageSize}`}>
+                            {pageSize}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </div>
+              
+              {allEntriesTable && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium">
+                    Page {allEntriesTable.getState().pagination.pageIndex + 1} of{" "}
+                    {allEntriesTable.getPageCount()}
+                  </span>
+                  <div className="flex items-center space-x-1">
+                    <Button
+                      variant="outline"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        allEntriesTable.setPageIndex(0)
+                        triggerUpdate()
+                      }}
+                      disabled={!allEntriesTable.getCanPreviousPage()}
+                    >
+                      {"<<"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        allEntriesTable.previousPage()
+                        triggerUpdate()
+                      }}
+                      disabled={!allEntriesTable.getCanPreviousPage()}
+                    >
+                      {"<"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        allEntriesTable.nextPage()
+                        triggerUpdate()
+                      }}
+                      disabled={!allEntriesTable.getCanNextPage()}
+                    >
+                      {">"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        allEntriesTable.setPageIndex(allEntriesTable.getPageCount() - 1)
+                        triggerUpdate()
+                      }}
+                      disabled={!allEntriesTable.getCanNextPage()}
+                    >
+                      {">>"}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
         </TabsContent>
@@ -942,12 +1035,96 @@ export function SpeakerDashboardClient({ user, initialEntries }: SpeakerDashboar
                 setColumnVisibility={setColumnVisibility}
                 rowSelection={rowSelection}
                 onRowSelectionChange={setRowSelection}
+                onTableChange={setApplicationsTable}
               />
             </CardContent>
-            <div className="px-4 py-3 border-t">
-              <p className="text-sm text-muted-foreground">
-                Showing {filteredEntries.filter(e => e.type === "application").length} out of {totalApplications} total applications
-              </p>
+            <div className="flex items-center justify-between px-4 py-3 border-t">
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-muted-foreground">
+                  Showing {applicationsTable ? 
+                    `${applicationsTable.getState().pagination.pageIndex * applicationsTable.getState().pagination.pageSize + 1}-${Math.min((applicationsTable.getState().pagination.pageIndex + 1) * applicationsTable.getState().pagination.pageSize, filteredEntries.filter(e => e.type === "application").length)} of ${filteredEntries.filter(e => e.type === "application").length} applications` :
+                    `${filteredEntries.filter(e => e.type === "application").length} applications`
+                  }
+                </p>
+                {applicationsTable && (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium">Rows per page</span>
+                                         <Select
+                       value={`${applicationsTable.getState().pagination.pageSize}`}
+                       onValueChange={(value) => {
+                         applicationsTable.setPageSize(Number(value))
+                         triggerUpdate()
+                       }}
+                     >
+                      <SelectTrigger className="h-8 w-[70px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent side="top">
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                          <SelectItem key={pageSize} value={`${pageSize}`}>
+                            {pageSize}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </div>
+              
+              {applicationsTable && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium">
+                    Page {applicationsTable.getState().pagination.pageIndex + 1} of{" "}
+                    {applicationsTable.getPageCount()}
+                  </span>
+                  <div className="flex items-center space-x-1">
+                                         <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         applicationsTable.setPageIndex(0)
+                         triggerUpdate()
+                       }}
+                       disabled={!applicationsTable.getCanPreviousPage()}
+                     >
+                       {"<<"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         applicationsTable.previousPage()
+                         triggerUpdate()
+                       }}
+                       disabled={!applicationsTable.getCanPreviousPage()}
+                     >
+                       {"<"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         applicationsTable.nextPage()
+                         triggerUpdate()
+                       }}
+                       disabled={!applicationsTable.getCanNextPage()}
+                     >
+                       {">"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         applicationsTable.setPageIndex(applicationsTable.getPageCount() - 1)
+                         triggerUpdate()
+                       }}
+                       disabled={!applicationsTable.getCanNextPage()}
+                     >
+                       {">>"}
+                     </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
         </TabsContent>
@@ -965,12 +1142,96 @@ export function SpeakerDashboardClient({ user, initialEntries }: SpeakerDashboar
                 setColumnVisibility={setColumnVisibility}
                 rowSelection={rowSelection}
                 onRowSelectionChange={setRowSelection}
+                onTableChange={setNominationsTable}
               />
             </CardContent>
-            <div className="px-4 py-3 border-t">
-              <p className="text-sm text-muted-foreground">
-                Showing {filteredEntries.filter(e => e.type === "nomination").length} out of {totalNominations} total nominations
-              </p>
+            <div className="flex items-center justify-between px-4 py-3 border-t">
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-muted-foreground">
+                  Showing {nominationsTable ? 
+                    `${nominationsTable.getState().pagination.pageIndex * nominationsTable.getState().pagination.pageSize + 1}-${Math.min((nominationsTable.getState().pagination.pageIndex + 1) * nominationsTable.getState().pagination.pageSize, filteredEntries.filter(e => e.type === "nomination").length)} of ${filteredEntries.filter(e => e.type === "nomination").length} nominations` :
+                    `${filteredEntries.filter(e => e.type === "nomination").length} nominations`
+                  }
+                </p>
+                {nominationsTable && (
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium">Rows per page</span>
+                                         <Select
+                       value={`${nominationsTable.getState().pagination.pageSize}`}
+                       onValueChange={(value) => {
+                         nominationsTable.setPageSize(Number(value))
+                         triggerUpdate()
+                       }}
+                     >
+                      <SelectTrigger className="h-8 w-[70px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent side="top">
+                        {[10, 20, 30, 40, 50].map((pageSize) => (
+                          <SelectItem key={pageSize} value={`${pageSize}`}>
+                            {pageSize}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </div>
+              
+              {nominationsTable && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium">
+                    Page {nominationsTable.getState().pagination.pageIndex + 1} of{" "}
+                    {nominationsTable.getPageCount()}
+                  </span>
+                  <div className="flex items-center space-x-1">
+                                         <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         nominationsTable.setPageIndex(0)
+                         triggerUpdate()
+                       }}
+                       disabled={!nominationsTable.getCanPreviousPage()}
+                     >
+                       {"<<"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         nominationsTable.previousPage()
+                         triggerUpdate()
+                       }}
+                       disabled={!nominationsTable.getCanPreviousPage()}
+                     >
+                       {"<"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         nominationsTable.nextPage()
+                         triggerUpdate()
+                       }}
+                       disabled={!nominationsTable.getCanNextPage()}
+                     >
+                       {">"}
+                     </Button>
+                     <Button
+                       variant="outline"
+                       className="h-8 w-8 p-0"
+                       onClick={() => {
+                         nominationsTable.setPageIndex(nominationsTable.getPageCount() - 1)
+                         triggerUpdate()
+                       }}
+                       disabled={!nominationsTable.getCanNextPage()}
+                     >
+                       {">>"}
+                     </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
         </TabsContent>

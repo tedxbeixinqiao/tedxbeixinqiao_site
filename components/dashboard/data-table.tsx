@@ -114,6 +114,7 @@ interface DataTableProps<TData, TValue> {
   setColumnVisibility?: (state: VisibilityState) => void
   rowSelection?: Record<string, boolean>
   onRowSelectionChange?: (selection: Record<string, boolean>) => void
+  onTableChange?: (table: any) => void
 }
 
 export function DataTable<TData, TValue>({
@@ -126,6 +127,7 @@ export function DataTable<TData, TValue>({
   setColumnVisibility,
   rowSelection: parentRowSelection,
   onRowSelectionChange,
+  onTableChange,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = React.useState(() => initialData)
   const [rowSelection, setRowSelection] = React.useState(parentRowSelection || {})
@@ -212,6 +214,13 @@ export function DataTable<TData, TValue>({
       })
     }
   }
+
+  // Expose table instance to parent
+  useEffect(() => {
+    if (onTableChange) {
+      onTableChange(table);
+    }
+  }, [table, onTableChange]);
 
   return (
     <div>
