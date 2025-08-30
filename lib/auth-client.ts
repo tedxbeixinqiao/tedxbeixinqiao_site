@@ -13,19 +13,15 @@ export const useSession = authClient.useSession;
 
 // Enhanced signOut function that ensures complete logout
 export const signOut = async () => {
-  // Call the original signOut function
+  // Call the original signOut function (handles cookies/session)
   await originalSignOut();
-
-  // Clear all cookies by setting expiration in the past
-  document.cookie.split(';').forEach((cookie) => {
-    const [name] = cookie.trim().split('=');
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  });
 
   // Clear any auth-related localStorage items
   localStorage.removeItem('auth-token');
   localStorage.removeItem('user');
 
   // Add a small delay to ensure all async operations complete
-  return new Promise((resolve) => setTimeout(resolve, 100));
+  return new Promise((resolve) => setTimeout(resolve, DELAY_MS));
 };
+
+const DELAY_MS = 100;

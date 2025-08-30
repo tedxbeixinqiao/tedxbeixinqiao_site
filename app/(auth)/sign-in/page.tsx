@@ -1,19 +1,19 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useState, useEffect } from 'react';
-import { Loader2 } from 'lucide-react';
-import { signIn, signOut, useSession } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from '@/lib/auth-client';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -22,19 +22,12 @@ export default function SignIn() {
   const router = useRouter();
   const session = useSession();
 
-  // If user is redirected to sign-in but still has a session, force logout
+  // If user is already signed in, redirect to dashboard
   useEffect(() => {
-    const cleanupSession = async () => {
-      // Check if we have an active session
-      if (session.data?.user) {
-        await signOut();
-        // Force a page reload to clear any remaining state
-        window.location.reload();
-      }
-    };
-
-    cleanupSession();
-  }, [session.data]);
+    if (session.data?.user) {
+      router.replace('/speaker-dashboard');
+    }
+  }, [session.data, router]);
 
   return (
     <Card className="w-full max-w-md">
@@ -50,10 +43,10 @@ export default function SignIn() {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
-              type="email"
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="m@example.com"
               required
-              onChange={(e) => setEmail(e.target.value)}
+              type="email"
               value={email}
             />
           </div>
@@ -61,18 +54,17 @@ export default function SignIn() {
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
             <Input
-              id="password"
-              type="password"
-              placeholder="password"
               autoComplete="password"
-              value={password}
+              id="password"
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="password"
+              type="password"
+              value={password}
             />
           </div>
 
           <Button
-            type="submit"
-            className="w-full mt-2"
+            className="mt-2 w-full"
             disabled={loading}
             onClick={async () => {
               await signIn.email(
@@ -90,9 +82,10 @@ export default function SignIn() {
                 }
               );
             }}
+            type="submit"
           >
             {loading ? (
-              <Loader2 size={16} className="animate-spin mr-2" />
+              <Loader2 className="mr-2 animate-spin" size={16} />
             ) : null}
             Sign In
           </Button>
