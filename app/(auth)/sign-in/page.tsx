@@ -22,12 +22,13 @@ export default function SignIn() {
   const router = useRouter();
   const session = useSession();
 
-  // If user is already signed in, redirect to dashboard
+  // Only redirect if session is loaded and user exists
   useEffect(() => {
+    if (session.isPending) return;
     if (session.data?.user) {
       router.replace('/speaker-dashboard');
     }
-  }, [session.data, router]);
+  }, [session.data, session.isPending, router]);
 
   return (
     <Card className="w-full max-w-md">
