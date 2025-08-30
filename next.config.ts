@@ -1,12 +1,8 @@
-import type { NextConfig } from 'next'
-import { fileURLToPath } from 'url'
-import path from 'path'
+import type { NextConfig } from 'next';
 
-
-let userConfig: any = undefined
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-// No user config to load, removing the related code
+// Allowed image quality for next/image (future-proof for Next.js 16)
+const DEFAULT_IMAGE_QUALITY = 75;
+// No user config to load, removed related code
 
 const nextConfig: NextConfig = {
   eslint: {
@@ -17,34 +13,28 @@ const nextConfig: NextConfig = {
   },
   images: {
     unoptimized: true,
+    // Add allowed qualities for next/image (future-proof for Next.js 16)
+    qualities: [DEFAULT_IMAGE_QUALITY],
+    // Add localPatterns for images with query strings (future-proof for Next.js 16)
+    localPatterns: [
+      // Example: allow all query params for /photo.jpg
+      // { pathname: '/photo.jpg' },
+      // Add more patterns as needed
+    ],
   },
+  // Enable typed routes for type-safe navigation (Next.js 15.5+)
+  typedRoutes: true,
   experimental: {
     // Removed experimental features
     // webpackBuildWorker: true,
     // parallelServerBuildTraces: true,
     // parallelServerCompiles: true,
-    
+
     // Keeping serverActions as it may be needed for form submissions
     serverActions: {
       bodySizeLimit: '2mb',
     },
   },
-}
+};
 
-if (userConfig) {
-  for (const key in userConfig) {
-    if (
-      typeof nextConfig[key as keyof NextConfig] === 'object' &&
-      !Array.isArray(nextConfig[key as keyof NextConfig])
-    ) {
-      nextConfig[key as keyof NextConfig] = {
-        ...(nextConfig[key as keyof NextConfig] as object),
-        ...userConfig[key],
-      } as any
-    } else {
-      (nextConfig as any)[key] = userConfig[key]
-    }
-  }
-}
-
-export default nextConfig
+export default nextConfig;
