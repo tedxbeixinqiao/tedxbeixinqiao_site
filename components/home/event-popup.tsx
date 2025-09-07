@@ -17,7 +17,7 @@ type EventPopupProps = {
 export default function EventPopup({ open, onOpenChange }: EventPopupProps) {
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
-      <DialogContent className="max-w-2xl overflow-hidden p-0">
+      <DialogContent className="max-w-md overflow-hidden p-0">
         <DialogTitle className="sr-only">
           Modernista Event Advertisement
         </DialogTitle>
