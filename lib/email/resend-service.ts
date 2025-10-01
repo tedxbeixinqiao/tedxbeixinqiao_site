@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { config } from 'dotenv';
-import { Resend } from 'resend';
+import { config } from "dotenv";
+import { Resend } from "resend";
 
 config();
 
@@ -17,8 +17,8 @@ export async function sendSpeakerApplicationEmail(
 ) {
   try {
     const emailOptions: any = {
-      from: 'forms@tedxbeixinqiao.com',
-      to: 'info@tedxbeixinqiao.com',
+      from: "forms@tedxbeixinqiao.com",
+      to: "info@tedxbeixinqiao.com",
       subject: `Speaker Application: ${applicationData.fullName}`,
       html: `
         <h2>New Speaker Application Received</h2>
@@ -32,7 +32,7 @@ export async function sendSpeakerApplicationEmail(
           <li><strong>WeChat ID:</strong> ${applicationData.wechatId}</li>
           <li><strong>Prior TED Talk:</strong> ${applicationData.priorTedTalk}</li>
           <li><strong>Job:</strong> ${applicationData.job}</li>
-          ${applicationData.remarks ? `<li><strong>Remarks:</strong> ${applicationData.remarks}</li>` : ''}
+          ${applicationData.remarks ? `<li><strong>Remarks:</strong> ${applicationData.remarks}</li>` : ""}
         </ul>
         <h3>Presentation Idea</h3>
         <p><strong>Initial Description:</strong> ${applicationData.ideaPresentation}</p>
@@ -41,8 +41,8 @@ export async function sendSpeakerApplicationEmail(
         <p><strong>2. Core Idea:</strong> ${applicationData.coreIdea}</p>
         <p><strong>3. Personal Insight/Example:</strong> ${applicationData.personalInsight}</p>
         <p><strong>4. Potential Impact:</strong> ${applicationData.potentialImpact}</p>
-        ${applicationData.websiteUrl ? `<p><strong>Website URL:</strong> <a href="${applicationData.websiteUrl}">${applicationData.websiteUrl}</a></p>` : ''}
-        ${pdfFile ? '<p><strong>PDF Attachment:</strong> Please see the attached PDF document.</p>' : '<p><em>No PDF attachment was provided.</em></p>'}
+        ${applicationData.websiteUrl ? `<p><strong>Website URL:</strong> <a href="${applicationData.websiteUrl}">${applicationData.websiteUrl}</a></p>` : ""}
+        ${pdfFile ? "<p><strong>PDF Attachment:</strong> Please see the attached PDF document.</p>" : "<p><em>No PDF attachment was provided.</em></p>"}
       `,
     };
 
@@ -63,7 +63,7 @@ export async function sendSpeakerApplicationEmail(
 
     return { success: true, data: response };
   } catch (error) {
-    console.error('Failed to send application email:', error);
+    console.error("Failed to send application email:", error);
     return { success: false, error };
   }
 }
@@ -74,8 +74,8 @@ export async function sendSpeakerApplicationEmail(
 export async function sendSpeakerNominationEmail(nominationData: any) {
   try {
     const response = await resend.emails.send({
-      from: 'forms@tedxbeixinqiao.com',
-      to: 'info@tedxbeixinqiao.com',
+      from: "forms@tedxbeixinqiao.com",
+      to: "info@tedxbeixinqiao.com",
       subject: `Speaker Nomination: ${nominationData.fullName}`,
       html: `
         <h2>New Speaker Nomination Received</h2>
@@ -86,14 +86,14 @@ export async function sendSpeakerNominationEmail(nominationData: any) {
           <li><strong>Contact:</strong> ${nominationData.contact}</li>
           <li><strong>Prior TED Talk:</strong> ${nominationData.priorTedTalk}</li>
           <li><strong>Remarks:</strong> ${nominationData.remarks}</li>
-          ${nominationData.websiteUrl ? `<li><strong>Website URL:</strong> <a href="${nominationData.websiteUrl}">${nominationData.websiteUrl}</a></li>` : ''}
+          ${nominationData.websiteUrl ? `<li><strong>Website URL:</strong> <a href="${nominationData.websiteUrl}">${nominationData.websiteUrl}</a></li>` : ""}
         </ul>
       `,
     });
 
     return { success: true, data: response };
   } catch (error) {
-    console.error('Failed to send nomination email:', error);
+    console.error("Failed to send nomination email:", error);
     return { success: false, error };
   }
 }

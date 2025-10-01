@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
   const [activeField, setActiveField] = useState<keyof typeof formData | null>(
     null
@@ -19,7 +19,7 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({
     success: false,
-    message: '',
+    message: "",
   });
   const formRef = useRef(null);
   const isInView = useInView(formRef, { once: false, amount: 0.3 });
@@ -56,8 +56,8 @@ export default function ContactForm() {
 
     // Simulate form submission
     setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setFormData({ name: '', email: '', message: '' });
+      console.log("Form submitted:", formData);
+      setFormData({ name: "", email: "", message: "" });
       setIsSubmitting(false);
       setSubmitStatus({
         success: true,
@@ -66,7 +66,7 @@ export default function ContactForm() {
 
       // Reset success message after 5 seconds
       setTimeout(() => {
-        setSubmitStatus({ success: false, message: '' });
+        setSubmitStatus({ success: false, message: "" });
       }, 5000);
     }, 1500);
   };
@@ -77,7 +77,7 @@ export default function ContactForm() {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: "spring",
         stiffness: 300,
         damping: 30,
         staggerChildren: 0.07,
@@ -109,7 +109,7 @@ export default function ContactForm() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: 'easeInOut',
+        ease: "easeInOut",
       },
     },
   };
@@ -118,7 +118,7 @@ export default function ContactForm() {
     <motion.div
       ref={formRef}
       initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      animate={isInView ? "visible" : "hidden"}
       variants={containerVariants}
       className="overflow-hidden rounded-xl bg-white p-8 shadow-lg dark:bg-gray-900"
     >
@@ -173,7 +173,7 @@ export default function ContactForm() {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => setSubmitStatus({ success: false, message: '' })}
+              onClick={() => setSubmitStatus({ success: false, message: "" })}
               className="mt-2 text-sm font-medium text-red-600 dark:text-red-400"
             >
               Send another message
@@ -191,7 +191,7 @@ export default function ContactForm() {
                 htmlFor="name"
                 variants={formLabelVariants}
                 initial="initial"
-                animate={activeField === 'name' ? 'focus' : 'initial'}
+                animate={activeField === "name" ? "focus" : "initial"}
                 className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Your Name
@@ -204,14 +204,14 @@ export default function ContactForm() {
                   placeholder="John Doe"
                   value={formData.name}
                   onChange={handleChange}
-                  onFocus={() => handleFocus('name')}
+                  onFocus={() => handleFocus("name")}
                   onBlur={handleBlur}
                   required
                   className="border-gray-300 bg-gray-50 py-6 pl-4 pr-4 transition-all duration-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:focus:border-red-500"
                 />
                 <motion.span
-                  initial={{ width: '0%' }}
-                  animate={{ width: activeField === 'name' ? '100%' : '0%' }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: activeField === "name" ? "100%" : "0%" }}
                   transition={{ duration: 0.3 }}
                   className="absolute bottom-0 left-0 h-0.5 bg-red-500"
                 />
@@ -223,7 +223,7 @@ export default function ContactForm() {
                 htmlFor="email"
                 variants={formLabelVariants}
                 initial="initial"
-                animate={activeField === 'email' ? 'focus' : 'initial'}
+                animate={activeField === "email" ? "focus" : "initial"}
                 className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Your Email
@@ -236,14 +236,14 @@ export default function ContactForm() {
                   placeholder="john@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  onFocus={() => handleFocus('email')}
+                  onFocus={() => handleFocus("email")}
                   onBlur={handleBlur}
                   required
                   className="border-gray-300 bg-gray-50 py-6 pl-4 pr-4 transition-all duration-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:focus:border-red-500"
                 />
                 <motion.span
-                  initial={{ width: '0%' }}
-                  animate={{ width: activeField === 'email' ? '100%' : '0%' }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: activeField === "email" ? "100%" : "0%" }}
                   transition={{ duration: 0.3 }}
                   className="absolute bottom-0 left-0 h-0.5 bg-red-500"
                 />
@@ -255,7 +255,7 @@ export default function ContactForm() {
                 htmlFor="message"
                 variants={formLabelVariants}
                 initial="initial"
-                animate={activeField === 'message' ? 'focus' : 'initial'}
+                animate={activeField === "message" ? "focus" : "initial"}
                 className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
                 Your Message
@@ -267,14 +267,14 @@ export default function ContactForm() {
                   placeholder="Share your thoughts or questions with us..."
                   value={formData.message}
                   onChange={handleChange}
-                  onFocus={() => handleFocus('message')}
+                  onFocus={() => handleFocus("message")}
                   onBlur={handleBlur}
                   required
                   className="min-h-[150px] border-gray-300 bg-gray-50 py-4 pl-4 pr-4 transition-all duration-300 focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-500/20 dark:border-gray-700 dark:bg-gray-800/50 dark:focus:border-red-500"
                 />
                 <motion.span
-                  initial={{ width: '0%' }}
-                  animate={{ width: activeField === 'message' ? '100%' : '0%' }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: activeField === "message" ? "100%" : "0%" }}
                   transition={{ duration: 0.3 }}
                   className="absolute bottom-0 left-0 h-0.5 bg-red-500"
                 />

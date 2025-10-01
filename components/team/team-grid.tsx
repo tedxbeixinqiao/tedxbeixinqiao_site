@@ -1,14 +1,14 @@
-'use client';
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
+"use client";
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { motion } from 'framer-motion';
-import { teamMembers } from '@/data/team-members';
+} from "@/components/ui/dialog";
+import { motion } from "framer-motion";
+import { teamMembers } from "@/data/team-members";
 
 // Removed duplicate team data array as it's now imported from data/team-members.ts
 
@@ -41,7 +41,7 @@ export default function TeamGrid() {
             <Card className="group overflow-hidden transition-all duration-300 hover:shadow-md hover:shadow-red-600/10 bg-white/90 backdrop-blur-sm dark:bg-gray-900/70 dark:backdrop-blur-md dark:hover:shadow-red-600/20 border-0">
               <div className="relative aspect-square w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
                 <Image
-                  src={`/team/${member.name.split(' ')[0].toLowerCase()}.jpg`}
+                  src={`/team/${member.name.split(" ")[0].toLowerCase()}.jpg`}
                   alt={member.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -74,7 +74,7 @@ export default function TeamGrid() {
                 <div className="grid md:grid-cols-2">
                   <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg">
                     <Image
-                      src={`/team/${member.name.split(' ')[0].toLowerCase()}.jpg`}
+                      src={`/team/${member.name.split(" ")[0].toLowerCase()}.jpg`}
                       alt={member.name}
                       fill
                       className="object-cover"

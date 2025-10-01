@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { signIn, useSession } from '@/lib/auth-client';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { signIn, useSession } from "@/lib/auth-client";
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const session = useSession();
@@ -26,7 +26,7 @@ export default function SignIn() {
   useEffect(() => {
     if (session.isPending) return;
     if (session.data?.user) {
-      router.replace('/speaker-dashboard');
+      router.replace("/speaker-dashboard");
     }
   }, [session.data, session.isPending, router]);
 
@@ -72,13 +72,13 @@ export default function SignIn() {
                 {
                   email,
                   password,
-                  callbackURL: '/speaker-dashboard',
+                  callbackURL: "/speaker-dashboard",
                 },
                 {
                   onRequest: () => setLoading(true),
                   onResponse: () => setLoading(false),
                   onSuccess: () => {
-                    router.push('/speaker-dashboard');
+                    router.push("/speaker-dashboard");
                   },
                 }
               );

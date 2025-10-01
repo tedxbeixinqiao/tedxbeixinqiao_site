@@ -1,11 +1,11 @@
-import ContactForm from '@/components/contact-form';
-import GoogleMap from '@/components/google-map';
-import ContactInfo from '@/components/contact-info';
-import type { Metadata } from 'next';
+import ContactForm from "@/components/contact-form";
+import GoogleMap from "@/components/google-map";
+import ContactInfo from "@/components/contact-info";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Contact - TEDxBeixinqiao',
-  description: 'Get in touch with the TEDxBeixinqiao team.',
+  title: "Contact - TEDxBeixinqiao",
+  description: "Get in touch with the TEDxBeixinqiao team.",
 };
 
 export default function ContactPage() {

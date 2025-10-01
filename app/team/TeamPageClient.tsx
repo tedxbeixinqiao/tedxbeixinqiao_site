@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Facebook,
   Twitter,
@@ -16,29 +16,29 @@ import {
   Mail,
   ArrowLeft,
   ArrowRight,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   TeamMember,
   roleCategories,
   getSortedTeam,
   getTeamByRole,
-} from '@/data/team-members';
-import { TeamModal } from '@/components/team/team-modal';
+} from "@/data/team-members";
+import { TeamModal } from "@/components/team/team-modal";
 
 function getSocialIcon(platform: string) {
   switch (platform) {
-    case 'linkedin':
+    case "linkedin":
       return <Linkedin className="h-4 w-4" />;
-    case 'twitter':
+    case "twitter":
       return <Twitter className="h-4 w-4" />;
-    case 'facebook':
+    case "facebook":
       return <Facebook className="h-4 w-4" />;
-    case 'instagram':
+    case "instagram":
       return <Instagram className="h-4 w-4" />;
-    case 'website':
+    case "website":
       return <Globe className="h-4 w-4" />;
-    case 'email':
+    case "email":
       return <Mail className="h-4 w-4" />;
     default:
       return <Globe className="h-4 w-4" />;
@@ -46,7 +46,7 @@ function getSocialIcon(platform: string) {
 }
 
 export default function TeamPageClient() {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
@@ -58,7 +58,7 @@ export default function TeamPageClient() {
 
   // Filter team members based on active filter
   const filteredTeam =
-    activeFilter === 'all' ? getSortedTeam() : getTeamByRole(activeFilter);
+    activeFilter === "all" ? getSortedTeam() : getTeamByRole(activeFilter);
 
   // Handle scroll shadows for tab navigation
   const handleScroll = () => {
@@ -74,20 +74,20 @@ export default function TeamPageClient() {
   useEffect(() => {
     const tabsEl = tabsContainerRef.current;
     if (tabsEl) {
-      tabsEl.addEventListener('scroll', handleScroll);
+      tabsEl.addEventListener("scroll", handleScroll);
       handleScroll(); // Initial check
 
-      return () => tabsEl.removeEventListener('scroll', handleScroll);
+      return () => tabsEl.removeEventListener("scroll", handleScroll);
     }
   }, []);
 
   // Scroll tabs left/right
-  const scrollTabs = (direction: 'left' | 'right') => {
+  const scrollTabs = (direction: "left" | "right") => {
     if (tabsContainerRef.current) {
       const scrollAmount = 200;
       tabsContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
       });
     }
   };
@@ -109,7 +109,7 @@ export default function TeamPageClient() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Meet our{' '}
+            Meet our{" "}
             <span className="text-red-600 dark:text-red-500">Team</span>
           </motion.h1>
 
@@ -154,7 +154,7 @@ export default function TeamPageClient() {
                     variant="ghost"
                     size="icon"
                     className="relative ml-1 rounded-full"
-                    onClick={() => scrollTabs('left')}
+                    onClick={() => scrollTabs("left")}
                   >
                     <ArrowLeft className="h-4 w-4" />
                   </Button>
@@ -176,7 +176,7 @@ export default function TeamPageClient() {
                     variant="ghost"
                     size="icon"
                     className="relative mr-1 rounded-full"
-                    onClick={() => scrollTabs('right')}
+                    onClick={() => scrollTabs("right")}
                   >
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -251,10 +251,10 @@ export default function TeamPageClient() {
                       alt={member.name}
                       fill
                       className={cn(
-                        'object-cover transition-transform duration-700',
+                        "object-cover transition-transform duration-700",
                         hoveredMember === member.name
-                          ? 'scale-110'
-                          : 'scale-100'
+                          ? "scale-110"
+                          : "scale-100"
                       )}
                     />
                   </div>
@@ -267,22 +267,22 @@ export default function TeamPageClient() {
                       </h3>
                       <div
                         className={cn(
-                          'rounded-full px-2 py-0.5 text-xs font-medium',
-                          member.role === 'leadership'
-                            ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
-                            : member.role === 'communications'
-                              ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
-                              : member.role === 'operations'
-                                ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300'
-                                : member.role === 'speakers'
-                                  ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
-                                  : member.role === 'creative'
-                                    ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300'
-                                    : member.role === 'funding'
-                                      ? 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300'
-                                      : member.role === 'technical'
-                                        ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300'
-                                        : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300'
+                          "rounded-full px-2 py-0.5 text-xs font-medium",
+                          member.role === "leadership"
+                            ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                            : member.role === "communications"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+                              : member.role === "operations"
+                                ? "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300"
+                                : member.role === "speakers"
+                                  ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+                                  : member.role === "creative"
+                                    ? "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
+                                    : member.role === "funding"
+                                      ? "bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-300"
+                                      : member.role === "technical"
+                                        ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300"
+                                        : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
                         )}
                       >
                         {member.role.charAt(0).toUpperCase() +

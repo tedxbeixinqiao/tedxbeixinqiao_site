@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Star } from 'lucide-react';
+import { useState } from "react";
+import { Star } from "lucide-react";
 
 // Rating component
 export const Rating = ({
@@ -25,9 +25,9 @@ export const Rating = ({
           key={star}
           size={16}
           className={`
-            ${star <= (hoverRating || rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}
-            ${onChange && !disabled ? 'cursor-pointer transition-colors duration-150' : ''}
-            ${disabled ? 'opacity-70' : ''}
+            ${star <= (hoverRating || rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}
+            ${onChange && !disabled ? "cursor-pointer transition-colors duration-150" : ""}
+            ${disabled ? "opacity-70" : ""}
           `}
           onMouseEnter={() => onChange && !disabled && setHoverRating(star)}
           onMouseLeave={() => onChange && !disabled && setHoverRating(0)}

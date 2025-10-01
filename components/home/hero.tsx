@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { SpeakerApplicationMessageModal } from '@/components/speaker-application-message-modal';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { motion } from "framer-motion";
+import { ArrowDown } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { SpeakerApplicationMessageModal } from "@/components/speaker-application-message-modal";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,16 +20,16 @@ export default function Hero() {
       setScrolled(scrollTop > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const scrollToNextSection = () => {
-    const nextSection = document.querySelector('#about');
+    const nextSection = document.querySelector("#about");
     if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
+      nextSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -43,24 +43,24 @@ export default function Hero() {
         {/* Enhanced overlay gradient for better text readability */}
         <div
           className={cn(
-            'absolute inset-0 z-10 bg-gradient-to-br from-black/80 via-black/60 to-black/40 transition-opacity duration-700',
-            isLoaded ? 'opacity-80' : 'opacity-0'
+            "absolute inset-0 z-10 bg-gradient-to-br from-black/80 via-black/60 to-black/40 transition-opacity duration-700",
+            isLoaded ? "opacity-80" : "opacity-0"
           )}
         />
 
         {/* Background image with subtle parallax */}
         <div
           className={cn(
-            'absolute inset-0 transition-transform duration-700 ease-out',
-            scrolled ? 'scale-105' : 'scale-100'
+            "absolute inset-0 transition-transform duration-700 ease-out",
+            scrolled ? "scale-105" : "scale-100"
           )}
         >
           <Image
             alt="TEDxBeixinqiao Event"
             className={cn(
-              'absolute inset-0 object-cover object-center transition-all duration-1000',
-              isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-sm',
-              scrolled ? 'scale-105' : 'scale-100'
+              "absolute inset-0 object-cover object-center transition-all duration-1000",
+              isLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm",
+              scrolled ? "scale-105" : "scale-100"
             )}
             fill
             onLoad={() => {
@@ -110,7 +110,7 @@ export default function Hero() {
                 </h1>
               </div>
               <motion.div
-                animate={{ width: '80%' }}
+                animate={{ width: "80%" }}
                 className="mx-auto mb-4 h-[3px] bg-gradient-to-r from-red-600/0 via-red-600 to-red-600/0"
                 initial={{ width: 0 }}
                 transition={{ delay: 0.8, duration: 1 }}
@@ -148,7 +148,7 @@ export default function Hero() {
                   y: {
                     duration: 1.5,
                     repeat: Number.POSITIVE_INFINITY,
-                    ease: 'easeInOut',
+                    ease: "easeInOut",
                   },
                 },
               }}
@@ -162,7 +162,7 @@ export default function Hero() {
                   rotate: {
                     duration: 0.5,
                     repeat: Number.POSITIVE_INFINITY,
-                    ease: 'easeInOut',
+                    ease: "easeInOut",
                   },
                 },
               }}
@@ -267,7 +267,7 @@ export default function Hero() {
             delay: 1.5,
             duration: 2,
             repeat: Number.POSITIVE_INFINITY,
-            repeatType: 'loop',
+            repeatType: "loop",
           },
         }}
       >

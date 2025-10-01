@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -8,8 +8,8 @@ import {
   useSpring,
   useInView,
   AnimatePresence,
-} from 'framer-motion';
-import { useRef, useState, useEffect, useId } from 'react';
+} from "framer-motion";
+import { useRef, useState, useEffect, useId } from "react";
 import {
   Sparkles,
   Globe,
@@ -18,9 +18,9 @@ import {
   Calendar,
   ArrowRight,
   ChevronRight,
-} from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface CountUpProps {
   end: number;
@@ -31,13 +31,13 @@ interface CountUpProps {
 
 const CountUp = ({
   end,
-  suffix = '',
+  suffix = "",
   duration = 2,
   delay = 0.2,
 }: CountUpProps) => {
   const [count, setCount] = useState(0);
   const nodeRef = useRef(null);
-  const isInView = useInView(nodeRef, { once: true, margin: '-100px' });
+  const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
 
   useEffect(() => {
     if (!isInView) return;
@@ -87,7 +87,7 @@ export default function AboutSection() {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end start'],
+    offset: ["start end", "end start"],
   });
 
   const translateY = useTransform(scrollYProgress, [0, 1], [100, -100]);
@@ -102,7 +102,7 @@ export default function AboutSection() {
       opacity: 1,
       transition: {
         staggerChildren: 0.2,
-        when: 'beforeChildren',
+        when: "beforeChildren",
       },
     },
   };
@@ -133,7 +133,7 @@ export default function AboutSection() {
         ref={containerRef}
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        animate={isInView ? "visible" : "hidden"}
         className="container mx-auto px-4"
       >
         <div className="mx-auto max-w-6xl">
@@ -145,7 +145,7 @@ export default function AboutSection() {
               Discover TEDxBeixinqiao
             </span>
             <h2 className="mb-6 bg-gradient-to-r from-black to-red-950 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-red-100 md:text-5xl">
-              Ideas That{' '}
+              Ideas That{" "}
               <span className="text-red-600 dark:text-red-500">
                 Won't Sit Still
               </span>
@@ -231,7 +231,7 @@ export default function AboutSection() {
                           transition={{
                             duration: 2,
                             repeat: Infinity,
-                            ease: 'easeInOut',
+                            ease: "easeInOut",
                           }}
                           className="h-3 w-3 rounded-full bg-red-500"
                         />
@@ -261,7 +261,7 @@ export default function AboutSection() {
                 <motion.div
                   className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 group-hover:scale-110 transition-transform">
                     <Sparkles className="h-5 w-5" />
@@ -280,7 +280,7 @@ export default function AboutSection() {
                 <motion.div
                   className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 group-hover:scale-110 transition-transform">
                     <Globe className="h-5 w-5" />
@@ -299,7 +299,7 @@ export default function AboutSection() {
                 <motion.div
                   className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 group-hover:scale-110 transition-transform">
                     <Lightbulb className="h-5 w-5" />
@@ -318,7 +318,7 @@ export default function AboutSection() {
                 <motion.div
                   className="group flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                   whileHover={{ x: 5 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 group-hover:scale-110 transition-transform">
                     <svg
@@ -448,7 +448,7 @@ export default function AboutSection() {
             variants={itemVariants}
             className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-600 to-red-700 p-8 text-white shadow-xl"
             whileHover={{ scale: 1.01 }}
-            transition={{ type: 'spring', stiffness: 300 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10"></div>
             <div className="absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-white/10"></div>
@@ -480,7 +480,7 @@ export default function AboutSection() {
                 transition={{
                   duration: 10,
                   repeat: Infinity,
-                  ease: 'easeInOut',
+                  ease: "easeInOut",
                 }}
               >
                 <path

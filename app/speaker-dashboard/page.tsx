@@ -1,16 +1,16 @@
-import { SpeakerDashboardClient } from './SpeakerDashboardClient';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { SpeakerDashboardClient } from "./SpeakerDashboardClient";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import {
   getAllSpeakerApplications,
   getAllSpeakerNominations,
-} from '@/lib/speakers-db-service';
+} from "@/lib/speakers-db-service";
 import {
   ApplicationEntry,
   NominationEntry,
   SpeakerEntry,
-} from '@/components/dashboard/types';
+} from "@/components/dashboard/types";
 
 // This server component checks for authentication before rendering
 export default async function SpeakerDashboardPage() {
@@ -19,7 +19,7 @@ export default async function SpeakerDashboardPage() {
   });
 
   if (!session) {
-    redirect('/sign-in');
+    redirect("/sign-in");
   }
 
   const user = session.user;
@@ -34,24 +34,24 @@ export default async function SpeakerDashboardPage() {
       ? applicationsResult.data.map((app) => ({
           id: app.id,
           fullName: app.fullName,
-          email: app.email || '',
+          email: app.email || "",
           submissionDate: app.submissionDate.toISOString(),
           topic: app.topic,
           mobilePhone: app.mobilePhone,
           wechatId: app.wechatId,
           gender: app.gender,
           job: app.job,
-          rehearsalAvailability: app.rehearsalAvailability || '',
-          commonBelief: app.commonBelief || '',
-          coreIdea: app.coreIdea || '',
-          personalInsight: app.personalInsight || '',
-          potentialImpact: app.potentialImpact || '',
+          rehearsalAvailability: app.rehearsalAvailability || "",
+          commonBelief: app.commonBelief || "",
+          coreIdea: app.coreIdea || "",
+          personalInsight: app.personalInsight || "",
+          potentialImpact: app.potentialImpact || "",
           status: app.status,
           priorTedTalk: app.priorTedTalk,
           flagged: app.flagged,
-          notes: app.notes || '',
+          notes: app.notes || "",
           rating: app.rating || 0, // Ensure rating is never null
-          type: 'application',
+          type: "application",
         }))
       : [];
 
@@ -67,9 +67,9 @@ export default async function SpeakerDashboardPage() {
           status: nom.status,
           priorTedTalk: nom.priorTedTalk,
           flagged: nom.flagged,
-          notes: nom.notes || '',
+          notes: nom.notes || "",
           rating: nom.rating || 0, // Ensure rating is never null
-          type: 'nomination',
+          type: "nomination",
         }))
       : [];
 

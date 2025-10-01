@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { X } from 'lucide-react';
-import Image from 'next/image';
+import { X } from "lucide-react";
+import Image from "next/image";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 type EventPopupProps = {
   open: boolean;

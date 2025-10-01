@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useTheme } from 'next-themes';
-import { Moon, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
+import * as React from "react";
+import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
@@ -15,7 +15,7 @@ export function ModeToggle() {
   }, []);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const initialIconState = {
@@ -37,8 +37,8 @@ export function ModeToggle() {
           animate={
             mounted
               ? {
-                  opacity: theme === 'light' ? 1 : 0,
-                  rotate: theme === 'light' ? 0 : -90,
+                  opacity: theme === "light" ? 1 : 0,
+                  rotate: theme === "light" ? 0 : -90,
                 }
               : initialIconState
           }
@@ -54,8 +54,8 @@ export function ModeToggle() {
           animate={
             mounted
               ? {
-                  opacity: theme === 'dark' ? 1 : 0,
-                  rotate: theme === 'dark' ? 0 : 90,
+                  opacity: theme === "dark" ? 1 : 0,
+                  rotate: theme === "dark" ? 0 : 90,
                 }
               : initialIconState
           }

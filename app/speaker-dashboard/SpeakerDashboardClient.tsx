@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from "react";
 import {
   BarChart2,
   Search,
@@ -18,13 +18,13 @@ import {
   LogOut,
   PlusCircle,
   Edit,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   ColumnFiltersState,
   Row,
   SortingState,
   VisibilityState,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 import {
   AreaChart,
   Area,
@@ -39,20 +39,20 @@ import {
   Pie,
   Cell,
   Legend,
-} from 'recharts';
-import { signOut } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
+} from "recharts";
+import { signOut } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -61,15 +61,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -77,22 +77,22 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 
 import {
   SpeakerEntry,
   ApplicationEntry,
   NominationEntry,
   statusOptions,
-} from '@/components/dashboard/types';
-import { DataTable } from '@/components/dashboard/data-table';
-import { StatusBadge } from '@/components/dashboard/status-badge';
-import { Rating } from '@/components/dashboard/rating';
-import { columns } from '@/components/dashboard/columns';
+} from "@/components/dashboard/types";
+import { DataTable } from "@/components/dashboard/data-table";
+import { StatusBadge } from "@/components/dashboard/status-badge";
+import { Rating } from "@/components/dashboard/rating";
+import { columns } from "@/components/dashboard/columns";
 import {
   updateApplicationStatus,
   updateNominationStatus,
@@ -106,8 +106,8 @@ import {
   createDashboardNomination,
   updateApplicationDetails,
   updateNominationDetails,
-} from '@/lib/speakers-db-service';
-import { toast } from 'sonner';
+} from "@/lib/speakers-db-service";
+import { toast } from "sonner";
 
 // Add interface for the SpeakerDashboardClient props
 interface SpeakerDashboardClientProps {
@@ -125,10 +125,10 @@ export function SpeakerDashboardClient({
   user,
   initialEntries,
 }: SpeakerDashboardClientProps) {
-  const [activeTab, setActiveTab] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string[]>(['all']);
-  const [typeFilter, setTypeFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string[]>(["all"]);
+  const [typeFilter, setTypeFilter] = useState("all");
   const [entries, setEntries] = useState<SpeakerEntry[]>(initialEntries);
   const [selectedEntry, setSelectedEntry] = useState<SpeakerEntry | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -139,34 +139,34 @@ export function SpeakerDashboardClient({
       text: string;
       timestamp: Date;
       status: string;
-      type: 'application' | 'nomination';
+      type: "application" | "nomination";
     }>
   >([]);
   const [bulkActionOpen, setBulkActionOpen] = useState(false);
   const [selectedEntries, setSelectedEntries] = useState<string[]>([]);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [newBulkStatus, setNewBulkStatus] = useState('');
+  const [newBulkStatus, setNewBulkStatus] = useState("");
 
   // Entry form states
   const [entryFormOpen, setEntryFormOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [entryType, setEntryType] = useState<'application' | 'nomination'>(
-    'application'
+  const [entryType, setEntryType] = useState<"application" | "nomination">(
+    "application"
   );
   const [formData, setFormData] = useState({
     // Common fields
-    fullName: '',
-    topic: '',
-    priorTedTalk: '',
-    status: 'under_review',
+    fullName: "",
+    topic: "",
+    priorTedTalk: "",
+    status: "under_review",
     // Application specific
-    mobilePhone: '',
-    wechatId: '',
-    gender: 'Male',
-    job: '',
+    mobilePhone: "",
+    wechatId: "",
+    gender: "Male",
+    job: "",
     // Nomination specific
-    contact: '',
-    nominatedBy: '',
+    contact: "",
+    nominatedBy: "",
   });
 
   const router = useRouter();
@@ -195,13 +195,13 @@ export function SpeakerDashboardClient({
 
   const applicationsSinceLastWeek = useMemo(() => {
     return entries.filter(
-      (e) => e.type === 'application' && new Date(e.submissionDate) > oneWeekAgo
+      (e) => e.type === "application" && new Date(e.submissionDate) > oneWeekAgo
     ).length;
   }, [entries, oneWeekAgo]);
 
   const nominationsSinceLastWeek = useMemo(() => {
     return entries.filter(
-      (e) => e.type === 'nomination' && new Date(e.submissionDate) > oneWeekAgo
+      (e) => e.type === "nomination" && new Date(e.submissionDate) > oneWeekAgo
     ).length;
   }, [entries, oneWeekAgo]);
 
@@ -211,10 +211,10 @@ export function SpeakerDashboardClient({
   const filteredEntries = useMemo(() => {
     return entries.filter((entry) => {
       // Filter by type
-      if (typeFilter !== 'all' && entry.type !== typeFilter) return false;
+      if (typeFilter !== "all" && entry.type !== typeFilter) return false;
 
       // Filter by status - only filter if we have specific statuses selected (not "all")
-      if (!statusFilter.includes('all') && !statusFilter.includes(entry.status))
+      if (!statusFilter.includes("all") && !statusFilter.includes(entry.status))
         return false;
 
       // Filter by search query
@@ -232,15 +232,15 @@ export function SpeakerDashboardClient({
 
   // Calculate statistics
   const totalApplications = entries.filter(
-    (e) => e.type === 'application'
+    (e) => e.type === "application"
   ).length;
   const totalNominations = entries.filter(
-    (e) => e.type === 'nomination'
+    (e) => e.type === "nomination"
   ).length;
   const totalShortlisted = entries.filter(
-    (e) => e.status === 'shortlisted'
+    (e) => e.status === "shortlisted"
   ).length;
-  const totalInvited = entries.filter((e) => e.status === 'invited').length;
+  const totalInvited = entries.filter((e) => e.status === "invited").length;
   const percentageShortlisted =
     totalApplications + totalNominations > 0
       ? Math.round(
@@ -262,31 +262,31 @@ export function SpeakerDashboardClient({
     setSelectedEntry(entry);
 
     // Initialize form data with entry values
-    if (entry.type === 'application') {
+    if (entry.type === "application") {
       const appEntry = entry as ApplicationEntry;
       setFormData({
         fullName: appEntry.fullName,
         topic: appEntry.topic,
-        priorTedTalk: appEntry.priorTedTalk || '',
+        priorTedTalk: appEntry.priorTedTalk || "",
         status: appEntry.status,
         mobilePhone: appEntry.mobilePhone,
         wechatId: appEntry.wechatId,
-        gender: appEntry.gender ?? 'Not specified',
+        gender: appEntry.gender ?? "Not specified",
         job: appEntry.job,
-        contact: '',
-        nominatedBy: '',
+        contact: "",
+        nominatedBy: "",
       });
     } else {
       const nomEntry = entry as NominationEntry;
       setFormData({
         fullName: nomEntry.fullName,
         topic: nomEntry.topic,
-        priorTedTalk: nomEntry.priorTedTalk || '',
+        priorTedTalk: nomEntry.priorTedTalk || "",
         status: nomEntry.status,
-        mobilePhone: '',
-        wechatId: '',
-        gender: 'Male',
-        job: '',
+        mobilePhone: "",
+        wechatId: "",
+        gender: "Male",
+        job: "",
         contact: nomEntry.contact,
         nominatedBy: nomEntry.nominatedBy,
       });
@@ -301,25 +301,25 @@ export function SpeakerDashboardClient({
     const entry = entries.find((e) => e.id === entryId);
     if (!entry) return;
 
-    let activityText = '';
+    let activityText = "";
 
     switch (newStatus) {
-      case 'invited':
+      case "invited":
         activityText = `${entry.fullName} invited to audition`;
         break;
-      case 'shortlisted':
+      case "shortlisted":
         activityText = `${entry.fullName} shortlisted`;
         break;
-      case 'rejected':
+      case "rejected":
         activityText = `${entry.fullName} application rejected`;
         break;
-      case 'flagged':
+      case "flagged":
         activityText = `${entry.fullName} flagged for review`;
         break;
-      case 'contacted':
+      case "contacted":
         activityText = `${entry.fullName} contacted for more info`;
         break;
-      case 'under_review':
+      case "under_review":
         activityText = `${entry.fullName} set to under review`;
         break;
       default:
@@ -351,7 +351,7 @@ export function SpeakerDashboardClient({
     try {
       // Update the database based on entry type
       const result =
-        entry.type === 'application'
+        entry.type === "application"
           ? await updateApplicationStatus(entryId, newStatus)
           : await updateNominationStatus(entryId, newStatus);
 
@@ -367,14 +367,14 @@ export function SpeakerDashboardClient({
         )
       );
 
-      toast.success('Status updated', {
-        description: `${entry.fullName}'s status was updated to ${newStatus.replace('_', ' ')}`,
+      toast.success("Status updated", {
+        description: `${entry.fullName}'s status was updated to ${newStatus.replace("_", " ")}`,
       });
     } catch (error) {
-      console.error('Error updating status:', error);
-      toast.error('Update failed', {
+      console.error("Error updating status:", error);
+      toast.error("Update failed", {
         description:
-          'There was an error updating the status. Please try again.',
+          "There was an error updating the status. Please try again.",
       });
     } finally {
       setIsUpdating(false);
@@ -391,7 +391,7 @@ export function SpeakerDashboardClient({
     try {
       // Update the database based on entry type
       const result =
-        entry.type === 'application'
+        entry.type === "application"
           ? await updateApplicationRating(entryId, newRating)
           : await updateNominationRating(entryId, newRating);
 
@@ -406,14 +406,14 @@ export function SpeakerDashboardClient({
         )
       );
 
-      toast.success('Rating updated', {
+      toast.success("Rating updated", {
         description: `${entry.fullName}'s rating was updated to ${newRating}`,
       });
     } catch (error) {
-      console.error('Error updating rating:', error);
-      toast.error('Update failed', {
+      console.error("Error updating rating:", error);
+      toast.error("Update failed", {
         description:
-          'There was an error updating the rating. Please try again.',
+          "There was an error updating the rating. Please try again.",
       });
     } finally {
       setIsUpdating(false);
@@ -430,7 +430,7 @@ export function SpeakerDashboardClient({
     try {
       // Update the database based on entry type
       const result =
-        entry.type === 'application'
+        entry.type === "application"
           ? await updateApplicationNotes(entryId, newNotes)
           : await updateNominationNotes(entryId, newNotes);
 
@@ -445,13 +445,13 @@ export function SpeakerDashboardClient({
         )
       );
 
-      toast.success('Notes updated', {
+      toast.success("Notes updated", {
         description: `Notes for ${entry.fullName} were saved successfully`,
       });
     } catch (error) {
-      console.error('Error updating notes:', error);
-      toast.error('Update failed', {
-        description: 'There was an error updating the notes. Please try again.',
+      console.error("Error updating notes:", error);
+      toast.error("Update failed", {
+        description: "There was an error updating the notes. Please try again.",
       });
     } finally {
       setIsUpdating(false);
@@ -468,7 +468,7 @@ export function SpeakerDashboardClient({
     try {
       // Update the database based on entry type
       const result =
-        entry.type === 'application'
+        entry.type === "application"
           ? await toggleApplicationFlag(entryId)
           : await toggleNominationFlag(entryId);
 
@@ -483,15 +483,15 @@ export function SpeakerDashboardClient({
         )
       );
 
-      const action = result.flagged ? 'flagged' : 'unflagged';
+      const action = result.flagged ? "flagged" : "unflagged";
       toast.success(`Entry ${action}`, {
         description: `${entry.fullName} was ${action} successfully`,
       });
     } catch (error) {
-      console.error('Error toggling flag:', error);
-      toast.error('Update failed', {
+      console.error("Error toggling flag:", error);
+      toast.error("Update failed", {
         description:
-          'There was an error updating the flag status. Please try again.',
+          "There was an error updating the flag status. Please try again.",
       });
     } finally {
       setIsUpdating(false);
@@ -513,54 +513,54 @@ export function SpeakerDashboardClient({
       const diffTime = Math.abs(today.getTime() - date.getTime());
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-      let activityText = '';
+      let activityText = "";
       let icon;
-      let bgColor = '';
-      let iconColor = '';
+      let bgColor = "";
+      let iconColor = "";
 
       switch (entry.status) {
-        case 'invited':
+        case "invited":
           activityText = `${entry.fullName} invited to audition`;
           icon = <Check className="h-4 w-4" />;
-          bgColor = 'bg-green-100 dark:bg-green-900/30';
-          iconColor = 'text-green-600 dark:text-green-400';
+          bgColor = "bg-green-100 dark:bg-green-900/30";
+          iconColor = "text-green-600 dark:text-green-400";
           break;
-        case 'shortlisted':
+        case "shortlisted":
           activityText = `${entry.fullName} shortlisted`;
           icon = <Star className="h-4 w-4" />;
-          bgColor = 'bg-blue-100 dark:bg-blue-900/30';
-          iconColor = 'text-blue-600 dark:text-blue-400';
+          bgColor = "bg-blue-100 dark:bg-blue-900/30";
+          iconColor = "text-blue-600 dark:text-blue-400";
           break;
-        case 'rejected':
+        case "rejected":
           activityText = `${entry.fullName} application rejected`;
           icon = <X className="h-4 w-4" />;
-          bgColor = 'bg-red-100 dark:bg-red-900/30';
-          iconColor = 'text-red-600 dark:text-red-400';
+          bgColor = "bg-red-100 dark:bg-red-900/30";
+          iconColor = "text-red-600 dark:text-red-400";
           break;
-        case 'flagged':
+        case "flagged":
           activityText = `${entry.fullName} flagged for review`;
           icon = <Flag className="h-4 w-4" />;
-          bgColor = 'bg-orange-100 dark:bg-orange-900/30';
-          iconColor = 'text-orange-600 dark:text-orange-400';
+          bgColor = "bg-orange-100 dark:bg-orange-900/30";
+          iconColor = "text-orange-600 dark:text-orange-400";
           break;
-        case 'contacted':
+        case "contacted":
           activityText = `${entry.fullName} contacted for more info`;
           icon = <PhoneCall className="h-4 w-4" />;
-          bgColor = 'bg-purple-100 dark:bg-purple-900/30';
-          iconColor = 'text-purple-600 dark:text-purple-400';
+          bgColor = "bg-purple-100 dark:bg-purple-900/30";
+          iconColor = "text-purple-600 dark:text-purple-400";
           break;
         default:
           activityText = `New ${entry.type} from ${entry.fullName}`;
           icon = <Clock className="h-4 w-4" />;
-          bgColor = 'bg-yellow-100 dark:bg-yellow-900/30';
-          iconColor = 'text-yellow-600 dark:text-yellow-400';
+          bgColor = "bg-yellow-100 dark:bg-yellow-900/30";
+          iconColor = "text-yellow-600 dark:text-yellow-400";
       }
 
       let timeText;
       if (diffDays === 0) {
-        timeText = 'Today';
+        timeText = "Today";
       } else if (diffDays === 1) {
-        timeText = 'Yesterday';
+        timeText = "Yesterday";
       } else if (diffDays < 7) {
         timeText = `${diffDays} days ago`;
       } else {
@@ -584,47 +584,47 @@ export function SpeakerDashboardClient({
   const downloadCSV = (data: SpeakerEntry[], filename: string) => {
     // Define header based on entry type
     const applicationHeaders = [
-      'ID',
-      'Full Name',
-      'Topic',
-      'Gender',
-      'Job',
-      'Mobile Phone',
-      'WeChat ID',
-      'Prior TED Talk',
-      'Status',
-      'Flagged',
-      'Rating',
-      'Notes',
-      'Submission Date',
+      "ID",
+      "Full Name",
+      "Topic",
+      "Gender",
+      "Job",
+      "Mobile Phone",
+      "WeChat ID",
+      "Prior TED Talk",
+      "Status",
+      "Flagged",
+      "Rating",
+      "Notes",
+      "Submission Date",
     ];
 
     const nominationHeaders = [
-      'ID',
-      'Full Name',
-      'Topic',
-      'Nominated By',
-      'Contact',
-      'Prior TED Talk',
-      'Status',
-      'Flagged',
-      'Rating',
-      'Notes',
-      'Submission Date',
+      "ID",
+      "Full Name",
+      "Topic",
+      "Nominated By",
+      "Contact",
+      "Prior TED Talk",
+      "Status",
+      "Flagged",
+      "Rating",
+      "Notes",
+      "Submission Date",
     ];
 
     // Start with the BOM to handle Unicode characters in Excel
-    let csvContent = '\uFEFF';
+    let csvContent = "\uFEFF";
 
     // Separate by entry type and export appropriate data
-    if (activeTab === 'all' || activeTab === 'applications') {
+    if (activeTab === "all" || activeTab === "applications") {
       // Applications export
       const applicationsData = data.filter(
-        (entry) => entry.type === 'application'
+        (entry) => entry.type === "application"
       );
 
       if (applicationsData.length > 0) {
-        csvContent += applicationHeaders.join(',') + '\n';
+        csvContent += applicationHeaders.join(",") + "\n";
 
         applicationsData.forEach((entry) => {
           const appEntry = entry as ApplicationEntry;
@@ -636,25 +636,25 @@ export function SpeakerDashboardClient({
             `"${appEntry.job.replace(/"/g, '""')}"`,
             `"${appEntry.mobilePhone}"`,
             `"${appEntry.wechatId}"`,
-            `"${appEntry.priorTedTalk ? appEntry.priorTedTalk.replace(/"/g, '""') : ''}"`,
-            `"${appEntry.status.replace(/_/g, ' ')}"`,
-            `"${appEntry.flagged ? 'Yes' : 'No'}"`,
+            `"${appEntry.priorTedTalk ? appEntry.priorTedTalk.replace(/"/g, '""') : ""}"`,
+            `"${appEntry.status.replace(/_/g, " ")}"`,
+            `"${appEntry.flagged ? "Yes" : "No"}"`,
             `"${appEntry.rating}"`,
-            `"${appEntry.notes ? appEntry.notes.replace(/"/g, '""') : ''}"`,
+            `"${appEntry.notes ? appEntry.notes.replace(/"/g, '""') : ""}"`,
             `"${new Date(appEntry.submissionDate).toLocaleDateString()}"`,
-          ].join(',');
-          csvContent += row + '\n';
+          ].join(",");
+          csvContent += row + "\n";
         });
 
         // If only applications tab, download now
-        if (activeTab === 'applications') {
+        if (activeTab === "applications") {
           const blob = new Blob([csvContent], {
-            type: 'text/csv;charset=utf-8;',
+            type: "text/csv;charset=utf-8;",
           });
           const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.setAttribute('href', url);
-          link.setAttribute('download', `${filename}_applications.csv`);
+          const link = document.createElement("a");
+          link.setAttribute("href", url);
+          link.setAttribute("download", `${filename}_applications.csv`);
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -663,19 +663,19 @@ export function SpeakerDashboardClient({
       }
     }
 
-    if (activeTab === 'all' || activeTab === 'nominations') {
+    if (activeTab === "all" || activeTab === "nominations") {
       // Nominations export
       const nominationsData = data.filter(
-        (entry) => entry.type === 'nomination'
+        (entry) => entry.type === "nomination"
       );
 
       if (nominationsData.length > 0) {
         // If doing both, add a separation
-        if (activeTab === 'all' && csvContent.length > 1) {
-          csvContent += '\n\nNOMINATIONS\n';
+        if (activeTab === "all" && csvContent.length > 1) {
+          csvContent += "\n\nNOMINATIONS\n";
         }
 
-        csvContent += nominationHeaders.join(',') + '\n';
+        csvContent += nominationHeaders.join(",") + "\n";
 
         nominationsData.forEach((entry) => {
           const nomEntry = entry as NominationEntry;
@@ -685,24 +685,24 @@ export function SpeakerDashboardClient({
             `"${nomEntry.topic.replace(/"/g, '""')}"`,
             `"${nomEntry.nominatedBy.replace(/"/g, '""')}"`,
             `"${nomEntry.contact.replace(/"/g, '""')}"`,
-            `"${nomEntry.priorTedTalk ? nomEntry.priorTedTalk.replace(/"/g, '""') : ''}"`,
-            `"${nomEntry.status.replace(/_/g, ' ')}"`,
-            `"${nomEntry.flagged ? 'Yes' : 'No'}"`,
+            `"${nomEntry.priorTedTalk ? nomEntry.priorTedTalk.replace(/"/g, '""') : ""}"`,
+            `"${nomEntry.status.replace(/_/g, " ")}"`,
+            `"${nomEntry.flagged ? "Yes" : "No"}"`,
             `"${nomEntry.rating}"`,
-            `"${nomEntry.notes ? nomEntry.notes.replace(/"/g, '""') : ''}"`,
+            `"${nomEntry.notes ? nomEntry.notes.replace(/"/g, '""') : ""}"`,
             `"${new Date(nomEntry.submissionDate).toLocaleDateString()}"`,
-          ].join(',');
-          csvContent += row + '\n';
+          ].join(",");
+          csvContent += row + "\n";
         });
       }
     }
 
     // Create and download the CSV file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `${filename}.csv`);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${filename}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -734,10 +734,10 @@ export function SpeakerDashboardClient({
                   <AvatarFallback className="bg-primary/10 text-xs">
                     {user.name
                       ? user.name
-                          .split(' ')
+                          .split(" ")
                           .map((n) => n[0])
-                          .join('')
-                      : 'U'}
+                          .join("")
+                      : "U"}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium hidden md:inline-block">
@@ -770,7 +770,7 @@ export function SpeakerDashboardClient({
                 className="text-red-600 focus:text-red-50 focus:bg-red-600"
                 onClick={async () => {
                   await signOut();
-                  router.push('/sign-in');
+                  router.push("/sign-in");
                 }}
               >
                 <LogOut className="mr-2 h-4 w-4" />
@@ -778,7 +778,7 @@ export function SpeakerDashboardClient({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={() => downloadCSV(entries, 'speaker_entries')}>
+          <Button onClick={() => downloadCSV(entries, "speaker_entries")}>
             <Download className="mr-2 h-4 w-4" />
             Export Data
           </Button>
@@ -894,7 +894,7 @@ export function SpeakerDashboardClient({
               <DropdownMenuContent align="end" className="w-40">
                 {columns
                   .filter(
-                    (column) => column.id !== 'drag' && column.id !== 'select'
+                    (column) => column.id !== "drag" && column.id !== "select"
                   )
                   .map((column) => {
                     return (
@@ -952,16 +952,16 @@ export function SpeakerDashboardClient({
                     <Badge
                       key="all"
                       variant={
-                        statusFilter.includes('all') ? 'default' : 'outline'
+                        statusFilter.includes("all") ? "default" : "outline"
                       }
                       className={`cursor-pointer ${
-                        statusFilter.includes('all')
-                          ? 'bg-primary/90 hover:bg-primary/70'
-                          : 'hover:bg-primary/10'
+                        statusFilter.includes("all")
+                          ? "bg-primary/90 hover:bg-primary/70"
+                          : "hover:bg-primary/10"
                       }`}
                       onClick={() => {
                         // If "all" is clicked, only select "all"
-                        setStatusFilter(['all']);
+                        setStatusFilter(["all"]);
                       }}
                     >
                       <div className="flex items-center gap-1.5">
@@ -975,13 +975,13 @@ export function SpeakerDashboardClient({
                         key={option.value}
                         variant={
                           statusFilter.includes(option.value)
-                            ? 'default'
-                            : 'outline'
+                            ? "default"
+                            : "outline"
                         }
                         className={`cursor-pointer ${
                           statusFilter.includes(option.value)
-                            ? 'bg-primary/90 hover:bg-primary/70'
-                            : 'hover:bg-primary/10'
+                            ? "bg-primary/90 hover:bg-primary/70"
+                            : "hover:bg-primary/10"
                         }`}
                         onClick={() => {
                           if (statusFilter.includes(option.value)) {
@@ -991,12 +991,12 @@ export function SpeakerDashboardClient({
                             );
                             // If removing the last specific status, revert to "all"
                             setStatusFilter(
-                              newFilters.length === 0 ? ['all'] : newFilters
+                              newFilters.length === 0 ? ["all"] : newFilters
                             );
                           } else {
                             // Add this status and remove "all" if it's present
                             const newFilters = [
-                              ...statusFilter.filter((s) => s !== 'all'),
+                              ...statusFilter.filter((s) => s !== "all"),
                               option.value,
                             ];
                             setStatusFilter(newFilters);
@@ -1006,19 +1006,19 @@ export function SpeakerDashboardClient({
                         <div className="flex items-center gap-1.5">
                           <div
                             className={`w-2 h-2 rounded-full ${
-                              option.value === 'under_review'
-                                ? 'bg-yellow-400'
-                                : option.value === 'shortlisted'
-                                  ? 'bg-blue-400'
-                                  : option.value === 'invited'
-                                    ? 'bg-green-500'
-                                    : option.value === 'rejected'
-                                      ? 'bg-red-500'
-                                      : option.value === 'contacted'
-                                        ? 'bg-purple-400'
-                                        : option.value === 'flagged'
-                                          ? 'bg-orange-400'
-                                          : 'bg-gray-400'
+                              option.value === "under_review"
+                                ? "bg-yellow-400"
+                                : option.value === "shortlisted"
+                                  ? "bg-blue-400"
+                                  : option.value === "invited"
+                                    ? "bg-green-500"
+                                    : option.value === "rejected"
+                                      ? "bg-red-500"
+                                      : option.value === "contacted"
+                                        ? "bg-purple-400"
+                                        : option.value === "flagged"
+                                          ? "bg-orange-400"
+                                          : "bg-gray-400"
                             }`}
                           ></div>
                           {option.label}
@@ -1028,12 +1028,12 @@ export function SpeakerDashboardClient({
 
                     {statusFilter.length > 0 &&
                       !(
-                        statusFilter.length === 1 && statusFilter[0] === 'all'
+                        statusFilter.length === 1 && statusFilter[0] === "all"
                       ) && (
                         <Badge
                           variant="outline"
                           className="cursor-pointer hover:bg-destructive/10 border-dashed"
-                          onClick={() => setStatusFilter(['all'])}
+                          onClick={() => setStatusFilter(["all"])}
                         >
                           Clear
                         </Badge>
@@ -1061,9 +1061,9 @@ export function SpeakerDashboardClient({
                     variant="outline"
                     className="w-full"
                     onClick={() => {
-                      setStatusFilter(['all']);
-                      setTypeFilter('all');
-                      setSearchQuery('');
+                      setStatusFilter(["all"]);
+                      setTypeFilter("all");
+                      setSearchQuery("");
                     }}
                   >
                     Reset Filters
@@ -1093,7 +1093,7 @@ export function SpeakerDashboardClient({
             <div className="flex items-center justify-between px-4 py-3 border-t">
               <div className="flex items-center space-x-4">
                 <p className="text-sm text-muted-foreground">
-                  Showing{' '}
+                  Showing{" "}
                   {allEntriesTable
                     ? `${allEntriesTable.getState().pagination.pageIndex * allEntriesTable.getState().pagination.pageSize + 1}-${Math.min((allEntriesTable.getState().pagination.pageIndex + 1) * allEntriesTable.getState().pagination.pageSize, filteredEntries.length)} of ${filteredEntries.length} entries`
                     : `${filteredEntries.length} entries`}
@@ -1126,7 +1126,7 @@ export function SpeakerDashboardClient({
               {allEntriesTable && (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-medium">
-                    Page {allEntriesTable.getState().pagination.pageIndex + 1}{' '}
+                    Page {allEntriesTable.getState().pagination.pageIndex + 1}{" "}
                     of {allEntriesTable.getPageCount()}
                   </span>
                   <div className="flex items-center space-x-1">
@@ -1139,7 +1139,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!allEntriesTable.getCanPreviousPage()}
                     >
-                      {'<<'}
+                      {"<<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1150,7 +1150,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!allEntriesTable.getCanPreviousPage()}
                     >
-                      {'<'}
+                      {"<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1161,7 +1161,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!allEntriesTable.getCanNextPage()}
                     >
-                      {'>'}
+                      {">"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1174,7 +1174,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!allEntriesTable.getCanNextPage()}
                     >
-                      {'>>'}
+                      {">>"}
                     </Button>
                   </div>
                 </div>
@@ -1188,7 +1188,7 @@ export function SpeakerDashboardClient({
             <CardContent className="p-0">
               <DataTable
                 columns={columns}
-                data={filteredEntries.filter((e) => e.type === 'application')}
+                data={filteredEntries.filter((e) => e.type === "application")}
                 onRowClick={openDetails}
                 updateStatus={updateStatus}
                 updateRating={updateRating}
@@ -1202,10 +1202,10 @@ export function SpeakerDashboardClient({
             <div className="flex items-center justify-between px-4 py-3 border-t">
               <div className="flex items-center space-x-4">
                 <p className="text-sm text-muted-foreground">
-                  Showing{' '}
+                  Showing{" "}
                   {applicationsTable
-                    ? `${applicationsTable.getState().pagination.pageIndex * applicationsTable.getState().pagination.pageSize + 1}-${Math.min((applicationsTable.getState().pagination.pageIndex + 1) * applicationsTable.getState().pagination.pageSize, filteredEntries.filter((e) => e.type === 'application').length)} of ${filteredEntries.filter((e) => e.type === 'application').length} applications`
-                    : `${filteredEntries.filter((e) => e.type === 'application').length} applications`}
+                    ? `${applicationsTable.getState().pagination.pageIndex * applicationsTable.getState().pagination.pageSize + 1}-${Math.min((applicationsTable.getState().pagination.pageIndex + 1) * applicationsTable.getState().pagination.pageSize, filteredEntries.filter((e) => e.type === "application").length)} of ${filteredEntries.filter((e) => e.type === "application").length} applications`
+                    : `${filteredEntries.filter((e) => e.type === "application").length} applications`}
                 </p>
                 {applicationsTable && (
                   <div className="flex items-center space-x-2">
@@ -1235,7 +1235,7 @@ export function SpeakerDashboardClient({
               {applicationsTable && (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-medium">
-                    Page {applicationsTable.getState().pagination.pageIndex + 1}{' '}
+                    Page {applicationsTable.getState().pagination.pageIndex + 1}{" "}
                     of {applicationsTable.getPageCount()}
                   </span>
                   <div className="flex items-center space-x-1">
@@ -1248,7 +1248,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!applicationsTable.getCanPreviousPage()}
                     >
-                      {'<<'}
+                      {"<<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1259,7 +1259,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!applicationsTable.getCanPreviousPage()}
                     >
-                      {'<'}
+                      {"<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1270,7 +1270,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!applicationsTable.getCanNextPage()}
                     >
-                      {'>'}
+                      {">"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1283,7 +1283,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!applicationsTable.getCanNextPage()}
                     >
-                      {'>>'}
+                      {">>"}
                     </Button>
                   </div>
                 </div>
@@ -1297,7 +1297,7 @@ export function SpeakerDashboardClient({
             <CardContent className="p-0">
               <DataTable
                 columns={columns}
-                data={filteredEntries.filter((e) => e.type === 'nomination')}
+                data={filteredEntries.filter((e) => e.type === "nomination")}
                 onRowClick={openDetails}
                 updateStatus={updateStatus}
                 updateRating={updateRating}
@@ -1311,10 +1311,10 @@ export function SpeakerDashboardClient({
             <div className="flex items-center justify-between px-4 py-3 border-t">
               <div className="flex items-center space-x-4">
                 <p className="text-sm text-muted-foreground">
-                  Showing{' '}
+                  Showing{" "}
                   {nominationsTable
-                    ? `${nominationsTable.getState().pagination.pageIndex * nominationsTable.getState().pagination.pageSize + 1}-${Math.min((nominationsTable.getState().pagination.pageIndex + 1) * nominationsTable.getState().pagination.pageSize, filteredEntries.filter((e) => e.type === 'nomination').length)} of ${filteredEntries.filter((e) => e.type === 'nomination').length} nominations`
-                    : `${filteredEntries.filter((e) => e.type === 'nomination').length} nominations`}
+                    ? `${nominationsTable.getState().pagination.pageIndex * nominationsTable.getState().pagination.pageSize + 1}-${Math.min((nominationsTable.getState().pagination.pageIndex + 1) * nominationsTable.getState().pagination.pageSize, filteredEntries.filter((e) => e.type === "nomination").length)} of ${filteredEntries.filter((e) => e.type === "nomination").length} nominations`
+                    : `${filteredEntries.filter((e) => e.type === "nomination").length} nominations`}
                 </p>
                 {nominationsTable && (
                   <div className="flex items-center space-x-2">
@@ -1344,7 +1344,7 @@ export function SpeakerDashboardClient({
               {nominationsTable && (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-medium">
-                    Page {nominationsTable.getState().pagination.pageIndex + 1}{' '}
+                    Page {nominationsTable.getState().pagination.pageIndex + 1}{" "}
                     of {nominationsTable.getPageCount()}
                   </span>
                   <div className="flex items-center space-x-1">
@@ -1357,7 +1357,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!nominationsTable.getCanPreviousPage()}
                     >
-                      {'<<'}
+                      {"<<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1368,7 +1368,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!nominationsTable.getCanPreviousPage()}
                     >
-                      {'<'}
+                      {"<"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1379,7 +1379,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!nominationsTable.getCanNextPage()}
                     >
-                      {'>'}
+                      {">"}
                     </Button>
                     <Button
                       variant="outline"
@@ -1392,7 +1392,7 @@ export function SpeakerDashboardClient({
                       }}
                       disabled={!nominationsTable.getCanNextPage()}
                     >
-                      {'>>'}
+                      {">>"}
                     </Button>
                   </div>
                 </div>
@@ -1422,41 +1422,41 @@ export function SpeakerDashboardClient({
                   <Pie
                     data={[
                       {
-                        name: 'Under Review',
+                        name: "Under Review",
                         value: entries.filter(
-                          (e) => e.status === 'under_review'
+                          (e) => e.status === "under_review"
                         ).length,
-                        color: '#EAB308',
+                        color: "#EAB308",
                       },
                       {
-                        name: 'Shortlisted',
-                        value: entries.filter((e) => e.status === 'shortlisted')
+                        name: "Shortlisted",
+                        value: entries.filter((e) => e.status === "shortlisted")
                           .length,
-                        color: '#3B82F6',
+                        color: "#3B82F6",
                       },
                       {
-                        name: 'Invited',
-                        value: entries.filter((e) => e.status === 'invited')
+                        name: "Invited",
+                        value: entries.filter((e) => e.status === "invited")
                           .length,
-                        color: '#22C55E',
+                        color: "#22C55E",
                       },
                       {
-                        name: 'Rejected',
-                        value: entries.filter((e) => e.status === 'rejected')
+                        name: "Rejected",
+                        value: entries.filter((e) => e.status === "rejected")
                           .length,
-                        color: '#EF4444',
+                        color: "#EF4444",
                       },
                       {
-                        name: 'Contacted',
-                        value: entries.filter((e) => e.status === 'contacted')
+                        name: "Contacted",
+                        value: entries.filter((e) => e.status === "contacted")
                           .length,
-                        color: '#8B5CF6',
+                        color: "#8B5CF6",
                       },
                       {
-                        name: 'Flagged',
-                        value: entries.filter((e) => e.status === 'flagged')
+                        name: "Flagged",
+                        value: entries.filter((e) => e.status === "flagged")
                           .length,
-                        color: '#F97316',
+                        color: "#F97316",
                       },
                     ]}
                     cx="50%"
@@ -1476,29 +1476,29 @@ export function SpeakerDashboardClient({
                         <Cell
                           key={`cell-${index}`}
                           fill={
-                            status === 'under_review'
-                              ? '#EAB308'
-                              : status === 'shortlisted'
-                                ? '#3B82F6'
-                                : status === 'invited'
-                                  ? '#22C55E'
-                                  : status === 'rejected'
-                                    ? '#EF4444'
-                                    : status === 'contacted'
-                                      ? '#8B5CF6'
-                                      : status === 'flagged'
-                                        ? '#F97316'
-                                        : '#94A3B8'
+                            status === "under_review"
+                              ? "#EAB308"
+                              : status === "shortlisted"
+                                ? "#3B82F6"
+                                : status === "invited"
+                                  ? "#22C55E"
+                                  : status === "rejected"
+                                    ? "#EF4444"
+                                    : status === "contacted"
+                                      ? "#8B5CF6"
+                                      : status === "flagged"
+                                        ? "#F97316"
+                                        : "#94A3B8"
                           }
                         />
                       ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value) => [`${value} entries`, 'Count']}
+                    formatter={(value) => [`${value} entries`, "Count"]}
                     contentStyle={{
-                      backgroundColor: 'var(--background)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '0.5rem',
+                      backgroundColor: "var(--background)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "0.5rem",
                     }}
                   />
                   <Legend
@@ -1535,39 +1535,39 @@ export function SpeakerDashboardClient({
 
                   // Generate visual elements based on status
                   let icon;
-                  let bgColor = '';
-                  let iconColor = '';
+                  let bgColor = "";
+                  let iconColor = "";
 
                   switch (activity.status) {
-                    case 'invited':
+                    case "invited":
                       icon = <Check className="h-4 w-4" />;
-                      bgColor = 'bg-green-100 dark:bg-green-900/30';
-                      iconColor = 'text-green-600 dark:text-green-400';
+                      bgColor = "bg-green-100 dark:bg-green-900/30";
+                      iconColor = "text-green-600 dark:text-green-400";
                       break;
-                    case 'shortlisted':
+                    case "shortlisted":
                       icon = <Star className="h-4 w-4" />;
-                      bgColor = 'bg-blue-100 dark:bg-blue-900/30';
-                      iconColor = 'text-blue-600 dark:text-blue-400';
+                      bgColor = "bg-blue-100 dark:bg-blue-900/30";
+                      iconColor = "text-blue-600 dark:text-blue-400";
                       break;
-                    case 'rejected':
+                    case "rejected":
                       icon = <X className="h-4 w-4" />;
-                      bgColor = 'bg-red-100 dark:bg-red-900/30';
-                      iconColor = 'text-red-600 dark:text-red-400';
+                      bgColor = "bg-red-100 dark:bg-red-900/30";
+                      iconColor = "text-red-600 dark:text-red-400";
                       break;
-                    case 'flagged':
+                    case "flagged":
                       icon = <Flag className="h-4 w-4" />;
-                      bgColor = 'bg-orange-100 dark:bg-orange-900/30';
-                      iconColor = 'text-orange-600 dark:text-orange-400';
+                      bgColor = "bg-orange-100 dark:bg-orange-900/30";
+                      iconColor = "text-orange-600 dark:text-orange-400";
                       break;
-                    case 'contacted':
+                    case "contacted":
                       icon = <PhoneCall className="h-4 w-4" />;
-                      bgColor = 'bg-purple-100 dark:bg-purple-900/30';
-                      iconColor = 'text-purple-600 dark:text-purple-400';
+                      bgColor = "bg-purple-100 dark:bg-purple-900/30";
+                      iconColor = "text-purple-600 dark:text-purple-400";
                       break;
                     default:
                       icon = <Clock className="h-4 w-4" />;
-                      bgColor = 'bg-yellow-100 dark:bg-yellow-900/30';
-                      iconColor = 'text-yellow-600 dark:text-yellow-400';
+                      bgColor = "bg-yellow-100 dark:bg-yellow-900/30";
+                      iconColor = "text-yellow-600 dark:text-yellow-400";
                   }
 
                   // Format timestamp
@@ -1580,13 +1580,13 @@ export function SpeakerDashboardClient({
 
                   let timeText;
                   if (diffMins < 1) {
-                    timeText = 'Just now';
+                    timeText = "Just now";
                   } else if (diffMins < 60) {
-                    timeText = `${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
+                    timeText = `${diffMins} minute${diffMins !== 1 ? "s" : ""} ago`;
                   } else if (diffHours < 24) {
-                    timeText = `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
+                    timeText = `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
                   } else if (diffDays === 1) {
-                    timeText = 'Yesterday';
+                    timeText = "Yesterday";
                   } else {
                     timeText = timestamp.toLocaleDateString();
                   }
@@ -1610,14 +1610,14 @@ export function SpeakerDashboardClient({
                           <Badge
                             variant="outline"
                             className={
-                              activity.type === 'application'
-                                ? 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800'
-                                : 'bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800'
+                              activity.type === "application"
+                                ? "bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800"
+                                : "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800"
                             }
                           >
-                            {activity.type === 'application'
-                              ? 'Application'
-                              : 'Nomination'}
+                            {activity.type === "application"
+                              ? "Application"
+                              : "Nomination"}
                           </Badge>
                         </div>
                       </div>
@@ -1645,14 +1645,14 @@ export function SpeakerDashboardClient({
                         <Badge
                           variant="outline"
                           className={
-                            activity.type === 'application'
-                              ? 'bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800'
-                              : 'bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800'
+                            activity.type === "application"
+                              ? "bg-blue-50 text-blue-600 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800"
+                              : "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800"
                           }
                         >
-                          {activity.type === 'application'
-                            ? 'Application'
-                            : 'Nomination'}
+                          {activity.type === "application"
+                            ? "Application"
+                            : "Nomination"}
                         </Badge>
                       </div>
                     </div>
@@ -1678,9 +1678,9 @@ export function SpeakerDashboardClient({
                   <Avatar className="h-10 w-10">
                     <AvatarFallback className="bg-primary/10">
                       {selectedEntry.fullName
-                        .split(' ')
+                        .split(" ")
                         .map((n) => n[0])
-                        .join('')}
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -1688,7 +1688,7 @@ export function SpeakerDashboardClient({
                       {selectedEntry.fullName}
                     </DialogTitle>
                     <DialogDescription>
-                      {selectedEntry.type === 'application'
+                      {selectedEntry.type === "application"
                         ? `${(selectedEntry as ApplicationEntry).job} • ${(selectedEntry as ApplicationEntry).gender}`
                         : `Nominated by ${(selectedEntry as NominationEntry).nominatedBy}`}
                     </DialogDescription>
@@ -1725,7 +1725,7 @@ export function SpeakerDashboardClient({
                       </p>
                     </div>
 
-                    {selectedEntry.type === 'application' && (
+                    {selectedEntry.type === "application" && (
                       <>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground">
@@ -1735,11 +1735,11 @@ export function SpeakerDashboardClient({
                             Email: {(selectedEntry as ApplicationEntry).email}
                           </p>
                           <p>
-                            Mobile:{' '}
+                            Mobile:{" "}
                             {(selectedEntry as ApplicationEntry).mobilePhone}
                           </p>
                           <p>
-                            WeChat:{' '}
+                            WeChat:{" "}
                             {(selectedEntry as ApplicationEntry).wechatId}
                           </p>
                         </div>
@@ -1758,7 +1758,7 @@ export function SpeakerDashboardClient({
                       </>
                     )}
 
-                    {selectedEntry.type === 'nomination' && (
+                    {selectedEntry.type === "nomination" && (
                       <>
                         <div>
                           <p className="text-sm font-medium text-muted-foreground">
@@ -1772,7 +1772,7 @@ export function SpeakerDashboardClient({
                 </div>
 
                 {/* Structured Idea Framework - Only for applications */}
-                {selectedEntry.type === 'application' && (
+                {selectedEntry.type === "application" && (
                   <div className="col-span-1 md:col-span-2">
                     <h3 className="font-medium text-lg mb-2">
                       Structured Idea Framework
@@ -1784,7 +1784,7 @@ export function SpeakerDashboardClient({
                         </p>
                         <p className="text-sm bg-muted/50 p-3 rounded-md">
                           {(selectedEntry as ApplicationEntry).commonBelief ||
-                            'Not provided'}
+                            "Not provided"}
                         </p>
                       </div>
 
@@ -1794,7 +1794,7 @@ export function SpeakerDashboardClient({
                         </p>
                         <p className="text-sm bg-muted/50 p-3 rounded-md">
                           {(selectedEntry as ApplicationEntry).coreIdea ||
-                            'Not provided'}
+                            "Not provided"}
                         </p>
                       </div>
 
@@ -1804,7 +1804,7 @@ export function SpeakerDashboardClient({
                         </p>
                         <p className="text-sm bg-muted/50 p-3 rounded-md">
                           {(selectedEntry as ApplicationEntry)
-                            .personalInsight || 'Not provided'}
+                            .personalInsight || "Not provided"}
                         </p>
                       </div>
 
@@ -1814,7 +1814,7 @@ export function SpeakerDashboardClient({
                         </p>
                         <p className="text-sm bg-muted/50 p-3 rounded-md">
                           {(selectedEntry as ApplicationEntry)
-                            .potentialImpact || 'Not provided'}
+                            .potentialImpact || "Not provided"}
                         </p>
                       </div>
                     </div>
@@ -1850,19 +1850,19 @@ export function SpeakerDashboardClient({
                               <div className="flex items-center gap-2">
                                 <div
                                   className={`w-2 h-2 rounded-full ${
-                                    option.value === 'under_review'
-                                      ? 'bg-yellow-400'
-                                      : option.value === 'shortlisted'
-                                        ? 'bg-blue-400'
-                                        : option.value === 'invited'
-                                          ? 'bg-green-500'
-                                          : option.value === 'rejected'
-                                            ? 'bg-red-500'
-                                            : option.value === 'contacted'
-                                              ? 'bg-purple-400'
-                                              : option.value === 'flagged'
-                                                ? 'bg-orange-400'
-                                                : 'bg-gray-400'
+                                    option.value === "under_review"
+                                      ? "bg-yellow-400"
+                                      : option.value === "shortlisted"
+                                        ? "bg-blue-400"
+                                        : option.value === "invited"
+                                          ? "bg-green-500"
+                                          : option.value === "rejected"
+                                            ? "bg-red-500"
+                                            : option.value === "contacted"
+                                              ? "bg-purple-400"
+                                              : option.value === "flagged"
+                                                ? "bg-orange-400"
+                                                : "bg-gray-400"
                                   }`}
                                 ></div>
                                 <span>{option.label}</span>
@@ -1894,7 +1894,7 @@ export function SpeakerDashboardClient({
                       </p>
                       <Textarea
                         className="mt-1 w-full min-h-[100px]"
-                        value={selectedEntry.notes || ''}
+                        value={selectedEntry.notes || ""}
                         onClick={(e) => e.stopPropagation()}
                         onChange={(e) => {
                           // Update the notes in the selected entry state first for immediate feedback
@@ -1912,7 +1912,7 @@ export function SpeakerDashboardClient({
                           onClick={() => {
                             updateNotes(
                               selectedEntry.id,
-                              selectedEntry.notes || ''
+                              selectedEntry.notes || ""
                             );
                           }}
                           disabled={isUpdating}
@@ -1955,8 +1955,8 @@ export function SpeakerDashboardClient({
           <DialogHeader>
             <DialogTitle>Bulk Update Status</DialogTitle>
             <DialogDescription>
-              Update status for {Object.keys(rowSelection).length} selected{' '}
-              {Object.keys(rowSelection).length === 1 ? 'entry' : 'entries'}.
+              Update status for {Object.keys(rowSelection).length} selected{" "}
+              {Object.keys(rowSelection).length === 1 ? "entry" : "entries"}.
             </DialogDescription>
           </DialogHeader>
 
@@ -1976,19 +1976,19 @@ export function SpeakerDashboardClient({
                       <div className="flex items-center gap-2">
                         <div
                           className={`w-2 h-2 rounded-full ${
-                            option.value === 'under_review'
-                              ? 'bg-yellow-400'
-                              : option.value === 'shortlisted'
-                                ? 'bg-blue-400'
-                                : option.value === 'invited'
-                                  ? 'bg-green-500'
-                                  : option.value === 'rejected'
-                                    ? 'bg-red-500'
-                                    : option.value === 'contacted'
-                                      ? 'bg-purple-400'
-                                      : option.value === 'flagged'
-                                        ? 'bg-orange-400'
-                                        : 'bg-gray-400'
+                            option.value === "under_review"
+                              ? "bg-yellow-400"
+                              : option.value === "shortlisted"
+                                ? "bg-blue-400"
+                                : option.value === "invited"
+                                  ? "bg-green-500"
+                                  : option.value === "rejected"
+                                    ? "bg-red-500"
+                                    : option.value === "contacted"
+                                      ? "bg-purple-400"
+                                      : option.value === "flagged"
+                                        ? "bg-orange-400"
+                                        : "bg-gray-400"
                           }`}
                         ></div>
                         <span>{option.label}</span>
@@ -2017,8 +2017,8 @@ export function SpeakerDashboardClient({
               variant="default"
               onClick={async () => {
                 if (!newBulkStatus) {
-                  toast.error('Please select a status', {
-                    description: 'You must select a status before confirming.',
+                  toast.error("Please select a status", {
+                    description: "You must select a status before confirming.",
                   });
                   return;
                 }
@@ -2028,13 +2028,13 @@ export function SpeakerDashboardClient({
                   // Get the current visible data based on active tab
                   let dataToUse = filteredEntries;
 
-                  if (activeTab === 'applications') {
+                  if (activeTab === "applications") {
                     dataToUse = filteredEntries.filter(
-                      (e) => e.type === 'application'
+                      (e) => e.type === "application"
                     );
-                  } else if (activeTab === 'nominations') {
+                  } else if (activeTab === "nominations") {
                     dataToUse = filteredEntries.filter(
-                      (e) => e.type === 'nomination'
+                      (e) => e.type === "nomination"
                     );
                   }
 
@@ -2055,7 +2055,7 @@ export function SpeakerDashboardClient({
 
                     // Update in database
                     const result =
-                      entry.type === 'application'
+                      entry.type === "application"
                         ? await updateApplicationStatus(id, newBulkStatus)
                         : await updateNominationStatus(id, newBulkStatus);
 
@@ -2079,26 +2079,26 @@ export function SpeakerDashboardClient({
                     })
                   );
 
-                  toast.success('Bulk update complete', {
-                    description: `Updated ${selectedEntryIds.length} entries to ${newBulkStatus.replace('_', ' ')}`,
+                  toast.success("Bulk update complete", {
+                    description: `Updated ${selectedEntryIds.length} entries to ${newBulkStatus.replace("_", " ")}`,
                   });
                 } catch (error) {
-                  console.error('Error in bulk update:', error);
-                  toast.error('Bulk update failed', {
+                  console.error("Error in bulk update:", error);
+                  toast.error("Bulk update failed", {
                     description:
-                      'There was an error updating some entries. Please try again.',
+                      "There was an error updating some entries. Please try again.",
                   });
                 } finally {
                   // Close dialog and clear selection
                   setBulkActionOpen(false);
                   setRowSelection({});
-                  setNewBulkStatus('');
+                  setNewBulkStatus("");
                   setIsUpdating(false);
                 }
               }}
               disabled={isUpdating}
             >
-              {isUpdating ? 'Updating...' : 'Confirm Update'}
+              {isUpdating ? "Updating..." : "Confirm Update"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -2111,16 +2111,16 @@ export function SpeakerDashboardClient({
             <DialogTitle>
               {editMode
                 ? selectedEntry
-                  ? 'Edit Entry'
-                  : 'Create New Entry'
-                : 'View Entry'}
+                  ? "Edit Entry"
+                  : "Create New Entry"
+                : "View Entry"}
             </DialogTitle>
             <DialogDescription>
               {editMode
                 ? selectedEntry
-                  ? 'Edit the details of this speaker entry'
-                  : 'Create a new speaker application or nomination'
-                : 'View speaker details'}
+                  ? "Edit the details of this speaker entry"
+                  : "Create a new speaker application or nomination"
+                : "View speaker details"}
             </DialogDescription>
           </DialogHeader>
 
@@ -2131,11 +2131,11 @@ export function SpeakerDashboardClient({
               <div className="flex space-x-4">
                 <div
                   className={`flex-1 p-4 border rounded-lg cursor-pointer transition ${
-                    entryType === 'application'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/50'
+                    entryType === "application"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50"
                   }`}
-                  onClick={() => setEntryType('application')}
+                  onClick={() => setEntryType("application")}
                 >
                   <div className="font-medium mb-1">Application</div>
                   <div className="text-sm text-muted-foreground">
@@ -2144,11 +2144,11 @@ export function SpeakerDashboardClient({
                 </div>
                 <div
                   className={`flex-1 p-4 border rounded-lg cursor-pointer transition ${
-                    entryType === 'nomination'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/50'
+                    entryType === "nomination"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50"
                   }`}
-                  onClick={() => setEntryType('nomination')}
+                  onClick={() => setEntryType("nomination")}
                 >
                   <div className="font-medium mb-1">Nomination</div>
                   <div className="text-sm text-muted-foreground">
@@ -2205,8 +2205,8 @@ export function SpeakerDashboardClient({
               </div>
 
               {/* Application specific fields */}
-              {(entryType === 'application' ||
-                (selectedEntry && selectedEntry.type === 'application')) && (
+              {(entryType === "application" ||
+                (selectedEntry && selectedEntry.type === "application")) && (
                 <>
                   <div>
                     <Label htmlFor="gender">Gender</Label>
@@ -2250,8 +2250,8 @@ export function SpeakerDashboardClient({
 
             <div className="space-y-4">
               {/* Application specific fields */}
-              {(entryType === 'application' ||
-                (selectedEntry && selectedEntry.type === 'application')) && (
+              {(entryType === "application" ||
+                (selectedEntry && selectedEntry.type === "application")) && (
                 <>
                   <div>
                     <Label htmlFor="mobilePhone">Mobile Phone</Label>
@@ -2287,8 +2287,8 @@ export function SpeakerDashboardClient({
               )}
 
               {/* Nomination specific fields */}
-              {(entryType === 'nomination' ||
-                (selectedEntry && selectedEntry.type === 'nomination')) && (
+              {(entryType === "nomination" ||
+                (selectedEntry && selectedEntry.type === "nomination")) && (
                 <>
                   <div>
                     <Label htmlFor="nominatedBy">Nominated By</Label>
@@ -2356,16 +2356,16 @@ export function SpeakerDashboardClient({
                 // Reset form data
                 if (!selectedEntry) {
                   setFormData({
-                    fullName: '',
-                    topic: '',
-                    priorTedTalk: '',
-                    status: 'under_review',
-                    mobilePhone: '',
-                    wechatId: '',
-                    gender: 'Male',
-                    job: '',
-                    contact: '',
-                    nominatedBy: '',
+                    fullName: "",
+                    topic: "",
+                    priorTedTalk: "",
+                    status: "under_review",
+                    mobilePhone: "",
+                    wechatId: "",
+                    gender: "Male",
+                    job: "",
+                    contact: "",
+                    nominatedBy: "",
                   });
                 }
               }}
@@ -2382,35 +2382,35 @@ export function SpeakerDashboardClient({
                   try {
                     // Validate form data
                     if (!formData.fullName)
-                      throw new Error('Full name is required');
-                    if (!formData.topic) throw new Error('Topic is required');
+                      throw new Error("Full name is required");
+                    if (!formData.topic) throw new Error("Topic is required");
 
                     // Special validation for specific types
                     if (
-                      entryType === 'application' ||
-                      (selectedEntry && selectedEntry.type === 'application')
+                      entryType === "application" ||
+                      (selectedEntry && selectedEntry.type === "application")
                     ) {
                       if (!formData.mobilePhone)
-                        throw new Error('Mobile phone is required');
+                        throw new Error("Mobile phone is required");
                       if (!formData.job)
-                        throw new Error('Job title is required');
+                        throw new Error("Job title is required");
                     }
 
                     if (
-                      entryType === 'nomination' ||
-                      (selectedEntry && selectedEntry.type === 'nomination')
+                      entryType === "nomination" ||
+                      (selectedEntry && selectedEntry.type === "nomination")
                     ) {
                       if (!formData.nominatedBy)
-                        throw new Error('Nominator name is required');
+                        throw new Error("Nominator name is required");
                       if (!formData.contact)
-                        throw new Error('Contact information is required');
+                        throw new Error("Contact information is required");
                     }
 
                     let result;
 
                     // If we're editing an existing entry
                     if (selectedEntry) {
-                      if (selectedEntry.type === 'application') {
+                      if (selectedEntry.type === "application") {
                         result = await updateApplicationDetails(
                           selectedEntry.id,
                           {
@@ -2462,7 +2462,7 @@ export function SpeakerDashboardClient({
                       setEntries(
                         entries.map((entry) => {
                           if (entry.id === selectedEntry.id) {
-                            if (entry.type === 'application') {
+                            if (entry.type === "application") {
                               const updatedEntry = {
                                 ...entry,
                                 fullName: formData.fullName,
@@ -2492,13 +2492,13 @@ export function SpeakerDashboardClient({
                         })
                       );
 
-                      toast.success('Entry updated', {
+                      toast.success("Entry updated", {
                         description: `${formData.fullName}'s information was updated successfully`,
                       });
                     }
                     // Creating a new entry
                     else {
-                      if (entryType === 'application') {
+                      if (entryType === "application") {
                         result = await createDashboardApplication({
                           fullName: formData.fullName,
                           topic: formData.topic,
@@ -2529,17 +2529,17 @@ export function SpeakerDashboardClient({
                         // Need to properly type the new entry based on entry type
                         let newEntry: SpeakerEntry;
 
-                        if (entryType === 'application') {
+                        if (entryType === "application") {
                           newEntry = {
                             ...result.data,
-                            type: 'application',
+                            type: "application",
                             submissionDate:
                               result.data.submissionDate.toISOString(),
                           } as ApplicationEntry;
                         } else {
                           newEntry = {
                             ...result.data,
-                            type: 'nomination',
+                            type: "nomination",
                             submissionDate:
                               result.data.submissionDate.toISOString(),
                           } as NominationEntry;
@@ -2547,7 +2547,7 @@ export function SpeakerDashboardClient({
 
                         setEntries([newEntry, ...entries]);
 
-                        toast.success('Entry created', {
+                        toast.success("Entry created", {
                           description: `New ${entryType} for ${formData.fullName} created successfully`,
                         });
                       }
@@ -2558,24 +2558,24 @@ export function SpeakerDashboardClient({
 
                     // Reset form data
                     setFormData({
-                      fullName: '',
-                      topic: '',
-                      priorTedTalk: '',
-                      status: 'under_review',
-                      mobilePhone: '',
-                      wechatId: '',
-                      gender: 'Male',
-                      job: '',
-                      contact: '',
-                      nominatedBy: '',
+                      fullName: "",
+                      topic: "",
+                      priorTedTalk: "",
+                      status: "under_review",
+                      mobilePhone: "",
+                      wechatId: "",
+                      gender: "Male",
+                      job: "",
+                      contact: "",
+                      nominatedBy: "",
                     });
                   } catch (error) {
-                    console.error('Error creating/updating entry:', error);
-                    toast.error('Operation failed', {
+                    console.error("Error creating/updating entry:", error);
+                    toast.error("Operation failed", {
                       description:
                         error instanceof Error
                           ? error.message
-                          : 'An unexpected error occurred',
+                          : "An unexpected error occurred",
                     });
                   } finally {
                     setIsUpdating(false);
@@ -2584,10 +2584,10 @@ export function SpeakerDashboardClient({
                 disabled={isUpdating}
               >
                 {isUpdating
-                  ? 'Saving...'
+                  ? "Saving..."
                   : selectedEntry
-                    ? 'Save Changes'
-                    : 'Create Entry'}
+                    ? "Save Changes"
+                    : "Create Entry"}
               </Button>
             ) : (
               <Button

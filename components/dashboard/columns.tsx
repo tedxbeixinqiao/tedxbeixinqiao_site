@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { ColumnDef } from '@tanstack/react-table';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ChevronDown } from 'lucide-react';
+import { ColumnDef } from "@tanstack/react-table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronDown } from "lucide-react";
 
-import { SpeakerEntry } from './types';
-import { Rating } from './rating';
-import { StatusSelect } from './status-badge';
-import { DragHandle } from './data-table';
+import { SpeakerEntry } from "./types";
+import { Rating } from "./rating";
+import { StatusSelect } from "./status-badge";
+import { DragHandle } from "./data-table";
 
 // Define the table meta type to include our custom functions
 type SpeakerTableMeta = {
@@ -20,20 +20,20 @@ type SpeakerTableMeta = {
 // Define columns for the speaker table
 export const columns: ColumnDef<SpeakerEntry>[] = [
   {
-    id: 'drag',
+    id: "drag",
     enableSorting: false,
     enableHiding: false,
     cell: ({ row }) => <DragHandle id={row.original.id} />,
   },
   {
-    id: 'select',
+    id: "select",
     enableSorting: false,
     enableHiding: false,
     header: ({ table }) => (
       <Checkbox
         checked={
           table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
+          (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -51,18 +51,18 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
     ),
   },
   {
-    id: 'name',
-    accessorKey: 'fullName',
+    id: "name",
+    accessorKey: "fullName",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>
@@ -75,15 +75,15 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
           <Avatar className="h-8 w-8">
             <AvatarFallback className="bg-primary/10">
               {entry.fullName
-                .split(' ')
+                .split(" ")
                 .map((n) => n[0])
-                .join('')}
+                .join("")}
             </AvatarFallback>
           </Avatar>
           <div>
             <div className="font-medium hover:underline">{entry.fullName}</div>
             <div className="text-xs text-muted-foreground">
-              {entry.type === 'application' ? entry.job : 'Nominee'}
+              {entry.type === "application" ? entry.job : "Nominee"}
             </div>
           </div>
         </div>
@@ -91,18 +91,18 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
     },
   },
   {
-    id: 'topic',
-    accessorKey: 'topic',
+    id: "topic",
+    accessorKey: "topic",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Topic
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>
@@ -111,18 +111,18 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
     cell: ({ row }) => row.original.topic,
   },
   {
-    id: 'date',
-    accessorKey: 'submissionDate',
+    id: "date",
+    accessorKey: "submissionDate",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>
@@ -132,18 +132,18 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
       new Date(row.original.submissionDate).toLocaleDateString(),
   },
   {
-    id: 'type',
-    accessorKey: 'type',
+    id: "type",
+    accessorKey: "type",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Type
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>
@@ -151,25 +151,25 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
     },
     cell: ({ row }) => (
       <Badge
-        variant={row.original.type === 'application' ? 'default' : 'secondary'}
+        variant={row.original.type === "application" ? "default" : "secondary"}
       >
-        {row.original.type === 'application' ? 'Application' : 'Nomination'}
+        {row.original.type === "application" ? "Application" : "Nomination"}
       </Badge>
     ),
   },
   {
-    id: 'status',
-    accessorKey: 'status',
+    id: "status",
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Status
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>
@@ -193,18 +193,18 @@ export const columns: ColumnDef<SpeakerEntry>[] = [
     },
   },
   {
-    id: 'rating',
-    accessorKey: 'rating',
+    id: "rating",
+    accessorKey: "rating",
     header: ({ column }) => {
       return (
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Rating
           <ChevronDown
             className={`ml-1 h-4 w-4 ${
-              column.getIsSorted() === 'asc' ? 'rotate-180' : ''
+              column.getIsSorted() === "asc" ? "rotate-180" : ""
             }`}
           />
         </div>

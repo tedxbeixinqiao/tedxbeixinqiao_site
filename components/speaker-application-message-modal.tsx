@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { ChevronRight, Heart } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { motion } from "framer-motion";
+import { ChevronRight, Heart } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,16 +11,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 type SpeakerApplicationMessageModalProps = {
-  variant?: 'default' | 'mobile';
+  variant?: "default" | "mobile";
   className?: string;
 };
 
 export function SpeakerApplicationMessageModal({
-  variant = 'default',
+  variant = "default",
   className,
 }: SpeakerApplicationMessageModalProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,23 +28,23 @@ export function SpeakerApplicationMessageModal({
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
-        {variant === 'default' ? (
+        {variant === "default" ? (
           <Button
             className={cn(
-              'group relative overflow-hidden bg-red-600 transition-all duration-300 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700',
+              "group relative overflow-hidden bg-red-600 transition-all duration-300 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700",
               className
             )}
           >
             <motion.span
               className="absolute inset-0 bg-red-500/40"
-              initial={{ width: '100%', height: '100%', x: '-101%' }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
-              whileHover={{ x: '101%' }}
+              initial={{ width: "100%", height: "100%", x: "-101%" }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              whileHover={{ x: "101%" }}
             />
             <span className="z-10">Become a Speaker</span>
             <motion.div
               className="z-10"
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
               whileHover={{ x: 3 }}
             >
               <ChevronRight className="h-4 w-4" />
@@ -53,7 +53,7 @@ export function SpeakerApplicationMessageModal({
         ) : (
           <Button
             className={cn(
-              'group relative overflow-hidden bg-red-600 text-white transition-all duration-300 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700',
+              "group relative overflow-hidden bg-red-600 text-white transition-all duration-300 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700",
               className
             )}
             size="sm"
@@ -61,9 +61,9 @@ export function SpeakerApplicationMessageModal({
           >
             <motion.span
               className="absolute inset-0 bg-red-500/40"
-              initial={{ width: '100%', height: '100%', x: '-101%' }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
-              whileHover={{ x: '101%' }}
+              initial={{ width: "100%", height: "100%", x: "-101%" }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              whileHover={{ x: "101%" }}
             />
             <span className="z-10">Become a Speaker</span>
           </Button>

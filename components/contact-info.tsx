@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { Mail, MessageSquare, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
+import Image from "next/image";
+import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ContactInfo() {
   const container = {

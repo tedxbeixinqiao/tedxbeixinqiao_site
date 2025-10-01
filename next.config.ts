@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
 
 // Allowed image quality for next/image (future-proof for Next.js 16)
 const DEFAULT_IMAGE_QUALITY = 75;
@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
 
     // Keeping serverActions as it may be needed for form submissions
     serverActions: {
-      bodySizeLimit: '2mb',
+      bodySizeLimit: "2mb",
     },
   },
 };

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export default function GoogleMap() {
   const mapRef = useRef(null);
@@ -10,21 +10,21 @@ export default function GoogleMap() {
     // In a real implementation, you would use the Google Maps JavaScript API
 
     if (mapRef.current) {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = mapRef.current.clientWidth;
       canvas.height = mapRef.current.clientHeight;
       mapRef.current.appendChild(canvas);
 
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
 
       // Draw a placeholder map
       if (ctx) {
         // Background
-        ctx.fillStyle = '#e5e7eb';
+        ctx.fillStyle = "#e5e7eb";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // Grid lines
-        ctx.strokeStyle = '#d1d5db';
+        ctx.strokeStyle = "#d1d5db";
         ctx.lineWidth = 1;
 
         // Horizontal grid lines
@@ -44,7 +44,7 @@ export default function GoogleMap() {
         }
 
         // Roads
-        ctx.strokeStyle = '#9ca3af';
+        ctx.strokeStyle = "#9ca3af";
         ctx.lineWidth = 3;
 
         // Main road
@@ -66,33 +66,33 @@ export default function GoogleMap() {
         // Pin shadow
         ctx.beginPath();
         ctx.arc(centerX, centerY + 2, 8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
         ctx.fill();
 
         // Pin body
         ctx.beginPath();
         ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = "#ef4444";
         ctx.fill();
 
         // Pin inner circle
         ctx.beginPath();
         ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = "#ffffff";
         ctx.fill();
 
         // Map label
-        ctx.font = 'bold 14px Arial';
-        ctx.fillStyle = '#111827';
-        ctx.textAlign = 'center';
-        ctx.fillText('Beixinqiao, Beijing', centerX, centerY + 30);
+        ctx.font = "bold 14px Arial";
+        ctx.fillStyle = "#111827";
+        ctx.textAlign = "center";
+        ctx.fillText("Beixinqiao, Beijing", centerX, centerY + 30);
 
         // Note text
-        ctx.font = '12px Arial';
-        ctx.fillStyle = '#4b5563';
-        ctx.textAlign = 'center';
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "#4b5563";
+        ctx.textAlign = "center";
         ctx.fillText(
-          'Interactive Google Map would be implemented here',
+          "Interactive Google Map would be implemented here",
           centerX,
           canvas.height - 20
         );

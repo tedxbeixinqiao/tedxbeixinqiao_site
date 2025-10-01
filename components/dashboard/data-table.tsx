@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,7 +13,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 import {
   DndContext,
   KeyboardSensor,
@@ -24,17 +24,17 @@ import {
   useSensors,
   type DragEndEvent,
   type UniqueIdentifier,
-} from '@dnd-kit/core';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { GripVertical } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -42,7 +42,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 // Create a separate component for the drag handle
 export function DragHandle({ id }: { id: string }) {
@@ -84,10 +84,10 @@ function DraggableRow<TData>({
   return (
     <TableRow
       ref={setNodeRef}
-      data-state={row.getIsSelected() && 'selected'}
+      data-state={row.getIsSelected() && "selected"}
       data-dragging={isDragging}
-      className={`relative z-0 cursor-pointer ${isDragging ? 'z-10 opacity-80' : ''} ${
-        row.getIsSelected() ? 'bg-primary/5 dark:bg-primary/10' : ''
+      className={`relative z-0 cursor-pointer ${isDragging ? "z-10 opacity-80" : ""} ${
+        row.getIsSelected() ? "bg-primary/5 dark:bg-primary/10" : ""
       }`}
       style={{
         transform: CSS.Transform.toString(transform),
@@ -177,7 +177,7 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility
       ? (updaterOrValue) =>
           setColumnVisibility(
-            typeof updaterOrValue === 'function'
+            typeof updaterOrValue === "function"
               ? updaterOrValue(columnVisibility || {})
               : updaterOrValue
           )

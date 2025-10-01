@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ArrowUp, Sun, Moon, Heart } from 'lucide-react';
-import { DIcons } from 'dicons';
-import { useTheme } from 'next-themes';
+import Link from "next/link";
+import { ArrowUp, Sun, Moon, Heart } from "lucide-react";
+import { DIcons } from "dicons";
+import { useTheme } from "next-themes";
 
 function handleScrollTop() {
   window.scroll({
     top: 0,
-    behavior: 'smooth',
+    behavior: "smooth",
   });
 }
 
@@ -31,7 +31,7 @@ const ThemeToggle = () => {
     <div className="flex items-center justify-center py-6">
       <div className="flex items-center rounded-full border border-dotted">
         <button
-          onClick={() => setTheme('light')}
+          onClick={() => setTheme("light")}
           className="bg-black mr-3 rounded-full p-2 text-white dark:bg-background dark:text-white"
         >
           <Sun className="h-5 w-5" strokeWidth={1} />
@@ -44,7 +44,7 @@ const ThemeToggle = () => {
         </button>
 
         <button
-          onClick={() => setTheme('dark')}
+          onClick={() => setTheme("dark")}
           className="dark:bg-black ml-3 rounded-full p-2 text-black dark:text-white"
         >
           <Moon className="h-5 w-5" strokeWidth={1} />
@@ -60,46 +60,46 @@ const Underline = `hover:-translate-y-1 border border-dotted rounded-xl p-2.5 tr
 const navigation = {
   categories: [
     {
-      id: 'tedx',
-      name: 'TEDx',
+      id: "tedx",
+      name: "TEDx",
       sections: [
         {
-          id: 'about',
-          name: 'About',
+          id: "about",
+          name: "About",
           items: [
-            { name: 'Home', href: '/' },
-            { name: 'Speakers', href: '/speakers' },
-            { name: 'Team', href: '/team' },
+            { name: "Home", href: "/" },
+            { name: "Speakers", href: "/speakers" },
+            { name: "Team", href: "/team" },
           ],
         },
         {
-          id: 'info',
-          name: 'Information',
+          id: "info",
+          name: "Information",
           items: [
             {
-              name: 'About TEDx',
-              href: 'https://www.ted.com/about/programs-initiatives/tedx-program',
+              name: "About TEDx",
+              href: "https://www.ted.com/about/programs-initiatives/tedx-program",
             },
-            { name: 'TED Talks', href: 'https://www.ted.com/talks' },
-            { name: 'TEDx Events', href: 'https://www.ted.com/tedx/events' },
+            { name: "TED Talks", href: "https://www.ted.com/talks" },
+            { name: "TEDx Events", href: "https://www.ted.com/tedx/events" },
           ],
         },
         {
-          id: 'resources',
-          name: 'Resources',
+          id: "resources",
+          name: "Resources",
           items: [
-            { name: 'Contact', href: '/contact' },
-            { name: 'Event Info', href: '/contact' },
-            { name: 'Partners', href: '/contact' },
+            { name: "Contact", href: "/contact" },
+            { name: "Event Info", href: "/contact" },
+            { name: "Partners", href: "/contact" },
           ],
         },
         {
-          id: 'legal',
-          name: 'Legal',
+          id: "legal",
+          name: "Legal",
           items: [
-            { name: 'Privacy Policy', href: '/contact' },
-            { name: 'Terms of Use', href: '/contact' },
-            { name: 'Cookie Policy', href: '/contact' },
+            { name: "Privacy Policy", href: "/contact" },
+            { name: "Terms of Use", href: "/contact" },
+            { name: "Cookie Policy", href: "/contact" },
           ],
         },
       ],

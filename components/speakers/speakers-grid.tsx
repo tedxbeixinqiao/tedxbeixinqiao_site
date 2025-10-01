@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useRef } from 'react';
-import Image from 'next/image';
-import { Card } from '@/components/ui/card';
+import { useRef } from "react";
+import Image from "next/image";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import {
   Facebook,
   Twitter,
@@ -19,9 +19,9 @@ import {
   Play,
   ExternalLink,
   X,
-} from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
-import { speakers, type Speaker, type Social } from '@/data/speakers';
+} from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { speakers, type Speaker, type Social } from "@/data/speakers";
 
 // Removed duplicate speakers array as it's now imported from data/speakers.ts
 
@@ -33,13 +33,13 @@ export default function SpeakersGrid() {
 
   const renderSocialIcon = (platform: string) => {
     switch (platform) {
-      case 'facebook':
+      case "facebook":
         return <Facebook className="h-4 w-4" />;
-      case 'twitter':
+      case "twitter":
         return <Twitter className="h-4 w-4" />;
-      case 'linkedin':
+      case "linkedin":
         return <Linkedin className="h-4 w-4" />;
-      case 'instagram':
+      case "instagram":
         return <Instagram className="h-4 w-4" />;
       default:
         return null;
@@ -66,7 +66,7 @@ export default function SpeakersGrid() {
       ref={gridRef}
       variants={container}
       initial="hidden"
-      animate={isInView ? 'show' : 'hidden'}
+      animate={isInView ? "show" : "hidden"}
       className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
     >
       {speakers.map((speaker, index) => (
@@ -159,7 +159,7 @@ export default function SpeakersGrid() {
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen
                           className="h-full w-full"
-                          style={{ aspectRatio: '16/9' }}
+                          style={{ aspectRatio: "16/9" }}
                         ></iframe>
                       </div>
                     </div>

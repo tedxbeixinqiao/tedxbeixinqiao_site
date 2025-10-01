@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
-import { TeamMember } from '@/data/team-members';
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { TeamMember } from "@/data/team-members";
 
 // Import getSocialIcon from TeamPageClient
 function getSocialIcon(platform: string) {
   switch (platform) {
-    case 'linkedin':
+    case "linkedin":
       return <Linkedin className="h-4 w-4" />;
-    case 'twitter':
+    case "twitter":
       return <Twitter className="h-4 w-4" />;
-    case 'facebook':
+    case "facebook":
       return <Facebook className="h-4 w-4" />;
-    case 'instagram':
+    case "instagram":
       return <Instagram className="h-4 w-4" />;
-    case 'website':
+    case "website":
       return <Globe className="h-4 w-4" />;
-    case 'email':
+    case "email":
       return <Mail className="h-4 w-4" />;
     default:
       return <Globe className="h-4 w-4" />;
@@ -34,7 +34,7 @@ import {
   Instagram,
   Globe,
   Mail,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface TeamModalProps {
   member: TeamMember | null;
@@ -52,7 +52,7 @@ export function TeamModal({ member, open, onOpenChange }: TeamModalProps) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
           className="relative flex flex-col overflow-hidden rounded-3xl bg-white/80 backdrop-blur-lg dark:bg-gray-900/90 md:flex-row md:min-h-[650px]"
         >
           {/* Left column: cinematic image section without gradient overlay */}
@@ -71,22 +71,22 @@ export function TeamModal({ member, open, onOpenChange }: TeamModalProps) {
               <div className="absolute top-6 left-6 z-10">
                 <div
                   className={cn(
-                    'rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm',
-                    member.role === 'leadership'
-                      ? 'bg-red-500/20 text-red-50 border border-red-500/30'
-                      : member.role === 'communications'
-                        ? 'bg-blue-500/20 text-blue-50 border border-blue-500/30'
-                        : member.role === 'operations'
-                          ? 'bg-amber-500/20 text-amber-50 border border-amber-500/30'
-                          : member.role === 'speakers'
-                            ? 'bg-emerald-500/20 text-emerald-50 border border-emerald-500/30'
-                            : member.role === 'creative'
-                              ? 'bg-purple-500/20 text-purple-50 border border-purple-500/30'
-                              : member.role === 'funding'
-                                ? 'bg-teal-500/20 text-teal-50 border border-teal-500/30'
-                                : member.role === 'technical'
-                                  ? 'bg-indigo-500/20 text-indigo-50 border border-indigo-500/30'
-                                  : 'bg-gray-500/20 text-gray-50 border border-gray-500/30'
+                    "rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm",
+                    member.role === "leadership"
+                      ? "bg-red-500/20 text-red-50 border border-red-500/30"
+                      : member.role === "communications"
+                        ? "bg-blue-500/20 text-blue-50 border border-blue-500/30"
+                        : member.role === "operations"
+                          ? "bg-amber-500/20 text-amber-50 border border-amber-500/30"
+                          : member.role === "speakers"
+                            ? "bg-emerald-500/20 text-emerald-50 border border-emerald-500/30"
+                            : member.role === "creative"
+                              ? "bg-purple-500/20 text-purple-50 border border-purple-500/30"
+                              : member.role === "funding"
+                                ? "bg-teal-500/20 text-teal-50 border border-teal-500/30"
+                                : member.role === "technical"
+                                  ? "bg-indigo-500/20 text-indigo-50 border border-indigo-500/30"
+                                  : "bg-gray-500/20 text-gray-50 border border-gray-500/30"
                   )}
                 >
                   {member.role.charAt(0).toUpperCase() + member.role.slice(1)}
@@ -126,7 +126,7 @@ export function TeamModal({ member, open, onOpenChange }: TeamModalProps) {
               transition={{
                 repeat: Infinity,
                 duration: 8,
-                ease: 'easeInOut',
+                ease: "easeInOut",
               }}
             />
             <motion.div
@@ -138,7 +138,7 @@ export function TeamModal({ member, open, onOpenChange }: TeamModalProps) {
               transition={{
                 repeat: Infinity,
                 duration: 10,
-                ease: 'easeInOut',
+                ease: "easeInOut",
                 delay: 1,
               }}
             />
@@ -216,18 +216,18 @@ export function TeamModal({ member, open, onOpenChange }: TeamModalProps) {
                         key={idx}
                         href={social.url}
                         className={cn(
-                          'group flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-300',
-                          social.platform === 'linkedin'
-                            ? 'border-[#0A66C2]/30 text-[#0A66C2] hover:bg-[#0A66C2] hover:border-[#0A66C2] dark:border-[#0A66C2]/50'
-                            : social.platform === 'twitter'
-                              ? 'border-[#1DA1F2]/30 text-[#1DA1F2] hover:bg-[#1DA1F2] hover:border-[#1DA1F2] dark:border-[#1DA1F2]/50'
-                              : social.platform === 'instagram'
-                                ? 'border-[#E4405F]/30 text-[#E4405F] hover:bg-[#E4405F] hover:border-[#E4405F] dark:border-[#E4405F]/50'
-                                : social.platform === 'facebook'
-                                  ? 'border-[#1877F2]/30 text-[#1877F2] hover:bg-[#1877F2] hover:border-[#1877F2] dark:border-[#1877F2]/50'
-                                  : social.platform === 'website'
-                                    ? 'border-gray-400/30 text-gray-500 hover:bg-gray-500 hover:border-gray-500 dark:border-gray-400/50'
-                                    : 'border-gray-400/30 text-gray-500 hover:bg-gray-500 hover:border-gray-500 dark:border-gray-400/50'
+                          "group flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-300",
+                          social.platform === "linkedin"
+                            ? "border-[#0A66C2]/30 text-[#0A66C2] hover:bg-[#0A66C2] hover:border-[#0A66C2] dark:border-[#0A66C2]/50"
+                            : social.platform === "twitter"
+                              ? "border-[#1DA1F2]/30 text-[#1DA1F2] hover:bg-[#1DA1F2] hover:border-[#1DA1F2] dark:border-[#1DA1F2]/50"
+                              : social.platform === "instagram"
+                                ? "border-[#E4405F]/30 text-[#E4405F] hover:bg-[#E4405F] hover:border-[#E4405F] dark:border-[#E4405F]/50"
+                                : social.platform === "facebook"
+                                  ? "border-[#1877F2]/30 text-[#1877F2] hover:bg-[#1877F2] hover:border-[#1877F2] dark:border-[#1877F2]/50"
+                                  : social.platform === "website"
+                                    ? "border-gray-400/30 text-gray-500 hover:bg-gray-500 hover:border-gray-500 dark:border-gray-400/50"
+                                    : "border-gray-400/30 text-gray-500 hover:bg-gray-500 hover:border-gray-500 dark:border-gray-400/50"
                         )}
                         whileHover={{ y: -4, scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}

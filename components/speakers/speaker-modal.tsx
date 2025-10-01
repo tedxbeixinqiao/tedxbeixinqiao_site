@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
-import { Speaker } from '@/data/speakers';
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { Speaker } from "@/data/speakers";
 
 interface SpeakerModalProps {
   speaker: Speaker | null;
@@ -26,7 +26,7 @@ export function SpeakerModal({
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
           className="relative flex flex-col overflow-hidden rounded-3xl bg-white/80 backdrop-blur-lg dark:bg-gray-900/90 md:flex-row md:min-h-[650px]"
         >
           {/* Left column: cinematic image section without gradient overlay */}
@@ -81,7 +81,7 @@ export function SpeakerModal({
               transition={{
                 repeat: Infinity,
                 duration: 8,
-                ease: 'easeInOut',
+                ease: "easeInOut",
               }}
             />
             <motion.div
@@ -93,7 +93,7 @@ export function SpeakerModal({
               transition={{
                 repeat: Infinity,
                 duration: 10,
-                ease: 'easeInOut',
+                ease: "easeInOut",
                 delay: 1,
               }}
             />
@@ -144,7 +144,7 @@ export function SpeakerModal({
                 className="mb-8"
               >
                 <p className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  About {speaker.name.split(' ')[0]}
+                  About {speaker.name.split(" ")[0]}
                 </p>
                 <div className="prose prose-lg max-w-none dark:prose-invert">
                   <p className="first-letter:float-left first-letter:mr-3 first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-red-600 dark:first-letter:text-red-500">

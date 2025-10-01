@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,106 +13,106 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { toast } from 'sonner';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
 import {
   sendSpeakerApplicationEmail,
   sendSpeakerNominationEmail,
-} from '@/lib/email/resend-service';
+} from "@/lib/email/resend-service";
 import {
   createSpeakerApplication,
   createSpeakerNomination,
-} from '@/lib/speakers-db-service';
+} from "@/lib/speakers-db-service";
 
 // Speaker Application schema with validation
 const speakerApplicationSchema = z.object({
   fullName: z
     .string()
-    .min(2, { message: 'Name must be at least 2 characters.' })
-    .max(30, { message: 'Name cannot exceed 30 words.' }),
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
+    .min(2, { message: "Name must be at least 2 characters." })
+    .max(30, { message: "Name cannot exceed 30 words." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
   mobilePhone: z
     .string()
-    .min(5, { message: 'Please provide a valid phone number.' })
-    .max(30, { message: 'Phone number cannot exceed 30 characters.' }),
+    .min(5, { message: "Please provide a valid phone number." })
+    .max(30, { message: "Phone number cannot exceed 30 characters." }),
   wechatId: z
     .string()
-    .min(2, { message: 'Please provide your WeChat ID.' })
-    .max(30, { message: 'WeChat ID cannot exceed 30 characters.' }),
+    .min(2, { message: "Please provide your WeChat ID." })
+    .max(30, { message: "WeChat ID cannot exceed 30 characters." }),
   priorTedTalk: z
     .string()
     .min(2, { message: "Please answer if you've given a TED talk before." })
-    .max(30, { message: 'Response cannot exceed 30 words.' }),
+    .max(30, { message: "Response cannot exceed 30 words." }),
   job: z
     .string()
-    .min(2, { message: 'Please provide your job information.' })
-    .max(30, { message: 'Job information cannot exceed 30 words.' }),
+    .min(2, { message: "Please provide your job information." })
+    .max(30, { message: "Job information cannot exceed 30 words." }),
   remarks: z
     .string()
-    .max(30, { message: 'Remarks cannot exceed 30 words.' })
+    .max(30, { message: "Remarks cannot exceed 30 words." })
     .optional(),
   ideaPresentation: z
     .string()
-    .min(10, { message: 'Please describe your idea in at least 10 words.' })
+    .min(10, { message: "Please describe your idea in at least 10 words." })
     .refine(
       (value) => {
         const wordCount = value.trim().split(/\s+/).length;
         return wordCount <= 50;
       },
-      { message: 'Description cannot exceed 50 words.' }
+      { message: "Description cannot exceed 50 words." }
     ),
   commonBelief: z
     .string()
-    .min(5, { message: 'Please describe the common belief.' })
+    .min(5, { message: "Please describe the common belief." })
     .refine(
       (value) => {
         const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
         return wordCount <= 150;
       },
-      { message: 'Response cannot exceed 150 words.' }
+      { message: "Response cannot exceed 150 words." }
     ),
   coreIdea: z
     .string()
-    .min(5, { message: 'Please describe your core idea.' })
+    .min(5, { message: "Please describe your core idea." })
     .refine(
       (value) => {
         const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
         return wordCount <= 150;
       },
-      { message: 'Response cannot exceed 150 words.' }
+      { message: "Response cannot exceed 150 words." }
     ),
   personalInsight: z
     .string()
-    .min(5, { message: 'Please share your personal insight or example.' })
+    .min(5, { message: "Please share your personal insight or example." })
     .refine(
       (value) => {
         const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
         return wordCount <= 150;
       },
-      { message: 'Response cannot exceed 150 words.' }
+      { message: "Response cannot exceed 150 words." }
     ),
   potentialImpact: z
     .string()
-    .min(5, { message: 'Please describe the potential impact.' })
+    .min(5, { message: "Please describe the potential impact." })
     .refine(
       (value) => {
         const wordCount = value.trim().split(/\s+/).filter(Boolean).length;
         return wordCount <= 150;
       },
-      { message: 'Response cannot exceed 150 words.' }
+      { message: "Response cannot exceed 150 words." }
     ),
   rehearsalAvailability: z
     .string()
-    .min(2, { message: 'Please provide your rehearsal availability.' })
-    .max(50, { message: 'Response cannot exceed 50 words.' }),
+    .min(2, { message: "Please provide your rehearsal availability." })
+    .max(50, { message: "Response cannot exceed 50 words." }),
   // Note: File upload would be handled separately in a real implementation
   websiteUrl: z
     .string()
-    .url({ message: 'Please enter a valid URL.' })
+    .url({ message: "Please enter a valid URL." })
     .optional()
     .or(z.string().length(0)),
 });
@@ -123,23 +123,23 @@ type SpeakerApplicationValues = z.infer<typeof speakerApplicationSchema>;
 const nominateSpeakerSchema = z.object({
   fullName: z
     .string()
-    .min(2, { message: 'Name must be at least 2 characters.' })
-    .max(30, { message: 'Name cannot exceed 30 words.' }),
+    .min(2, { message: "Name must be at least 2 characters." })
+    .max(30, { message: "Name cannot exceed 30 words." }),
   contact: z
     .string()
-    .min(5, { message: 'Please provide contact information.' })
-    .max(30, { message: 'Contact information cannot exceed 30 words.' }),
+    .min(5, { message: "Please provide contact information." })
+    .max(30, { message: "Contact information cannot exceed 30 words." }),
   priorTedTalk: z
     .string()
     .min(2, { message: "Please answer if they've given a TED talk before." })
-    .max(30, { message: 'Response cannot exceed 30 words.' }),
+    .max(30, { message: "Response cannot exceed 30 words." }),
   remarks: z
     .string()
-    .min(2, { message: 'Please provide some remarks.' })
-    .max(30, { message: 'Remarks cannot exceed 30 words.' }),
+    .min(2, { message: "Please provide some remarks." })
+    .max(30, { message: "Remarks cannot exceed 30 words." }),
   websiteUrl: z
     .string()
-    .url({ message: 'Please enter a valid URL.' })
+    .url({ message: "Please enter a valid URL." })
     .optional()
     .or(z.string().length(0)),
 });
@@ -147,7 +147,7 @@ const nominateSpeakerSchema = z.object({
 type NominateSpeakerValues = z.infer<typeof nominateSpeakerSchema>;
 
 interface SpeakerFormProps {
-  formType: 'application' | 'nomination';
+  formType: "application" | "nomination";
 }
 
 export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
@@ -158,20 +158,20 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
   const applicationForm = useForm<SpeakerApplicationValues>({
     resolver: zodResolver(speakerApplicationSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
-      mobilePhone: '',
-      wechatId: '',
-      priorTedTalk: '',
-      job: '',
-      remarks: '',
-      ideaPresentation: '',
-      commonBelief: '',
-      coreIdea: '',
-      personalInsight: '',
-      potentialImpact: '',
-      rehearsalAvailability: '',
-      websiteUrl: '',
+      fullName: "",
+      email: "",
+      mobilePhone: "",
+      wechatId: "",
+      priorTedTalk: "",
+      job: "",
+      remarks: "",
+      ideaPresentation: "",
+      commonBelief: "",
+      coreIdea: "",
+      personalInsight: "",
+      potentialImpact: "",
+      rehearsalAvailability: "",
+      websiteUrl: "",
     },
   });
 
@@ -179,11 +179,11 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
   const nominationForm = useForm<NominateSpeakerValues>({
     resolver: zodResolver(nominateSpeakerSchema),
     defaultValues: {
-      fullName: '',
-      contact: '',
-      priorTedTalk: '',
-      remarks: '',
-      websiteUrl: '',
+      fullName: "",
+      contact: "",
+      priorTedTalk: "",
+      remarks: "",
+      websiteUrl: "",
     },
   });
 
@@ -192,10 +192,10 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
 
     // Check file size if a file is selected (2MB limit)
     if (file && file.size > 2 * 1024 * 1024) {
-      toast.error('File too large', {
-        description: 'The PDF file must be smaller than 2MB',
+      toast.error("File too large", {
+        description: "The PDF file must be smaller than 2MB",
       });
-      event.target.value = ''; // Reset the input
+      event.target.value = ""; // Reset the input
       setFileSelected(null);
       return;
     }
@@ -217,7 +217,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
 
       // Add the file if selected
       if (fileSelected) {
-        formData.append('pdfAttachment', fileSelected);
+        formData.append("pdfAttachment", fileSelected);
       }
 
       // Send email notification with form data
@@ -227,19 +227,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
       );
 
       if (!emailResult.success) {
-        throw new Error('Failed to send application email');
+        throw new Error("Failed to send application email");
       }
 
       // Save to database
       const dbResult = await createSpeakerApplication(values);
 
       if (!dbResult.success) {
-        console.error('Database save failed but email sent:', dbResult.error);
+        console.error("Database save failed but email sent:", dbResult.error);
         // Continue with success message since the email was sent
       }
 
       // Show success toast using Sonner
-      toast.success('Application Submitted', {
+      toast.success("Application Submitted", {
         description:
           "Thank you for your speaker application. We'll review it and get back to you soon.",
       });
@@ -248,10 +248,10 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
       applicationForm.reset();
       setFileSelected(null);
     } catch (error) {
-      console.error('Error submitting application:', error);
-      toast.error('Submission Error', {
+      console.error("Error submitting application:", error);
+      toast.error("Submission Error", {
         description:
-          'There was an error submitting your application. Please try again later.',
+          "There was an error submitting your application. Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
@@ -266,19 +266,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
       const emailResult = await sendSpeakerNominationEmail(values);
 
       if (!emailResult.success) {
-        throw new Error('Failed to send nomination email');
+        throw new Error("Failed to send nomination email");
       }
 
       // Save to database
       const dbResult = await createSpeakerNomination(values);
 
       if (!dbResult.success) {
-        console.error('Database save failed but email sent:', dbResult.error);
+        console.error("Database save failed but email sent:", dbResult.error);
         // Continue with success message since the email was sent
       }
 
       // Show success toast using Sonner
-      toast.success('Nomination Submitted', {
+      toast.success("Nomination Submitted", {
         description:
           "Thank you for your speaker nomination. We'll review it and consider reaching out to them.",
       });
@@ -286,10 +286,10 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
       // Reset the form
       nominationForm.reset();
     } catch (error) {
-      console.error('Error submitting nomination:', error);
-      toast.error('Submission Error', {
+      console.error("Error submitting nomination:", error);
+      toast.error("Submission Error", {
         description:
-          'There was an error submitting your nomination. Please try again later.',
+          "There was an error submitting your nomination. Please try again later.",
       });
     } finally {
       setIsSubmitting(false);
@@ -297,7 +297,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
   }
 
   // Speaker Application Form
-  if (formType === 'application') {
+  if (formType === "application") {
     return (
       <Form {...applicationForm}>
         <form
@@ -348,7 +348,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                 <FormItem>
                   <FormLabel>
                     Will you be available in Beijing for rehearsals any time in
-                    September through November? If not, when?{' '}
+                    September through November? If not, when?{" "}
                     <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
@@ -400,7 +400,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Given TED or TEDx talk before?{' '}
+                    Given TED or TEDx talk before?{" "}
                     <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
@@ -466,19 +466,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                   <FormItem>
                     <FormLabel>
                       In 50 words, what is the idea you would like to present on
-                      stage, and why should we want you to do that on ours?{' '}
+                      stage, and why should we want you to do that on ours?{" "}
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Describe your idea and why it matters..."
-                        className={`min-h-[100px] ${isOverLimit ? 'border-red-500' : ''}`}
+                        className={`min-h-[100px] ${isOverLimit ? "border-red-500" : ""}`}
                         {...field}
                       />
                     </FormControl>
                     <div className="flex justify-end">
                       <p
-                        className={`text-xs ${isOverLimit ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}
+                        className={`text-xs ${isOverLimit ? "text-red-500 font-medium" : "text-muted-foreground"}`}
                       >
                         {wordCount}/50 words
                       </p>
@@ -504,19 +504,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                   <FormItem>
                     <FormLabel>
                       1. Regarding your talk, what is the common belief/behavior
-                      that your talk will challenge, (Most People Think){' '}
+                      that your talk will challenge, (Most People Think){" "}
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Most people think..."
-                        className={`min-h-[100px] ${isOverLimit ? 'border-red-500' : ''}`}
+                        className={`min-h-[100px] ${isOverLimit ? "border-red-500" : ""}`}
                         {...field}
                       />
                     </FormControl>
                     <div className="flex justify-end">
                       <p
-                        className={`text-xs ${isOverLimit ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}
+                        className={`text-xs ${isOverLimit ? "text-red-500 font-medium" : "text-muted-foreground"}`}
                       >
                         {wordCount}/150 words
                       </p>
@@ -541,19 +541,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                 return (
                   <FormItem>
                     <FormLabel>
-                      2. But I believe [your core idea]{' '}
+                      2. But I believe [your core idea]{" "}
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="But I believe..."
-                        className={`min-h-[100px] ${isOverLimit ? 'border-red-500' : ''}`}
+                        className={`min-h-[100px] ${isOverLimit ? "border-red-500" : ""}`}
                         {...field}
                       />
                     </FormControl>
                     <div className="flex justify-end">
                       <p
-                        className={`text-xs ${isOverLimit ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}
+                        className={`text-xs ${isOverLimit ? "text-red-500 font-medium" : "text-muted-foreground"}`}
                       >
                         {wordCount}/150 words
                       </p>
@@ -584,13 +584,13 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                     <FormControl>
                       <Textarea
                         placeholder="I've learned this through..."
-                        className={`min-h-[100px] ${isOverLimit ? 'border-red-500' : ''}`}
+                        className={`min-h-[100px] ${isOverLimit ? "border-red-500" : ""}`}
                         {...field}
                       />
                     </FormControl>
                     <div className="flex justify-end">
                       <p
-                        className={`text-xs ${isOverLimit ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}
+                        className={`text-xs ${isOverLimit ? "text-red-500 font-medium" : "text-muted-foreground"}`}
                       >
                         {wordCount}/150 words
                       </p>
@@ -616,19 +616,19 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
                   <FormItem>
                     <FormLabel>
                       4. I believe if more people embraced this idea, it would
-                      [benefit / impact / change]{' '}
+                      [benefit / impact / change]{" "}
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="I believe if more people embraced this idea, it would..."
-                        className={`min-h-[100px] ${isOverLimit ? 'border-red-500' : ''}`}
+                        className={`min-h-[100px] ${isOverLimit ? "border-red-500" : ""}`}
                         {...field}
                       />
                     </FormControl>
                     <div className="flex justify-end">
                       <p
-                        className={`text-xs ${isOverLimit ? 'text-red-500 font-medium' : 'text-muted-foreground'}`}
+                        className={`text-xs ${isOverLimit ? "text-red-500 font-medium" : "text-muted-foreground"}`}
                       >
                         {wordCount}/150 words
                       </p>
@@ -653,7 +653,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
               <p className="text-sm text-muted-foreground">
                 {fileSelected
                   ? `Selected: ${fileSelected.name}`
-                  : 'No file selected'}
+                  : "No file selected"}
               </p>
             </div>
 
@@ -687,7 +687,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
               className="bg-red-600 hover:bg-red-700 whitespace-nowrap"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Application'}
+              {isSubmitting ? "Submitting..." : "Submit Application"}
             </Button>
           </div>
         </form>
@@ -748,7 +748,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Given TED or TEDx talk before?{' '}
+                  Given TED or TEDx talk before?{" "}
                   <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
@@ -787,7 +787,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  URL (personal website, video of speech, etc.){' '}
+                  URL (personal website, video of speech, etc.){" "}
                   <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
@@ -812,7 +812,7 @@ export function SpeakerApplicationForm({ formType }: SpeakerFormProps) {
             className="bg-red-600 hover:bg-red-700 whitespace-nowrap"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Nomination'}
+            {isSubmitting ? "Submitting..." : "Submit Nomination"}
           </Button>
         </div>
       </form>

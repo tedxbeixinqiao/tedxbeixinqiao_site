@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
+import { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,9 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Play,
   ChevronLeft,
@@ -22,9 +22,9 @@ import {
   X,
   ExternalLink,
   Share2,
-} from 'lucide-react';
-import Image from 'next/image';
-import { speakers, type Speaker } from '@/data/speakers';
+} from "lucide-react";
+import Image from "next/image";
+import { speakers, type Speaker } from "@/data/speakers";
 
 // Create video data from speakers info - No need for separate mapping now
 const videos = speakers;
@@ -32,7 +32,7 @@ const videos = speakers;
 export default function VideoShowcase() {
   const [activeVideo, setActiveVideo] = useState<Speaker>(videos[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const containerRef = useRef(null);
   const featuredRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
@@ -40,13 +40,13 @@ export default function VideoShowcase() {
 
   // Effect to ensure activeVideo stays in sync with currentIndex
   useEffect(() => {
-    console.log('Current index changed to:', currentIndex);
+    console.log("Current index changed to:", currentIndex);
     setActiveVideo(videos[currentIndex]);
   }, [currentIndex]);
 
   // Filter videos based on category
   const filteredVideos =
-    selectedCategory === 'all'
+    selectedCategory === "all"
       ? videos
       : videos.filter(
           (video) =>
@@ -54,14 +54,14 @@ export default function VideoShowcase() {
         );
 
   const nextVideo = () => {
-    console.log('Next button clicked');
+    console.log("Next button clicked");
     if (currentIndex < videos.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
 
   const prevVideo = () => {
-    console.log('Prev button clicked');
+    console.log("Prev button clicked");
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
@@ -93,7 +93,7 @@ export default function VideoShowcase() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: 'easeOut' },
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   };
 
@@ -115,7 +115,7 @@ export default function VideoShowcase() {
         ref={containerRef}
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        animate={isInView ? "visible" : "hidden"}
         className="container relative z-10 mx-auto px-4"
       >
         <div className="mx-auto max-w-7xl">
@@ -138,7 +138,7 @@ export default function VideoShowcase() {
                   </span>
                   <motion.div
                     initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
+                    animate={{ width: "100%" }}
                     transition={{ delay: 0.8, duration: 0.6 }}
                     className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-red-500 to-red-500/0 dark:from-red-600 dark:to-red-600/0"
                   ></motion.div>
@@ -158,7 +158,7 @@ export default function VideoShowcase() {
             ref={featuredRef}
             variants={scaleUpVariants}
             initial="hidden"
-            animate={isFeaturedInView ? 'visible' : 'hidden'}
+            animate={isFeaturedInView ? "visible" : "hidden"}
             className="mb-20"
           >
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-black shadow-2xl border border-gray-800">
@@ -174,7 +174,7 @@ export default function VideoShowcase() {
                           key={`featured-thumbnail-${activeVideo.videoId}`}
                           initial={{ opacity: 0, scale: 1.05 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.6, ease: 'easeOut' }}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
                         >
                           <Image
                             src={`https://img.youtube.com/vi/${activeVideo.videoId}/maxresdefault.jpg`}
@@ -192,7 +192,7 @@ export default function VideoShowcase() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                             transition={{
-                              type: 'spring',
+                              type: "spring",
                               stiffness: 400,
                               damping: 10,
                             }}
@@ -252,7 +252,7 @@ export default function VideoShowcase() {
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
-                            style={{ aspectRatio: '16/9' }}
+                            style={{ aspectRatio: "16/9" }}
                             className="h-full w-full"
                           ></iframe>
                         </div>
@@ -340,7 +340,7 @@ export default function VideoShowcase() {
                       <div className="mr-4 h-10 w-10 overflow-hidden rounded-full border-2 border-red-500">
                         <Image
                           src={
-                            activeVideo.imageSrc || '/speakers/placeholder.jpg'
+                            activeVideo.imageSrc || "/speakers/placeholder.jpg"
                           }
                           alt={activeVideo.name}
                           width={40}
@@ -439,7 +439,7 @@ export default function VideoShowcase() {
               <TabsContent value="technology" className="mt-0">
                 <VideoGrid
                   videos={videos.filter(
-                    (v) => v.category.toLowerCase() === 'technology'
+                    (v) => v.category.toLowerCase() === "technology"
                   )}
                 />
               </TabsContent>
@@ -447,7 +447,7 @@ export default function VideoShowcase() {
               <TabsContent value="storytelling" className="mt-0">
                 <VideoGrid
                   videos={videos.filter(
-                    (v) => v.category.toLowerCase() === 'storytelling'
+                    (v) => v.category.toLowerCase() === "storytelling"
                   )}
                 />
               </TabsContent>
@@ -455,7 +455,7 @@ export default function VideoShowcase() {
               <TabsContent value="design" className="mt-0">
                 <VideoGrid
                   videos={videos.filter(
-                    (v) => v.category.toLowerCase() === 'design'
+                    (v) => v.category.toLowerCase() === "design"
                   )}
                 />
               </TabsContent>
@@ -463,7 +463,7 @@ export default function VideoShowcase() {
               <TabsContent value="ideas" className="mt-0">
                 <VideoGrid
                   videos={videos.filter(
-                    (v) => v.category.toLowerCase() === 'ideas'
+                    (v) => v.category.toLowerCase() === "ideas"
                   )}
                 />
               </TabsContent>
@@ -480,9 +480,9 @@ export default function VideoShowcase() {
               className="group relative overflow-hidden bg-red-600 dark:bg-red-700 px-8 py-6 text-lg font-medium text-white transition-all duration-300 hover:bg-red-700 dark:hover:bg-red-800"
             >
               <motion.span
-                initial={{ width: '100%', height: '100%', x: '-101%' }}
-                whileHover={{ x: '101%' }}
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                initial={{ width: "100%", height: "100%", x: "-101%" }}
+                whileHover={{ x: "101%" }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="absolute inset-0 bg-red-500/40 dark:bg-red-600/40"
               />
               <span className="relative z-10 flex items-center gap-2">
@@ -490,7 +490,7 @@ export default function VideoShowcase() {
                 <motion.div
                   className="relative z-10"
                   whileHover={{ x: 3 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
                 >
                   <ChevronRight className="h-5 w-5" />
                 </motion.div>
@@ -583,7 +583,7 @@ function VideoCard({ video, index }: { video: Speaker; index: number }) {
                 <div className="flex-shrink-0">
                   <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-red-500/20 dark:ring-red-500/40">
                     <Image
-                      src={video.imageSrc || '/speakers/placeholder.jpg'}
+                      src={video.imageSrc || "/speakers/placeholder.jpg"}
                       alt={video.name}
                       width={48}
                       height={48}
@@ -603,7 +603,7 @@ function VideoCard({ video, index }: { video: Speaker; index: number }) {
 
                 <div className="flex-shrink-0">
                   <span className="inline-flex h-6 items-center rounded-full bg-red-50 dark:bg-red-900/20 px-2 text-xs font-medium text-red-600 dark:text-red-400">
-                    {video.date.split(' ')[0]}
+                    {video.date.split(" ")[0]}
                   </span>
                 </div>
               </div>
@@ -625,7 +625,7 @@ function VideoCard({ video, index }: { video: Speaker; index: number }) {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                style={{ aspectRatio: '16/9' }}
+                style={{ aspectRatio: "16/9" }}
                 className="h-full w-full"
               ></iframe>
             </div>

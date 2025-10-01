@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import { useRef, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Volume2, VolumeX } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Play, Volume2, VolumeX } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const eventHighlights = [
   {
-    title: 'Thought-Provoking Talks',
+    title: "Thought-Provoking Talks",
     description:
-      'Our speakers deliver engaging presentations that challenge assumptions, spark new ideas, and inspire action across various disciplines.',
-    video: 'https://keithcollea.me/2.mp4',
+      "Our speakers deliver engaging presentations that challenge assumptions, spark new ideas, and inspire action across various disciplines.",
+    video: "https://keithcollea.me/2.mp4",
   },
   {
-    title: 'Interactive Experiences',
+    title: "Interactive Experiences",
     description:
-      'Between talks, attendees engage in hands-on activities, discussions, and demonstrations that bring ideas to life in creative ways.',
-    video: 'https://keithcollea.me/3.mp4',
+      "Between talks, attendees engage in hands-on activities, discussions, and demonstrations that bring ideas to life in creative ways.",
+    video: "https://keithcollea.me/3.mp4",
   },
   {
-    title: 'Community Connection',
+    title: "Community Connection",
     description:
-      'Our events bring together diverse attendees from various backgrounds, fostering connections that often lead to collaboration and friendship.',
-    video: 'https://keithcollea.me/4.mp4',
+      "Our events bring together diverse attendees from various backgrounds, fostering connections that often lead to collaboration and friendship.",
+    video: "https://keithcollea.me/4.mp4",
   },
 ];
 
@@ -49,7 +49,7 @@ export default function EventHighlights() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
     hover: {
       y: -5,
-      transition: { type: 'spring', stiffness: 300, damping: 15 },
+      transition: { type: "spring", stiffness: 300, damping: 15 },
     },
   };
 
@@ -60,7 +60,7 @@ export default function EventHighlights() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: 'easeOut',
+        ease: "easeOut",
       },
     },
   };
@@ -80,7 +80,7 @@ export default function EventHighlights() {
           transition={{
             duration: 15,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -92,7 +92,7 @@ export default function EventHighlights() {
           transition={{
             duration: 18,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             delay: 2,
           }}
         />
@@ -102,7 +102,7 @@ export default function EventHighlights() {
         ref={ref}
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        animate={isInView ? "visible" : "hidden"}
         className="container mx-auto px-4"
       >
         <div className="mx-auto max-w-6xl">
@@ -114,7 +114,7 @@ export default function EventHighlights() {
               Memorable Moments
             </span>
             <h2 className="mb-6 bg-gradient-to-r from-black to-gray-800 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:to-red-100 md:text-5xl">
-              Event{' '}
+              Event{" "}
               <span className="text-red-600 dark:text-red-500">Highlights</span>
             </h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-800 dark:text-red-50">
@@ -137,8 +137,8 @@ export default function EventHighlights() {
                 animate="visible"
                 whileHover="hover"
                 className={cn(
-                  'group relative overflow-hidden rounded-xl bg-white/90 backdrop-blur-sm transition-all duration-300 dark:bg-gray-900/70 dark:backdrop-blur-md',
-                  'shadow-md hover:shadow-xl hover:shadow-red-600/20 dark:hover:shadow-red-600/30'
+                  "group relative overflow-hidden rounded-xl bg-white/90 backdrop-blur-sm transition-all duration-300 dark:bg-gray-900/70 dark:backdrop-blur-md",
+                  "shadow-md hover:shadow-xl hover:shadow-red-600/20 dark:hover:shadow-red-600/30"
                 )}
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
@@ -146,7 +146,7 @@ export default function EventHighlights() {
                   <div className="h-full w-full bg-gray-100 dark:bg-gray-800">
                     <video
                       src={highlight.video}
-                      poster={highlight.video + '#t=0.1'}
+                      poster={highlight.video + "#t=0.1"}
                       muted
                       playsInline
                       className="h-full w-full object-cover"
@@ -184,9 +184,9 @@ export default function EventHighlights() {
                 className="relative flex items-center gap-2"
               >
                 <motion.span
-                  initial={{ width: '100%', height: '100%', x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  initial={{ width: "100%", height: "100%", x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="absolute inset-0 bg-red-500/40"
                 />
                 <span className="z-10">Explore All Speakers</span>
@@ -212,7 +212,7 @@ export default function EventHighlights() {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                transition={{ type: "spring", damping: 25, stiffness: 300 }}
                 onClick={(e) => e.stopPropagation()}
                 className="relative mx-4 max-w-4xl overflow-hidden rounded-xl bg-black shadow-2xl"
               >

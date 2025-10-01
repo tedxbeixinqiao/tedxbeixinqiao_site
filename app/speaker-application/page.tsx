@@ -1,10 +1,10 @@
-import type { Metadata } from 'next';
-import { SpeakerApplicationForm } from '@/components/speaker-application-form';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { Metadata } from "next";
+import { SpeakerApplicationForm } from "@/components/speaker-application-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const metadata: Metadata = {
-  title: 'Speaker Application - TEDxBeixinqiao',
-  description: 'Apply to be a speaker or nominate someone for TEDxBeixinqiao.',
+  title: "Speaker Application - TEDxBeixinqiao",
+  description: "Apply to be a speaker or nominate someone for TEDxBeixinqiao.",
 };
 
 export default function SpeakerApplicationPage() {

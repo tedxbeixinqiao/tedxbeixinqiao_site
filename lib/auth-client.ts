@@ -1,4 +1,4 @@
-import { createAuthClient } from 'better-auth/react';
+import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -17,8 +17,8 @@ export const signOut = async () => {
   await originalSignOut();
 
   // Clear any auth-related localStorage items
-  localStorage.removeItem('auth-token');
-  localStorage.removeItem('user');
+  localStorage.removeItem("auth-token");
+  localStorage.removeItem("user");
 
   // Add a small delay to ensure all async operations complete
   return new Promise((resolve) => setTimeout(resolve, DELAY_MS));

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, MapPin, MessageSquare } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Mail, MapPin, MessageSquare } from "lucide-react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+import Image from "next/image";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
   const ref = useRef(null);
@@ -60,9 +60,9 @@ export default function ContactSection() {
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     // Form submission logic would go here
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    setFormData({ name: "", email: "", message: "" });
     // Show success message
     alert("Thank you for your message! We'll get back to you soon.");
   };
@@ -73,13 +73,13 @@ export default function ContactSection() {
         ref={ref}
         variants={containerVariants}
         initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        animate={isInView ? "visible" : "hidden"}
         className="container mx-auto px-4"
       >
         <div className="mx-auto max-w-6xl">
           <motion.div variants={itemVariants} className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold text-black dark:text-white md:text-4xl">
-              Get in{' '}
+              Get in{" "}
               <span className="text-red-600 dark:text-red-500">Touch</span>
             </h2>
             <p className="mx-auto max-w-3xl text-lg text-gray-700 dark:text-gray-300">
