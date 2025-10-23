@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { IdeasInMotionPopup } from "@/components/home/ideas-in-motion-popup";
 import { SpeakerApplicationMessageModal } from "@/components/speaker-application-message-modal";
 import { cn } from "@/lib/utils";
 
@@ -339,6 +340,9 @@ export default function Hero() {
           <ArrowDown className="h-5 w-5 text-white" />
         </div>
       </motion.button>
+
+      {/* Auto-popup for Ideas in Motion event */}
+      <IdeasInMotionPopup />
     </section>
   );
 }
