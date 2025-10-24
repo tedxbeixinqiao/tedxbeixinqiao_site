@@ -2,6 +2,7 @@ import { SpeakerDashboardClient } from "./SpeakerDashboardClient";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import {
   getAllSpeakerApplications,
   getAllSpeakerNominations,
@@ -11,6 +12,9 @@ import {
   NominationEntry,
   SpeakerEntry,
 } from "@/components/dashboard/types";
+
+// Mark as dynamic since this requires authentication and database access
+export const dynamic = "force-dynamic";
 
 // This server component checks for authentication before rendering
 export default async function SpeakerDashboardPage() {
