@@ -1,0 +1,6 @@
+{
+  "buildCommand": "TURBOPACK=0 npm run build",
+  "env": {
+    "TURBOPACK": "0"
+  }
+}
