@@ -37,7 +37,7 @@ export function IdeasInMotionPopup() {
           {/* Event poster */}
           <a
             className="relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-95"
-            href="https://yoopay.cn/event/23161665"
+            href="https://yoopay.cn/event/75354183"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -46,7 +46,7 @@ export function IdeasInMotionPopup() {
               className="object-contain"
               fill
               priority
-              src="/ideas_in_motion_event_oct27.png"
+              src="./Nov17_event.png"
             />
           </a>
         </div>

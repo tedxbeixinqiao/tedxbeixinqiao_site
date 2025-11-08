@@ -6,6 +6,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -20,7 +26,12 @@ export default function Navbar() {
   const navigation = [
     { name: "Speakers", path: "/speakers" },
     { name: "Team", path: "/team" },
-    { name: "Speaker Application", path: "/speaker-application" },
+    { 
+      name: "Speaker Application", 
+      path: "/speaker-application",
+      disabled: true,
+      disabledMessage: "Speaker applications are currently closed"
+    },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -105,6 +116,33 @@ export default function Navbar() {
         <nav className="hidden md:flex md:items-center md:gap-6">
           {navigation.map((item) => {
             const isActive = pathname === item.path;
+            const Content = (
+              <>
+                <span className="relative z-10">{item.name}</span>
+              </>
+            );
+
+            if (item.disabled) {
+              return (
+                <TooltipProvider key={item.name}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span
+                        className={cn(
+                          "group relative px-2 py-1.5 font-medium text-sm transition-colors cursor-not-allowed",
+                          "text-gray-400 dark:text-gray-500"
+                        )}
+                      >
+                        {Content}
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{item.disabledMessage}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            }
 
             return (
               <Link
@@ -114,10 +152,10 @@ export default function Navbar() {
                     ? "text-red-600 dark:text-red-500"
                     : "text-gray-800 hover:text-red-600 dark:text-gray-100 dark:hover:text-red-500"
                 )}
-                href={item.path}
+                href={item.path as unknown as any}
                 key={item.name}
               >
-                <span className="relative z-10">{item.name}</span>
+                {Content}
 
                 {/* Animated highlight */}
                 <motion.span
@@ -227,27 +265,38 @@ export default function Navbar() {
                       closed: { opacity: 0, y: -20 },
                     }}
                   >
-                    <Link
-                      className={cn(
-                        "flex items-center justify-between px-6 py-3.5 font-medium text-base transition-colors",
-                        isActive
-                          ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-500"
-                          : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900/50"
-                      )}
-                      href={item.path}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeIndicator"
-                          transition={{ type: "spring", duration: 0.5 }}
-                        >
-                          <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-500" />
-                        </motion.div>
-                      )}
-                    </Link>
+                    {item.disabled ? (
+                      <div
+                        className={cn(
+                          "flex items-center justify-between px-6 py-3.5 font-medium text-base",
+                          "text-gray-400 dark:text-gray-600 cursor-not-allowed"
+                        )}
+                      >
+                        <span>{item.name}</span>
+                        <span className="text-sm italic">{item.disabledMessage}</span>
+                      </div>
+                    ) : (
+                      <Link
+                        className={cn(
+                          "flex items-center justify-between px-6 py-3.5 font-medium text-base transition-colors",
+                          isActive
+                            ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-500"
+                            : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-900/50"
+                        )}
+                        href={item.path as unknown as any}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.name}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            transition={{ type: "spring", duration: 0.5 }}
+                          >
+                            <div className="h-2 w-2 rounded-full bg-red-600 dark:bg-red-500" />
+                          </motion.div>
+                        )}
+                      </Link>
+                    )}
                   </motion.div>
                 );
               })}
