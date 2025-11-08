@@ -1,16 +1,20 @@
+import { SpeakerDashboardClient } from "./SpeakerDashboardClient";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import type {
-  ApplicationEntry,
-  NominationEntry,
-  SpeakerEntry,
-} from "@/components/dashboard/types";
-import { auth } from "@/lib/auth";
+import { Suspense } from "react";
 import {
   getAllSpeakerApplications,
   getAllSpeakerNominations,
 } from "@/lib/speakers-db-service";
-import { SpeakerDashboardClient } from "./SpeakerDashboardClient";
+import {
+  ApplicationEntry,
+  NominationEntry,
+  SpeakerEntry,
+} from "@/components/dashboard/types";
+
+// Mark as dynamic since this requires authentication and database access
+export const dynamic = "force-dynamic";
 
 // This server component checks for authentication before rendering
 export default async function SpeakerDashboardPage() {
@@ -76,5 +80,5 @@ export default async function SpeakerDashboardPage() {
   // Combine applications and nominations
   const allEntries: SpeakerEntry[] = [...applications, ...nominations];
 
-  return <SpeakerDashboardClient initialEntries={allEntries} user={user} />;
+  return <SpeakerDashboardClient user={user} initialEntries={allEntries} />;
 }

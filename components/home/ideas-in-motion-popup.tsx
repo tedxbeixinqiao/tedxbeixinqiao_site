@@ -23,21 +23,20 @@ export function IdeasInMotionPopup() {
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-
       <DialogContent className="max-w-md overflow-visible p-0">
         <DialogTitle className="sr-only">
           Ideas in Motion Event Advertisement
         </DialogTitle>
         <div className="relative">
           {/* Close button */}
-          <DialogClose className="absolute -top-4 -right-4 z-20 rounded-full bg-white shadow-lg p-2 transition-colors hover:bg-gray-50 border border-gray-200">
+          <DialogClose className="-top-4 -right-4 absolute z-20 rounded-full border border-gray-200 bg-white p-2 shadow-lg transition-colors hover:bg-gray-50">
             <X className="h-4 w-4 text-gray-600" />
             <span className="sr-only">Close</span>
           </DialogClose>
 
           {/* Event poster */}
           <a
-            className="relative block aspect-[3/4] w-full cursor-pointer transition-opacity hover:opacity-95 rounded-lg overflow-hidden"
+            className="relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-lg transition-opacity hover:opacity-95"
             href="https://yoopay.cn/event/23161665"
             rel="noopener noreferrer"
             target="_blank"

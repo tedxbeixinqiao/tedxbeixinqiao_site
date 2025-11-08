@@ -4,6 +4,17 @@ import { DIcons } from "dicons";
 import { ArrowUp, Heart, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
+function CurrentYear() {
+  const [year, setYear] = useState<string>("");
+
+  useEffect(() => {
+    setYear(new Date().getFullYear().toString());
+  }, []);
+
+  return <span>{year}</span>;
+}
 
 function handleScrollTop() {
   window.scroll({
@@ -259,7 +270,7 @@ export default function Footer() {
       <div className="mx-auto mt-10 mb-10 flex flex-col justify-between text-center text-xs md:max-w-7xl">
         <div className="flex flex-row items-center justify-center gap-1 text-slate-600 dark:text-slate-400">
           <span> © </span>
-          <span>{new Date().getFullYear()}</span>
+          <CurrentYear />
           <span>TEDxBeixinqiao.</span>
           <span>Made with</span>
           <Heart className="mx-1 h-4 w-4 animate-pulse text-red-600" />
