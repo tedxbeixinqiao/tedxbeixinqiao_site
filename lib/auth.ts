@@ -5,6 +5,8 @@ import { db } from "@/db/drizzle";
 import { schema } from "@/db/schema";
 
 export const auth = betterAuth({
+  secret: process.env.AUTH_SECRET,
+  baseURL: process.env.AUTH_URL,
   emailAndPassword: {
     enabled: true,
   },
