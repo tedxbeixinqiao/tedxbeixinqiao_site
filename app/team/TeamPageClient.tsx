@@ -12,7 +12,7 @@ import {
   Twitter,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TeamModal } from "@/components/team/team-modal";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -61,7 +61,7 @@ export default function TeamPageClient() {
     activeFilter === "all" ? getSortedTeam() : getTeamByRole(activeFilter);
 
   // Handle scroll shadows for tab navigation
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (tabsContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = tabsContainerRef.current;
       setShowScrollShadows({
@@ -69,7 +69,7 @@ export default function TeamPageClient() {
         right: scrollLeft < scrollWidth - clientWidth - 10,
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     const tabsEl = tabsContainerRef.current;
