@@ -23,12 +23,12 @@ export { previousSpeakers } from "./previous_speakers";
 
 export const currentSpeakers: Speaker[] = [
   {
-    name: "Abraham Weng",
+    name: "Abraham KC Ho",
     title: "Entrepreneur & Tech Innovator",
     talkTitle: "Building Bridges: Technology as a Force for Connection",
     description: "How technology can bring people together across cultures and borders",
     talkSummary:
-      "Abraham Weng explores the transformative power of technology in creating meaningful connections across geographical and cultural boundaries. Drawing from his entrepreneurial experience, he shares insights on leveraging innovation to build bridges between diverse communities.",
+      "Abraham KC Ho explores the transformative power of technology in creating meaningful connections across geographical and cultural boundaries. Drawing from his entrepreneurial experience, he shares insights on leveraging innovation to build bridges between diverse communities.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -42,12 +42,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Technology",
   },
   {
-    name: "Dillen Phelps",
+    name: "Tom Van Dillen",
     title: "Leadership Coach & Author",
     talkTitle: "The Courage to Lead: Embracing Vulnerability in Leadership",
     description: "Redefining strength in leadership through authenticity and vulnerability",
     talkSummary:
-      "Dillen Phelps challenges traditional notions of leadership by exploring how vulnerability and authenticity create stronger, more resilient teams. Through personal stories and practical insights, Dillen demonstrates that true leadership requires the courage to be human.",
+      "Tom Van Dillen challenges traditional notions of leadership by exploring how vulnerability and authenticity create stronger, more resilient teams. Through personal stories and practical insights, Tom Van Dillen demonstrates that true leadership requires the courage to be human.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -61,7 +61,7 @@ export const currentSpeakers: Speaker[] = [
     category: "Leadership",
   },
   {
-    name: "Jialan Wang",
+    name: "Jialan",
     title: "Environmental Scientist & Sustainability Advocate",
     talkTitle: "Small Actions, Big Impact: Reimagining Our Environmental Future",
     description: "Empowering individuals to create meaningful environmental change",
@@ -80,12 +80,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Environment",
   },
   {
-    name: "Luigi Chen",
+    name: "Gian Luigi",
     title: "Chef & Culinary Artist",
     talkTitle: "The Art of Fusion: Where Culture Meets Cuisine",
     description: "Celebrating cultural identity through the universal language of food",
     talkSummary:
-      "Luigi Chen takes us on a culinary journey that transcends borders and traditions. As a master of fusion cuisine, Luigi shares how food serves as a powerful medium for cultural exchange, storytelling, and building understanding between different communities.",
+      "Gian Luigi takes us on a culinary journey that transcends borders and traditions. As a master of fusion cuisine, Gian Luigi shares how food serves as a powerful medium for cultural exchange, storytelling, and building understanding between different communities.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -99,12 +99,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Culture",
   },
   {
-    name: "Madelyn Foster",
+    name: "Madelyn Li",
     title: "Social Entrepreneur & Community Builder",
     talkTitle: "From I to We: Rebuilding Community in the Digital Age",
     description: "Creating meaningful connections in an increasingly disconnected world",
     talkSummary:
-      "Madelyn Foster addresses the paradox of modern connectivity—we're more digitally connected yet feel more isolated than ever. Through innovative community-building initiatives, Madelyn shows how we can harness technology to foster genuine human connection and rebuild the sense of belonging that our societies desperately need.",
+      "Madelyn Li addresses the paradox of modern connectivity—we're more digitally connected yet feel more isolated than ever. Through innovative community-building initiatives, Madelyn shows how we can harness technology to foster genuine human connection and rebuild the sense of belonging that our societies desperately need.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -118,12 +118,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Community",
   },
   {
-    name: "Nathan Lee",
+    name: "Nathan Midler",
     title: "AI Researcher & Ethics Advocate",
     talkTitle: "Human + Machine: Designing AI with Heart",
     description: "Ensuring artificial intelligence serves humanity's best interests",
     talkSummary:
-      "Nathan Lee takes us into the fascinating world of artificial intelligence, exploring not just what AI can do, but what it should do. As an ethics advocate, Nathan argues for a human-centered approach to AI development that prioritizes empathy, fairness, and the preservation of human dignity in an automated world.",
+      "Nathan Midler takes us into the fascinating world of artificial intelligence, exploring not just what AI can do, but what it should do. As an ethics advocate, Nathan argues for a human-centered approach to AI development that prioritizes empathy, fairness, and the preservation of human dignity in an automated world.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -137,12 +137,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Technology",
   },
   {
-    name: "Sherwin Martinez",
+    name: "Dr.Sherwin Molayem",
     title: "Mental Health Advocate & Psychologist",
     talkTitle: "Breaking the Silence: Mental Health in Modern Society",
     description: "Destigmatizing mental health and fostering open conversations",
     talkSummary:
-      "Sherwin Martinez courageously addresses the mental health crisis affecting communities worldwide. Through personal experience and professional expertise, Sherwin challenges the stigma surrounding mental health, advocating for open dialogue, compassion, and accessible support systems that can save lives.",
+      "Dr.Sherwin Molayem courageously addresses the mental health crisis affecting communities worldwide. Through personal experience and professional expertise, Sherwin challenges the stigma surrounding mental health, advocating for open dialogue, compassion, and accessible support systems that can save lives.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -156,7 +156,7 @@ export const currentSpeakers: Speaker[] = [
     category: "Health",
   },
   {
-    name: "Urquhart Thompson",
+    name: "Dr. Erica Urquhart",
     title: "Urban Planner & Design Thinker",
     talkTitle: "Cities for People: Reimagining Urban Spaces",
     description: "Designing cities that prioritize human wellbeing and connection",
@@ -175,12 +175,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Urban Design",
   },
   {
-    name: "Youmin Zhang",
+    name: "Dr.Youmin Zhong",
     title: "Education Innovator & Learning Designer",
     talkTitle: "Learning Unleashed: Education Beyond the Classroom",
     description: "Transforming education for the 21st century learner",
     talkSummary:
-      "Youmin Zhang challenges traditional educational paradigms by demonstrating how learning happens everywhere—not just in classrooms. Through innovative teaching methodologies and real-world examples, Youmin shows how we can create educational experiences that are engaging, relevant, and truly transformative for students of all ages.",
+      "Dr.Youmin Zhong challenges traditional educational paradigms by demonstrating how learning happens everywhere—not just in classrooms. Through innovative teaching methodologies and real-world examples, Youmin shows how we can create educational experiences that are engaging, relevant, and truly transformative for students of all ages.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
@@ -194,12 +194,12 @@ export const currentSpeakers: Speaker[] = [
     category: "Education",
   },
   {
-    name: "Zoie Park",
+    name: "Zoie",
     title: "Artist & Creative Therapist",
     talkTitle: "The Healing Power of Creativity",
     description: "How artistic expression can transform trauma into triumph",
     talkSummary:
-      "Zoie Park reveals the profound therapeutic potential of creative expression. Through powerful stories and artistic demonstrations, Zoie shows how painting, music, writing, and other creative outlets can help individuals process trauma, discover their voice, and reclaim their narrative in ways traditional therapy cannot always reach.",
+      "Zoie reveals the profound therapeutic potential of creative expression. Through powerful stories and artistic demonstrations, Zoie shows how painting, music, writing, and other creative outlets can help individuals process trauma, discover their voice, and reclaim their narrative in ways traditional therapy cannot always reach.",
     socials: [
       { platform: "facebook", url: "https://facebook.com/" },
       { platform: "twitter", url: "https://twitter.com/" },
